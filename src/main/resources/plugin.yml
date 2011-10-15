@@ -1,0 +1,5 @@
+name: RushMe
+author: tips48
+main: com.tips48.rushMe.RushMe
+version: 0.1
+depend: [Spout]
