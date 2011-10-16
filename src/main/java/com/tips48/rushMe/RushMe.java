@@ -51,6 +51,8 @@ public class RushMe extends JavaPlugin {
 				new RMPlayerListener(), Priority.Normal, this);
 		getServer().getPluginManager().registerEvent(Type.CUSTOM_EVENT,
 				new RMInputListener(), Priority.Normal, this);
+		getServer().getPluginManager().registerEvent(Type.PLAYER_ITEM_HELD,
+				new RMPlayerListener(), Priority.Monitor, this);
 
 		GameManager.createTeams();
 

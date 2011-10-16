@@ -11,6 +11,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerListener;
 import org.bukkit.util.BlockIterator;
@@ -53,7 +54,7 @@ public class RMPlayerListener extends PlayerListener {
 	public void onPlayerInteract(PlayerInteractEvent event) {
 		Player p = event.getPlayer();
 		Action action = event.getAction();
-		if ((action.equals(Action.RIGHT_CLICK_BLOCK) || action
+ 		if ((action.equals(Action.RIGHT_CLICK_BLOCK) || action
 				.equals(Action.RIGHT_CLICK_AIR)) && RMUtils.holdingGun(p)) {
 			event.setCancelled(true);
 			return;
@@ -91,6 +92,14 @@ public class RMPlayerListener extends PlayerListener {
 				g.fire(p);
 				event.setCancelled(true);
 			}
+		}
+	}
+	
+	@Override
+	public void onItemHeldChange(PlayerItemHeldEvent event) {
+		Player player = event.getPlayer();
+		if (RMUtils.holdingGun(player)) {
+			SpoutGUI.getHudOf(player).updateHUD();
 		}
 	}
 
