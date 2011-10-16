@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.Event.Type;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.getspout.spoutapi.SpoutManager;
 
 import com.tips48.rushMe.custom.blocks.BlockManager;
 import com.tips48.rushMe.custom.items.FireType;
@@ -26,6 +27,8 @@ public class RushMe extends JavaPlugin {
 		instance = this;
 		
 		BlockManager.init();
+		
+		SpoutManager.getFileManager().addToPreLoginCache(this, "HAI");
 		
 		gManager.createGun("AK - 47", "HAI", 2 * 20, 30, 120,
 				FireType.AUTOMATIC, 1, false, null, 15, 10);
