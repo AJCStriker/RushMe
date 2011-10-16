@@ -2,6 +2,7 @@ package com.tips48.rushMe;
 
 import java.util.logging.Logger;
 
+import org.blockface.bukkitstats.CallHome;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.Event.Type;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -55,6 +56,9 @@ public class RushMe extends JavaPlugin {
 				new RMPlayerListener(), Priority.Monitor, this);
 
 		GameManager.createTeams();
+		
+		
+		CallHome.load(this);
 
 		log(true, "RushMe Version " + version + "_" + subVersion + " enabled");
 	}
