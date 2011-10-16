@@ -25,16 +25,17 @@ public class SpoutGUI {
 			String weapon) {
 		final SpoutPlayer sp = SpoutManager.getPlayer(killer);
 		final Label l = new GenericLabel();
+		l.setAnchor(WidgetAnchor.BOTTOM_CENTER);
+		l.setAlign(WidgetAnchor.CENTER_CENTER);
 		l.setY(-45);
-		String killedName;
+		String killedName = null;
 		if (killed instanceof Player) {
-			killedName = ((Player) killed).getName();
+			killedName = ((Player) killed).getDisplayName();
 		} else {
 			killedName = killed.getClass().getInterfaces()[0].getSimpleName();
 		}
 		l.setText(ChatColor.GREEN + killer.getName() + ChatColor.WHITE + " ["
 				+ weapon + "] " + ChatColor.RED + killedName);
-		l.setAnchor(WidgetAnchor.BOTTOM_CENTER);
 		sp.getMainScreen().attachWidget(RushMe.getInstance(), l);
 		RushMe.getInstance().getServer().getScheduler()
 				.scheduleSyncDelayedTask(RushMe.getInstance(), new Runnable() {
