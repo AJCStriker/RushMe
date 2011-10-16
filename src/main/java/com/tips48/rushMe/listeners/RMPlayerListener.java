@@ -41,8 +41,13 @@ public class RMPlayerListener extends PlayerListener {
 	@Override
 	public void onPlayerInteract(PlayerInteractEvent event) {
 		Player p = event.getPlayer();
-		if (event.getAction().equals(Action.LEFT_CLICK_AIR)
-				|| event.getAction().equals(Action.LEFT_CLICK_BLOCK)) {
+		Action action = event.getAction();
+		if ((action.equals(Action.RIGHT_CLICK_BLOCK) || action.equals(Action.RIGHT_CLICK_AIR)) && RMUtils.holdingGun(p)) {
+			event.setCancelled(true);
+			return;
+		}
+		if (action.equals(Action.LEFT_CLICK_AIR)
+				|| action.equals(Action.LEFT_CLICK_BLOCK)) {
 			if (RMUtils.holdingGun(p)) {
 				Gun g = RMUtils.getGun(p);
 				if (!g.canFire(p)) {

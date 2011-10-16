@@ -11,6 +11,7 @@ import org.bukkit.event.player.PlayerListener;
 import org.getspout.spoutapi.SpoutManager;
 import org.getspout.spoutapi.gui.GenericLabel;
 import org.getspout.spoutapi.gui.Label;
+import org.getspout.spoutapi.gui.WidgetAnchor;
 import org.getspout.spoutapi.player.SpoutPlayer;
 
 import com.tips48.rushMe.spout.GUI.MainHUD;
@@ -33,7 +34,7 @@ public class SpoutGUI {
 		}
 		l.setText(ChatColor.GREEN + killer.getName() + ChatColor.WHITE + " ["
 				+ weapon + "] " + ChatColor.RED + killedName);
-		l.setX((sp.getMainScreen().getX() / 2) + (l.getText().length()));
+		l.setAnchor(WidgetAnchor.BOTTOM_CENTER);
 		sp.getMainScreen().attachWidget(RushMe.getInstance(), l);
 		RushMe.getInstance().getServer().getScheduler()
 				.scheduleSyncDelayedTask(RushMe.getInstance(), new Runnable() {
