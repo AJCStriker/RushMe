@@ -25,13 +25,22 @@ public class RushMe extends JavaPlugin {
 
 	public void onEnable() {
 		instance = this;
-		
+
 		BlockManager.init();
-		
-		SpoutManager.getFileManager().addToPreLoginCache(this, "http://i.imgur.com/R4TMM.png");
-		
-		gManager.createGun("AK - 47", "http://i.imgur.com/R4TMM.png", 2 * 20, 30, 120,
-				FireType.AUTOMATIC, 1, false, null, 15, 10);
+
+		SpoutManager.getFileManager().addToPreLoginCache(this,
+				"http://i.imgur.com/R4TMM.png");
+		SpoutManager.getFileManager().addToPreLoginCache(this,
+				"http://i.imgur.com/Ok52I.png");
+		SpoutManager.getFileManager().addToPreLoginCache(this,
+				"http://i.imgur.com/8qmk0.png");
+
+		gManager.createGun("AK - 47", "http://i.imgur.com/Ok52I.png", 1 * 20,
+				30, 120, FireType.AUTOMATIC, 1, false, null, 15, 10);
+		gManager.createGun("M9", "http://i.imgur.com/R4TMM.png", 3 * 20, 18,
+				72, FireType.AUTOMATIC, 1, false, null, 10, 5);
+		gManager.createGun("Bazooka", "http://i.imgur.com/8qmk0.png", 5 * 20,
+				1, 3, FireType.MANUAL, 1, true, 2F, null, null);
 		getServer().getPluginManager().registerEvent(Type.PLAYER_JOIN,
 				new RMPlayerListener(), Priority.Monitor, this);
 		getServer().getPluginManager().registerEvent(Type.PLAYER_JOIN,
@@ -42,9 +51,9 @@ public class RushMe extends JavaPlugin {
 				new RMPlayerListener(), Priority.Normal, this);
 		getServer().getPluginManager().registerEvent(Type.CUSTOM_EVENT,
 				new RMInputListener(), Priority.Normal, this);
-		
+
 		GameManager.createTeams();
-		
+
 		log(true, "RushMe Version " + version + "_" + subVersion + " enabled");
 	}
 

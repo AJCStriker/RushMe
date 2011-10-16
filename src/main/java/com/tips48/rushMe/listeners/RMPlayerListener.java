@@ -30,8 +30,19 @@ public class RMPlayerListener extends PlayerListener {
 				.addItem(
 						RushMe.getInstance().getGunManager().getGun("AK - 47")
 								.toItemStack(1));
+		event.getPlayer()
+				.getInventory()
+				.addItem(
+						RushMe.getInstance().getGunManager().getGun("M9")
+								.toItemStack(1));
+		event.getPlayer()
+				.getInventory()
+				.addItem(
+						RushMe.getInstance().getGunManager().getGun("Bazooka")
+								.toItemStack(1));
 		Random r = new Random();
-		Team t = GameManager.getTeams().get(r.nextInt(GameManager.getTeams().size()));
+		Team t = GameManager.getTeams().get(
+				r.nextInt(GameManager.getTeams().size()));
 		GameManager.addPlayerToTeam(event.getPlayer(), t);
 		GameManager.updateNames();
 		SpoutGUI.getHudOf(event.getPlayer()).updateHUD();
@@ -42,7 +53,8 @@ public class RMPlayerListener extends PlayerListener {
 	public void onPlayerInteract(PlayerInteractEvent event) {
 		Player p = event.getPlayer();
 		Action action = event.getAction();
-		if ((action.equals(Action.RIGHT_CLICK_BLOCK) || action.equals(Action.RIGHT_CLICK_AIR)) && RMUtils.holdingGun(p)) {
+		if ((action.equals(Action.RIGHT_CLICK_BLOCK) || action
+				.equals(Action.RIGHT_CLICK_AIR)) && RMUtils.holdingGun(p)) {
 			event.setCancelled(true);
 			return;
 		}
