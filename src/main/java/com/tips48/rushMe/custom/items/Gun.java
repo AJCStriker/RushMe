@@ -27,13 +27,13 @@ public class Gun extends GenericCustomItem {
 	private boolean bulletsExplode;
 	private Float explosionSize;
 	// DAMAGE
-	private int headshotDamage;
-	private int bodyDamage;
+	private Integer headshotDamage;
+	private Integer bodyDamage;
 
 	protected Gun(String name, String texture, int reloadTime, int maxClipSize,
 			int maxAmmo, FireType type, double timeBetweenFire,
-			boolean bulletsExplode, Float explosionSize, int headshotDamage,
-			int bodyDamage) {
+			boolean bulletsExplode, Float explosionSize, Integer headshotDamage,
+			Integer bodyDamage) {
 		super(RushMe.getInstance(), name, texture);
 		this.reloadTime = reloadTime;
 		this.maxClipSize = maxClipSize;

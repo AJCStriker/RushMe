@@ -11,7 +11,7 @@ public class GunManager {
 	public Gun createGun(String name, String texture, int reloadTime,
 			int maxClipSize, int maxAmmo, FireType type,
 			double timeBetweenFire, boolean bulletsExplode,
-			Float explosionSize, int headshotDamage, int bodyDamage) {
+			Float explosionSize, Integer headshotDamage, Integer bodyDamage) {
 		Gun gun = new Gun(name, texture, reloadTime, maxClipSize, maxAmmo,
 				type, timeBetweenFire, bulletsExplode, explosionSize,
 				headshotDamage, bodyDamage);
