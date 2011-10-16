@@ -149,7 +149,6 @@ public class Gun extends GenericCustomItem {
 		// SpoutGUI.showReloading(player, this);
 		Bukkit.getScheduler().scheduleSyncDelayedTask(RushMe.getInstance(),
 				new Runnable() {
-					@Override
 					public void run() {
 						if (!(reloading)) {
 							return;

@@ -39,7 +39,6 @@ public class SpoutGUI {
 		sp.getMainScreen().attachWidget(RushMe.getInstance(), l);
 		RushMe.getInstance().getServer().getScheduler()
 				.scheduleSyncDelayedTask(RushMe.getInstance(), new Runnable() {
-					@Override
 					public void run() {
 						sp.getMainScreen().removeWidget(l);
 					}
