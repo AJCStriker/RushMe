@@ -6,20 +6,26 @@
   <name>RushMe</name>
   <description>Bukkit plugin adding BF3 to Minecraft!  Requires Spout and Spoutcraft</description>
   <dependencies>
-  	<dependency>
-  		<groupId>org.bukkit</groupId>
-  		<artifactId>bukkit</artifactId>
-  		<version>0.0.1-SNAPSHOT</version>
-  	</dependency>
-  	<dependency>
-  		<groupId>org.bukkit</groupId>
-  		<artifactId>craftbukkit</artifactId>
-  		<version>0.0.1-SNAPSHOT</version>
-  	</dependency>
-  	<dependency>
-  		<groupId>org.getspout</groupId>
-  		<artifactId>spoutapi</artifactId>
-  		<version>dev-SNAPSHOT</version>
-  	</dependency>
+    <dependency>
+      <groupId>org.bukkit</groupId>
+      <artifactId>bukkit</artifactId>
+      <version>0.0.1-SNAPSHOT</version>
+      <scope>system</scope>
+      <systemPath>${project.basedir}/libs/bukkit-0.0.1-SNAPSHOT.jar</systemPath>
+    </dependency>
+    <dependency>
+      <groupId>org.bukkit</groupId>
+      <artifactId>craftbukkit</artifactId>
+      <version>0.0.1-SNAPSHOT</version>
+      <scope>system</scope>
+      <systemPath>${project.basedir}/libs/craftbukkit-0.0.1-SNAPSHOT.jar</systemPath>
+    </dependency>
+    <dependency>
+      <groupId>org.getspout</groupId>
+      <artifactId>spoutapi</artifactId>
+      <version>dev-SNAPSHOT</version>
+      <scope>system</scope>
+      <systemPath>${project.basedir}/libs/spoutapi-dev-SNAPSHOT.jar</systemPath>
+    </dependency>
   </dependencies>
 </project>
