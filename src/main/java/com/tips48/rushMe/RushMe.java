@@ -28,9 +28,9 @@ public class RushMe extends JavaPlugin {
 		
 		BlockManager.init();
 		
-		SpoutManager.getFileManager().addToPreLoginCache(this, "http://i.imgur.com/BBkbf.png");
+		SpoutManager.getFileManager().addToPreLoginCache(this, "http://i.imgur.com/R4TMM.png");
 		
-		gManager.createGun("AK - 47", "http://i.imgur.com/BBkbf.png", 2 * 20, 30, 120,
+		gManager.createGun("AK - 47", "http://i.imgur.com/R4TMM.png", 2 * 20, 30, 120,
 				FireType.AUTOMATIC, 1, false, null, 15, 10);
 		getServer().getPluginManager().registerEvent(Type.PLAYER_JOIN,
 				new RMPlayerListener(), Priority.Monitor, this);
