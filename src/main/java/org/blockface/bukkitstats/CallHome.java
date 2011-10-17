@@ -39,6 +39,7 @@ import java.net.URLConnection;
 @
  */
 
+@SuppressWarnings("deprecation")
 public class CallHome{
 
     private static Configuration cfg=null;
