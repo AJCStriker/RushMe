@@ -15,13 +15,12 @@ public class FlagBase extends GenericCustomBlock {
 
 		// TODO block model and id
 	}
-	
+
 	public boolean canPlaceBlockAt(World world, int x, int y, int z) {
 		return true;
 	}
 
-	public boolean canPlaceBlockAt(World arg0, int x, int y, int z,
-			BlockFace bf) {
+	public boolean canPlaceBlockAt(World arg0, int x, int y, int z, BlockFace bf) {
 		return true;
 	}
 
@@ -35,8 +34,7 @@ public class FlagBase extends GenericCustomBlock {
 		return true;
 	}
 
-	public void onBlockClicked(World world, int x, int y, int z,
-			SpoutPlayer sp) {
+	public void onBlockClicked(World world, int x, int y, int z, SpoutPlayer sp) {
 	}
 
 	public void onBlockDestroyed(World world, int x, int y, int z) {
@@ -54,8 +52,7 @@ public class FlagBase extends GenericCustomBlock {
 			LivingEntity placer) {
 	}
 
-	public void onEntityMoveAt(World world, int x, int y, int z,
-			Entity mover) {
+	public void onEntityMoveAt(World world, int x, int y, int z, Entity mover) {
 	}
 
 	public void onNeighborBlockChange(World world, int x, int y, int z,

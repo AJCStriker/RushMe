@@ -9,13 +9,14 @@ import org.getspout.spoutapi.material.block.GenericCustomBlock;
 import org.getspout.spoutapi.player.SpoutPlayer;
 
 import com.tips48.rushMe.RushMe;
+import com.tips48.rushMe.custom.blocks.designs.MCOMBlockDesign;
 
 public class MCOM extends GenericCustomBlock {
 
 	private boolean armed = false;
 
 	public MCOM() {
-		super(RushMe.getInstance(), "MCOM", true);
+		super(RushMe.getInstance(), "MCOM", true, new MCOMBlockDesign(), 0);
 	}
 
 	public boolean isArmed() {
@@ -38,13 +39,12 @@ public class MCOM extends GenericCustomBlock {
 		// TODO GUI
 		// TODO set texture
 	}
-	
+
 	public boolean canPlaceBlockAt(World world, int x, int y, int z) {
 		return true;
 	}
 
-	public boolean canPlaceBlockAt(World arg0, int x, int y, int z,
-			BlockFace bf) {
+	public boolean canPlaceBlockAt(World arg0, int x, int y, int z, BlockFace bf) {
 		return true;
 	}
 
@@ -58,8 +58,7 @@ public class MCOM extends GenericCustomBlock {
 		return true;
 	}
 
-	public void onBlockClicked(World world, int x, int y, int z,
-			SpoutPlayer sp) {
+	public void onBlockClicked(World world, int x, int y, int z, SpoutPlayer sp) {
 	}
 
 	public void onBlockDestroyed(World world, int x, int y, int z) {
@@ -77,14 +76,12 @@ public class MCOM extends GenericCustomBlock {
 			LivingEntity placer) {
 	}
 
-	public void onEntityMoveAt(World world, int x, int y, int z,
-			Entity mover) {
+	public void onEntityMoveAt(World world, int x, int y, int z, Entity mover) {
 	}
 
 	public void onNeighborBlockChange(World world, int x, int y, int z,
 			int unknown) {
 		// TODO find out 4th arg
 	}
-	
 
 }

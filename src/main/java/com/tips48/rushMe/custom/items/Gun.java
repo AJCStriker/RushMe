@@ -1,6 +1,6 @@
 package com.tips48.rushMe.custom.items;
 
-import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.getspout.spoutapi.SpoutManager;
@@ -20,32 +20,42 @@ public class Gun extends GenericCustomItem {
 	private int loadedInClip;
 	private int ammo;
 	private int maxAmmo;
-	// FIRETYPE
-	private FireType type;
-	private double timeBetweenFire;
+	// OTHER
+	private Double timeBetweenFire;
+	private boolean autoReload;
+	private Double recoilBack;
+	private Float recoilVertical;
+	private Float recoilHorizontal;
 	// EXPLOSIONS
 	private boolean bulletsExplode;
 	private Float explosionSize;
+	private Double entityDamageRadius;
 	// DAMAGE
 	private Integer headshotDamage;
 	private Integer bodyDamage;
 
-	protected Gun(String name, String texture, int reloadTime, int maxClipSize,
-			int maxAmmo, FireType type, double timeBetweenFire,
-			boolean bulletsExplode, Float explosionSize, Integer headshotDamage,
-			Integer bodyDamage) {
+	protected Gun(String name, String texture, Integer reloadTime,
+			Boolean autoReload, Integer maxClipSize, Integer maxAmmo,
+			Double timeBetweenFire, Boolean bulletsExplode,
+			Float explosionSize, Double entityDamageRadius,
+			Integer headshotDamage, Integer bodyDamage, Double recoilBack,
+			Float recoilVertical, Float recoilHorizontal) {
 		super(RushMe.getInstance(), name, texture);
 		this.reloadTime = reloadTime;
 		this.maxClipSize = maxClipSize;
 		this.loadedInClip = maxClipSize;
+		this.autoReload = autoReload;
 		this.maxAmmo = maxAmmo;
 		this.ammo = maxAmmo;
-		this.type = type;
 		this.timeBetweenFire = timeBetweenFire;
 		this.bulletsExplode = bulletsExplode;
 		this.explosionSize = explosionSize;
+		this.entityDamageRadius = entityDamageRadius;
 		this.headshotDamage = headshotDamage;
 		this.bodyDamage = bodyDamage;
+		this.recoilBack = recoilBack;
+		this.recoilVertical = recoilVertical;
+		this.recoilHorizontal = recoilHorizontal;
 	}
 
 	public boolean getBulletsExplode() {
@@ -104,20 +114,13 @@ public class Gun extends GenericCustomItem {
 		this.timeBetweenFire = timeBetweenFire;
 	}
 
-	public FireType getFireType() {
-		return type;
-	}
-
-	public void setFireType(FireType type) {
-		this.type = type;
-	}
-
 	public int getReloadTime() {
 		return reloadTime;
 	}
 
 	public ItemStack toItemStack(int amount) {
-		return SpoutManager.getMaterialManager().getCustomItemStack(this, amount);
+		return SpoutManager.getMaterialManager().getCustomItemStack(this,
+				amount);
 	}
 
 	public boolean canFire(Player player) {
@@ -131,14 +134,32 @@ public class Gun extends GenericCustomItem {
 			return false;
 		}
 		return true;
-		// TODO time between firing Don't know if this is right
 	}
 
-	public void fire(Player player) {
+	public void fire(final Player player) {
 		loadedInClip--;
 		SpoutGUI.getHudOf(player).updateHUD();
 		lastFired = System.currentTimeMillis();
-		// TODO recoil
+		if (!(player.isSneaking())) {
+			player.setVelocity(player.getLocation().getDirection()
+					.multiply(-recoilBack));
+			Location loc = player.getLocation();
+			loc.setPitch(loc.getPitch() + -recoilVertical);
+			loc.setYaw(loc.getYaw() + recoilHorizontal);
+			player.teleport(loc);
+		} else {
+			player.setVelocity(player.getLocation().getDirection()
+					.multiply(-recoilBack / 2));
+			Location loc = player.getLocation();
+			loc.setPitch(loc.getPitch() + -recoilVertical / 2);
+			loc.setYaw(loc.getYaw() + recoilHorizontal / 2);
+			player.teleport(loc);
+		}
+		if (loadedInClip == 0) {
+			if (autoReload) {
+				reload(player);
+			}
+		}
 	}
 
 	public void reload(final Player player) {
@@ -147,8 +168,8 @@ public class Gun extends GenericCustomItem {
 		}
 		reloading = true;
 		// SpoutGUI.showReloading(player, this);
-		Bukkit.getScheduler().scheduleSyncDelayedTask(RushMe.getInstance(),
-				new Runnable() {
+		RushMe.getInstance().getServer().getScheduler()
+				.scheduleSyncDelayedTask(RushMe.getInstance(), new Runnable() {
 					public void run() {
 						if (!(reloading)) {
 							return;
@@ -165,6 +186,18 @@ public class Gun extends GenericCustomItem {
 						SpoutGUI.getHudOf(player).updateHUD();
 					}
 				}, reloadTime);
+	}
+
+	public boolean isAutoReload() {
+		return autoReload;
+	}
+
+	public void setAutoReload(boolean autoReload) {
+		this.autoReload = autoReload;
+	}
+
+	public double getEntityDamageRadius() {
+		return entityDamageRadius;
 	}
 
 }

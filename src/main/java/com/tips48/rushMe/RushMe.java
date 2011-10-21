@@ -6,11 +6,10 @@ import org.blockface.bukkitstats.CallHome;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.Event.Type;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.getspout.spoutapi.SpoutManager;
 
-import com.tips48.rushMe.custom.blocks.BlockManager;
-import com.tips48.rushMe.custom.items.FireType;
+import com.tips48.rushMe.configuration.GunConfiguration;
 import com.tips48.rushMe.custom.items.GunManager;
+import com.tips48.rushMe.listeners.RMEntityListener;
 import com.tips48.rushMe.listeners.RMInputListener;
 import com.tips48.rushMe.listeners.RMPlayerListener;
 
@@ -22,45 +21,48 @@ public class RushMe extends JavaPlugin {
 	private final static Logger log = Logger.getLogger("Minecraft");
 	private final GunManager gManager = new GunManager();
 
+	private RMInputListener inputListener;
+	private RMPlayerListener playerListener;
+	private RMEntityListener entityListener;
+
 	private static RushMe instance;
 
-	public void onEnable() {
+	public void onLoad() {
 		instance = this;
+		inputListener = new RMInputListener();
+		playerListener = new RMPlayerListener();
+		entityListener = new RMEntityListener();
+	}
 
-		BlockManager.init();
+	public void onEnable() {
 
-		SpoutManager.getFileManager().addToPreLoginCache(this,
-				"http://i.imgur.com/R4TMM.png");
-		SpoutManager.getFileManager().addToPreLoginCache(this,
-				"http://i.imgur.com/Ok52I.png");
-		SpoutManager.getFileManager().addToPreLoginCache(this,
-				"http://i.imgur.com/8qmk0.png");
+		GunConfiguration.loadGuns();
 
-		gManager.createGun("AK - 47", "http://i.imgur.com/Ok52I.png", 1 * 20,
-				30, 120, FireType.AUTOMATIC, 1, false, null, 15, 10);
-		gManager.createGun("M9", "http://i.imgur.com/R4TMM.png", 3 * 20, 18,
-				72, FireType.AUTOMATIC, 1, false, null, 10, 5);
-		gManager.createGun("Bazooka", "http://i.imgur.com/8qmk0.png", 5 * 20,
-				1, 3, FireType.MANUAL, 1, true, 2F, null, null);
 		getServer().getPluginManager().registerEvent(Type.PLAYER_JOIN,
-				new RMPlayerListener(), Priority.Monitor, this);
-		getServer().getPluginManager().registerEvent(Type.PLAYER_JOIN,
+				playerListener, Priority.Monitor, this);
+		getServer().getPluginManager().registerEvent(Type.PLAYER_LOGIN,
 				GameManager.getPListener(), Priority.Lowest, this);
+		getServer().getPluginManager().registerEvent(Type.PLAYER_JOIN,
+				GameManager.getPListener(), Priority.Low, this);
 		getServer().getPluginManager().registerEvent(Type.PLAYER_JOIN,
 				SpoutGUI.getPListener(), Priority.Lowest, this);
 		getServer().getPluginManager().registerEvent(Type.PLAYER_INTERACT,
-				new RMPlayerListener(), Priority.Normal, this);
+				playerListener, Priority.Normal, this);
 		getServer().getPluginManager().registerEvent(Type.CUSTOM_EVENT,
-				new RMInputListener(), Priority.Normal, this);
+				inputListener, Priority.Normal, this);
 		getServer().getPluginManager().registerEvent(Type.PLAYER_ITEM_HELD,
-				new RMPlayerListener(), Priority.Monitor, this);
+				playerListener, Priority.Monitor, this);
+		getServer().getPluginManager().registerEvent(Type.ENTITY_DAMAGE,
+				entityListener, Priority.Normal, this);
+		getServer().getPluginManager().registerEvent(Type.ENTITY_REGAIN_HEALTH,
+				entityListener, Priority.Normal, this);
 
 		GameManager.createTeams();
-		
-		
+
 		CallHome.load(this);
 
 		log(true, "RushMe Version " + version + "_" + subVersion + " enabled");
+		log(true, "Guns loaded: " + gManager.getGunNames());
 	}
 
 	public void onDisable() {

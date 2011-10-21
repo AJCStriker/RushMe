@@ -14,33 +14,24 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerListener;
+import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.util.BlockIterator;
 
 import com.tips48.rushMe.GameManager;
 import com.tips48.rushMe.RushMe;
 import com.tips48.rushMe.SpoutGUI;
+import com.tips48.rushMe.custom.blocks.BlockManager;
 import com.tips48.rushMe.custom.items.Gun;
+import com.tips48.rushMe.data.PlayerData;
 import com.tips48.rushMe.teams.Team;
 import com.tips48.rushMe.util.RMUtils;
 
 public class RMPlayerListener extends PlayerListener {
 	@Override
 	public void onPlayerJoin(PlayerJoinEvent event) {
-		event.getPlayer()
-				.getInventory()
-				.addItem(
-						RushMe.getInstance().getGunManager().getGun("AK - 47")
-								.toItemStack(1));
-		event.getPlayer()
-				.getInventory()
-				.addItem(
-						RushMe.getInstance().getGunManager().getGun("M9")
-								.toItemStack(1));
-		event.getPlayer()
-				.getInventory()
-				.addItem(
-						RushMe.getInstance().getGunManager().getGun("Bazooka")
-								.toItemStack(1));
+		for (Gun g : RushMe.getInstance().getGunManager().getGuns()) {
+			event.getPlayer().getInventory().addItem(g.toItemStack(1));
+		}
 		Random r = new Random();
 		Team t = GameManager.getTeams().get(
 				r.nextInt(GameManager.getTeams().size()));
@@ -54,9 +45,18 @@ public class RMPlayerListener extends PlayerListener {
 	public void onPlayerInteract(PlayerInteractEvent event) {
 		Player p = event.getPlayer();
 		Action action = event.getAction();
- 		if ((action.equals(Action.RIGHT_CLICK_BLOCK) || action
+		if (action.equals(Action.RIGHT_CLICK_BLOCK)) {
+			System.out.println("Spawning");
+			BlockManager.SpawnMCOM(event.getClickedBlock().getLocation().add(0, 1, 0));
+			event.setCancelled(true);
+			return;
+		}
+		if ((action.equals(Action.RIGHT_CLICK_BLOCK) || action
 				.equals(Action.RIGHT_CLICK_AIR)) && RMUtils.holdingGun(p)) {
 			event.setCancelled(true);
+			return;
+		}
+		if (!PlayerData.isActive(p)) {
 			return;
 		}
 		if (action.equals(Action.LEFT_CLICK_AIR)
@@ -70,21 +70,30 @@ public class RMPlayerListener extends PlayerListener {
 				if (g.getBulletsExplode()) {
 					List<Block> lookedAt = p.getLineOfSight(null, 100);
 					Block last = lookedAt.get(lookedAt.size() - 1);
-					p.getWorld().createExplosion(last.getLocation(),
-							g.getExplosionSize());
+					RMUtils.createAstheticExplosion(g, last.getLocation());
+					for (Entity e : RMUtils.getNearbyEntities(
+							last.getLocation(), g.getEntityDamageRadius(),
+							g.getEntityDamageRadius(),
+							g.getEntityDamageRadius())) {
+						if (!(e instanceof LivingEntity)) {
+							return;
+						}
+						LivingEntity le = (LivingEntity) e;
+						le.damage(10, p);
+					}
 				} else {
 					if (getLookingAtHead(p) != null) {
 						LivingEntity e = getLookingAtHead(p);
 						e.damage(g.getHeadshotDamage(), p);
 						if (e.getHealth() <= 0) {
-							GameManager.getPlayerData(p).addKill();
+							PlayerData.addKill(p);
 							SpoutGUI.showKill(p, e, g.getName());
 						}
 					} else if (getLookingAt(p) != null) {
 						LivingEntity e = getLookingAt(p);
 						e.damage(g.getBodyDamage(), p);
 						if (e.getHealth() <= 0) {
-							GameManager.getPlayerData(p).addKill();
+							PlayerData.addKill(p);
 							SpoutGUI.showKill(p, e, g.getName());
 						}
 					}
@@ -94,13 +103,32 @@ public class RMPlayerListener extends PlayerListener {
 			}
 		}
 	}
-	
+
 	@Override
 	public void onItemHeldChange(PlayerItemHeldEvent event) {
-		Player player = event.getPlayer();
-		if (RMUtils.holdingGun(player)) {
-			SpoutGUI.getHudOf(player).updateHUD();
+		final Player player = event.getPlayer();
+		if (!PlayerData.isActive(player)) {
+			return;
 		}
+		RushMe.getInstance().getServer().getScheduler()
+				.scheduleSyncDelayedTask(RushMe.getInstance(), new Runnable() {
+					public void run() {
+						if (RMUtils.holdingGun(player)) {
+							SpoutGUI.getHudOf(player).updateHUD();
+						}
+					}
+				}, 1);
+	}
+
+	@Override
+	public void onPlayerRespawn(PlayerRespawnEvent event) {
+		Player player = event.getPlayer();
+		if (!PlayerData.isActive(player)) {
+			return;
+		}
+		PlayerData.setHealth(player, 100);
+		PlayerData.addDeath(player);
+		SpoutGUI.getHudOf(player).updateHUD();
 	}
 
 	private LivingEntity getLookingAtHead(Player player) {

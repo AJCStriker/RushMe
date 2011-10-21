@@ -1,14 +1,13 @@
 package com.tips48.rushMe;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerListener;
+import org.bukkit.event.player.PlayerLoginEvent;
 import org.getspout.spoutapi.SpoutManager;
 import org.getspout.spoutapi.player.SpoutPlayer;
 
@@ -17,7 +16,6 @@ import com.tips48.rushMe.teams.Team;
 
 public class GameManager {
 	private static GameMode mode = GameMode.RUSH; // TEMPORARY
-	private static Set<PlayerData> playerData = new HashSet<PlayerData>();
 	private static List<Team> teams = new ArrayList<Team>();
 
 	public static GameMode getGameMode() {
@@ -50,23 +48,6 @@ public class GameManager {
 		return getPlayersTeam(player.getName());
 	}
 
-	public static Set<PlayerData> getPlayerData() {
-		return playerData;
-	}
-
-	public static PlayerData getPlayerData(String player) {
-		for (PlayerData d : getPlayerData()) {
-			if (d.getName().equalsIgnoreCase(player)) {
-				return d;
-			}
-		}
-		return null;
-	}
-
-	public static PlayerData getPlayerData(Player player) {
-		return getPlayerData(player.getName());
-	}
-
 	public static void addPlayerToTeam(Player player, Team team) {
 		addPlayerToTeam(player.getName(), team);
 	}
@@ -86,19 +67,19 @@ public class GameManager {
 		teams.add(team);
 	}
 
-	private static void createPlayerData(String player) {
-		PlayerData data = new PlayerData(player);
-		playerData.add(data);
-	}
-
 	protected static PListener getPListener() {
 		return new PListener();
 	}
 
-	public static class PListener extends PlayerListener {
-		@Override
+	private static class PListener extends PlayerListener {
+		public void onPlayerLogin(PlayerLoginEvent event) {
+			System.out.println("Activating defaults");
+			PlayerData.setDefaults(event.getPlayer());
+		}
+
 		public void onPlayerJoin(PlayerJoinEvent event) {
-			createPlayerData(event.getPlayer().getName());
+			PlayerData.setActive(event.getPlayer(), true);
+			System.out.println("Setting active (true)");
 		}
 	}
 
@@ -134,8 +115,8 @@ public class GameManager {
 	}
 
 	public static void createTeams() {
-		Team team1 = new Team("Attackers", 12);
-		Team team2 = new Team("Defenders", 12);
+		Team team1 = new Team("Attackers", "ATT", 12);
+		Team team2 = new Team("Defenders", "DEF", 12);
 
 		teams.add(team1);
 		teams.add(team2);

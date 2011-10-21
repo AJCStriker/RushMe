@@ -8,13 +8,17 @@ import org.getspout.spoutapi.material.CustomItem;
 public class GunManager {
 	private Set<Gun> guns = new HashSet<Gun>();
 
-	public Gun createGun(String name, String texture, int reloadTime,
-			int maxClipSize, int maxAmmo, FireType type,
-			double timeBetweenFire, boolean bulletsExplode,
-			Float explosionSize, Integer headshotDamage, Integer bodyDamage) {
-		Gun gun = new Gun(name, texture, reloadTime, maxClipSize, maxAmmo,
-				type, timeBetweenFire, bulletsExplode, explosionSize,
-				headshotDamage, bodyDamage);
+	public Gun createGun(String name, String texture, Integer reloadTime,
+			Boolean autoReload, Integer maxClipSize, Integer maxAmmo,
+			Double timeBetweenFire, Boolean bulletsExplode,
+			Float explosionSize, Double entityExplosionRadius,
+			Integer headshotDamage, Integer bodyDamage, Double recoilBack,
+			Float recoilVertical, Float recoilHorizontal) {
+
+		Gun gun = new Gun(name, texture, reloadTime, autoReload, maxClipSize,
+				maxAmmo, timeBetweenFire, bulletsExplode, explosionSize,
+				entityExplosionRadius, headshotDamage, bodyDamage, recoilBack,
+				recoilVertical, recoilHorizontal);
 
 		guns.add(gun);
 
@@ -41,5 +45,13 @@ public class GunManager {
 			}
 		}
 		return null;
+	}
+
+	public Set<String> getGunNames() {
+		Set<String> names = new HashSet<String>();
+		for (Gun g : getGuns()) {
+			names.add(g.getName());
+		}
+		return names;
 	}
 }
