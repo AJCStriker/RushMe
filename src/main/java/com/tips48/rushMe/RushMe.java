@@ -7,6 +7,7 @@ import org.bukkit.event.Event.Priority;
 import org.bukkit.event.Event.Type;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.tips48.rushMe.commands.RushMeCommand;
 import com.tips48.rushMe.configuration.GunConfiguration;
 import com.tips48.rushMe.custom.items.GunManager;
 import com.tips48.rushMe.listeners.RMEntityListener;
@@ -56,6 +57,8 @@ public class RushMe extends JavaPlugin {
 				entityListener, Priority.Normal, this);
 		getServer().getPluginManager().registerEvent(Type.ENTITY_REGAIN_HEALTH,
 				entityListener, Priority.Normal, this);
+		
+		getCommand("RushMe").setExecutor(new RushMeCommand());
 
 		GameManager.createTeams();
 
@@ -83,5 +86,13 @@ public class RushMe extends JavaPlugin {
 
 	public GunManager getGunManager() {
 		return gManager;
+	}
+	
+	public static double getVersion() {
+		return version;
+	}
+	
+	public static int getSubVersion() {
+		return subVersion;
 	}
 }

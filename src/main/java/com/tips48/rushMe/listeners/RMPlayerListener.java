@@ -29,15 +29,14 @@ import com.tips48.rushMe.util.RMUtils;
 public class RMPlayerListener extends PlayerListener {
 	@Override
 	public void onPlayerJoin(PlayerJoinEvent event) {
-		for (Gun g : RushMe.getInstance().getGunManager().getGuns()) {
-			event.getPlayer().getInventory().addItem(g.toItemStack(1));
-		}
+		Player player = event.getPlayer();
+		RMUtils.giveAllGuns(player);
 		Random r = new Random();
 		Team t = GameManager.getTeams().get(
 				r.nextInt(GameManager.getTeams().size()));
-		GameManager.addPlayerToTeam(event.getPlayer(), t);
+		GameManager.addPlayerToTeam(player, t);
 		GameManager.updateNames();
-		SpoutGUI.getHudOf(event.getPlayer()).updateHUD();
+		SpoutGUI.getHudOf(player).updateHUD();
 	}
 
 	@SuppressWarnings("deprecation")

@@ -1,6 +1,5 @@
 package com.tips48.rushMe.util;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
@@ -34,8 +33,17 @@ public class RMUtils {
 		}
 		return false;
 	}
-
+	
+	public static void giveAllGuns(Player player) {
+		for (Gun g : RushMe.getInstance().getGunManager().getGuns()) {
+			player.getInventory().addItem(g.toItemStack(1));
+		}
+	}
+ 
 	public static boolean isGun(ItemStack item) {
+		if (item == null) {
+			return false;
+		}
 		CustomItem i = SpoutManager.getMaterialManager().getCustomItem(item);
 		if (i != null) {
 			Gun g = RushMe.getInstance().getGunManager().getGun(i);
@@ -47,14 +55,17 @@ public class RMUtils {
 	}
 
 	public static void clearInventoryOfGuns(Player player) {
-		List<ItemStack> stack = new ArrayList<ItemStack>();
-		for (ItemStack item : player.getInventory().getContents()) {
-			if (!isGun(item)) {
-				stack.add(item);
+		ItemStack[] inventory = player.getInventory().getContents();
+		ItemStack[] armor = player.getInventory().getArmorContents();
+		player.getInventory().clear();
+		for (ItemStack item : inventory) {
+			if (item != null) {
+				if (!isGun(item)) {
+					player.getInventory().addItem(item);
+				}
 			}
 		}
-		player.getInventory().setContents(
-				stack.toArray(new ItemStack[stack.size()]));
+		player.getInventory().setArmorContents(armor);
 	}
 
 	public static Gun getGun(Player player) {
