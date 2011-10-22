@@ -25,13 +25,13 @@ public class Scoreboard {
 	private static Map<String, Set<Widget>> widgets = new HashMap<String, Set<Widget>>();
 
 	public static void draw(SpoutPlayer player) {
-		
+
 		if (!PlayerData.isActive(player)) {
 			return;
 		}
-		
+
 		Set<Widget> widgetsDrawn = new HashSet<Widget>();
-		
+
 		Gradient teamBackdrop = new GenericGradient();
 		teamBackdrop.setTopColor(new Color(27, 76, 224, 200));
 		teamBackdrop.setBottomColor(new Color(27, 76, 224, 200));
@@ -42,7 +42,7 @@ public class Scoreboard {
 		teamBackdrop.setWidth(400);
 		teamBackdrop.setPriority(RenderPriority.Highest);
 		widgetsDrawn.add(teamBackdrop);
-		
+
 		Gradient enemyBackdrop = new GenericGradient();
 		enemyBackdrop.setTopColor(new Color(27, 76, 224, 200));
 		enemyBackdrop.setBottomColor(new Color(27, 76, 224, 200));
@@ -53,7 +53,7 @@ public class Scoreboard {
 		enemyBackdrop.setPriority(RenderPriority.Highest);
 		widgetsDrawn.add(enemyBackdrop);
 		// TODO another spout bug, no height > 400
-		
+
 		Gradient verticalLine = new GenericGradient();
 		verticalLine.setTopColor(new Color(255, 255, 255, 100));
 		verticalLine.setBottomColor(new Color(255, 255, 255, 200));
@@ -64,9 +64,9 @@ public class Scoreboard {
 		verticalLine.setY(-135);
 		verticalLine.setPriority(RenderPriority.Low);
 		widgetsDrawn.add(verticalLine);
-		
+
 		// TODO temporary solution for spout bug!
-		
+
 		Gradient teamHorizontalLine = new GenericGradient();
 		teamHorizontalLine.setTopColor(new Color(255, 255, 255, 100));
 		teamHorizontalLine.setBottomColor(new Color(255, 255, 255, 200));
@@ -76,7 +76,7 @@ public class Scoreboard {
 		teamHorizontalLine.setY(-135);
 		teamHorizontalLine.setX(-400);
 		widgetsDrawn.add(teamHorizontalLine);
-		
+
 		Gradient enemyHorizontalLine = new GenericGradient();
 		enemyHorizontalLine.setTopColor(new Color(255, 255, 255, 100));
 		enemyHorizontalLine.setBottomColor(new Color(255, 255, 255, 200));
@@ -85,7 +85,7 @@ public class Scoreboard {
 		enemyHorizontalLine.setWidth(400);
 		enemyHorizontalLine.setY(-135);
 		widgetsDrawn.add(enemyHorizontalLine);
-		
+
 		Gradient playerTeamBackground = new GenericGradient();
 		playerTeamBackground.setTopColor(new Color(0, 200, 255));
 		playerTeamBackground.setBottomColor(new Color(0, 200, 255));
@@ -96,7 +96,7 @@ public class Scoreboard {
 		playerTeamBackground.setHeight(15);
 		playerTeamBackground.setPriority(RenderPriority.High);
 		widgetsDrawn.add(playerTeamBackground);
-		
+
 		Gradient enemyTeamBackground = new GenericGradient();
 		enemyTeamBackground.setTopColor(new Color(255, 0, 0));
 		enemyTeamBackground.setBottomColor(new Color(255, 0, 0));
@@ -106,7 +106,7 @@ public class Scoreboard {
 		enemyTeamBackground.setHeight(15);
 		enemyTeamBackground.setPriority(RenderPriority.High);
 		widgetsDrawn.add(enemyTeamBackground);
-		
+
 		Team playerTeam = GameManager.getPlayersTeam(player);
 		Team enemyTeam = null;
 		for (Team team : GameManager.getTeams()) {
@@ -114,7 +114,7 @@ public class Scoreboard {
 				enemyTeam = team;
 			}
 		}
-		
+
 		Label teamName = new GenericLabel();
 		teamName.setText(playerTeam.getPrefix());
 		teamName.setAnchor(WidgetAnchor.CENTER_CENTER);
@@ -123,7 +123,7 @@ public class Scoreboard {
 		teamName.setScale(1.5F);
 		teamName.setPriority(RenderPriority.Low);
 		widgetsDrawn.add(teamName);
-		
+
 		Label enemyName = new GenericLabel();
 		enemyName.setText(enemyTeam.getPrefix());
 		enemyName.setAnchor(WidgetAnchor.CENTER_CENTER);
@@ -132,7 +132,7 @@ public class Scoreboard {
 		enemyName.setScale(1.5F);
 		enemyName.setPriority(RenderPriority.Low);
 		widgetsDrawn.add(enemyName);
-		
+
 		Label teamScoreLabel = new GenericLabel();
 		teamScoreLabel.setText("SCORE");
 		teamScoreLabel.setAnchor(WidgetAnchor.CENTER_CENTER);
@@ -141,7 +141,7 @@ public class Scoreboard {
 		teamScoreLabel.setScale(1.5F);
 		teamScoreLabel.setPriority(RenderPriority.Low);
 		widgetsDrawn.add(teamScoreLabel);
-		
+
 		Label enemyScoreLabel = new GenericLabel();
 		enemyScoreLabel.setText("SCORE");
 		enemyScoreLabel.setAnchor(WidgetAnchor.CENTER_CENTER);
@@ -150,7 +150,7 @@ public class Scoreboard {
 		enemyScoreLabel.setScale(1.5F);
 		enemyScoreLabel.setPriority(RenderPriority.Low);
 		widgetsDrawn.add(enemyScoreLabel);
-		
+
 		Label teamKillsLabel = new GenericLabel();
 		teamKillsLabel.setText("K");
 		teamKillsLabel.setAnchor(WidgetAnchor.CENTER_CENTER);
@@ -159,7 +159,7 @@ public class Scoreboard {
 		teamKillsLabel.setScale(1.5F);
 		teamKillsLabel.setPriority(RenderPriority.Low);
 		widgetsDrawn.add(teamKillsLabel);
-		
+
 		Label enemyKillsLabel = new GenericLabel();
 		enemyKillsLabel.setText("K");
 		enemyKillsLabel.setAnchor(WidgetAnchor.CENTER_CENTER);
@@ -168,7 +168,7 @@ public class Scoreboard {
 		enemyKillsLabel.setScale(1.5F);
 		enemyKillsLabel.setPriority(RenderPriority.Low);
 		widgetsDrawn.add(enemyKillsLabel);
-		
+
 		Label teamDeathsLabel = new GenericLabel();
 		teamDeathsLabel.setText("D");
 		teamDeathsLabel.setAnchor(WidgetAnchor.CENTER_CENTER);
@@ -177,7 +177,7 @@ public class Scoreboard {
 		teamDeathsLabel.setScale(1.5F);
 		teamDeathsLabel.setPriority(RenderPriority.Low);
 		widgetsDrawn.add(teamDeathsLabel);
-		
+
 		Label enemyDeathsLabel = new GenericLabel();
 		enemyDeathsLabel.setText("D");
 		enemyDeathsLabel.setAnchor(WidgetAnchor.CENTER_CENTER);
@@ -186,7 +186,7 @@ public class Scoreboard {
 		enemyDeathsLabel.setScale(1.5F);
 		enemyDeathsLabel.setPriority(RenderPriority.Low);
 		widgetsDrawn.add(enemyDeathsLabel);
-		
+
 		for (int y = -90; y <= 130; y += 20) {
 			Gradient teamLine = new GenericGradient();
 			teamLine.setBottomColor(new Color(0, 0, 0, 200));
@@ -197,7 +197,7 @@ public class Scoreboard {
 			teamLine.setWidth(400);
 			teamLine.setHeight(1);
 			widgetsDrawn.add(teamLine);
-			
+
 			Gradient enemyLine = new GenericGradient();
 			enemyLine.setBottomColor(new Color(0, 0, 0, 200));
 			enemyLine.setTopColor(new Color(0, 0, 0, 200));
@@ -207,7 +207,7 @@ public class Scoreboard {
 			enemyLine.setHeight(1);
 			widgetsDrawn.add(enemyLine);
 		}
-		
+
 		int currentY = 130;
 		for (String name : playerTeam.getByScore()) {
 			Label playerName = new GenericLabel();
@@ -217,7 +217,7 @@ public class Scoreboard {
 			playerName.setText(name);
 			playerName.setScale(1.3F);
 			widgetsDrawn.add(playerName);
-			
+
 			Label score = new GenericLabel();
 			score.setAnchor(WidgetAnchor.CENTER_CENTER);
 			score.setX(-50);
@@ -225,7 +225,7 @@ public class Scoreboard {
 			score.setText(Integer.toString(PlayerData.getScore(name)));
 			score.setScale(1.3F);
 			widgetsDrawn.add(score);
-			
+
 			Label kills = new GenericLabel();
 			kills.setAnchor(WidgetAnchor.CENTER_CENTER);
 			kills.setX(-105);
@@ -233,7 +233,7 @@ public class Scoreboard {
 			kills.setText(Integer.toString(PlayerData.getKills(name)));
 			kills.setScale(1.3F);
 			widgetsDrawn.add(kills);
-			
+
 			Label deaths = new GenericLabel();
 			deaths.setAnchor(WidgetAnchor.CENTER_CENTER);
 			deaths.setX(-75);
@@ -241,10 +241,10 @@ public class Scoreboard {
 			deaths.setText(Integer.toString(PlayerData.getDeaths(name)));
 			deaths.setScale(1.3F);
 			widgetsDrawn.add(deaths);
-			
+
 			currentY -= 20;
 		}
-		
+
 		currentY = 111;
 		for (String name : enemyTeam.getByScore()) {
 			Label playerName = new GenericLabel();
@@ -254,7 +254,7 @@ public class Scoreboard {
 			playerName.setText(name);
 			playerName.setScale(1.3F);
 			widgetsDrawn.add(playerName);
-			
+
 			Label score = new GenericLabel();
 			score.setAnchor(WidgetAnchor.CENTER_CENTER);
 			score.setX(350);
@@ -262,7 +262,7 @@ public class Scoreboard {
 			score.setText(Integer.toString(PlayerData.getScore(name)));
 			score.setScale(1.3F);
 			widgetsDrawn.add(score);
-			
+
 			Label kills = new GenericLabel();
 			kills.setAnchor(WidgetAnchor.CENTER_CENTER);
 			kills.setX(295);
@@ -270,7 +270,7 @@ public class Scoreboard {
 			kills.setText(Integer.toString(PlayerData.getKills(name)));
 			kills.setScale(1.3F);
 			widgetsDrawn.add(kills);
-			
+
 			Label deaths = new GenericLabel();
 			deaths.setAnchor(WidgetAnchor.CENTER_CENTER);
 			deaths.setX(325);
@@ -278,10 +278,10 @@ public class Scoreboard {
 			deaths.setText(Integer.toString(PlayerData.getDeaths(name)));
 			deaths.setScale(1.3F);
 			widgetsDrawn.add(deaths);
-			
+
 			currentY -= 20;
 		}
- 		
+
 		// TODO
 		// Lastly: Add to screen
 

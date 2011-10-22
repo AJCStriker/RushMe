@@ -24,7 +24,7 @@ public class PlayerData {
 	public static int getScore(String player) {
 		return scores.get(player);
 	}
-	
+
 	public static Map<String, Integer> getScores() {
 		return scores;
 	}

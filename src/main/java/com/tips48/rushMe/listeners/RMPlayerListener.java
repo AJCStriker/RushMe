@@ -46,7 +46,8 @@ public class RMPlayerListener extends PlayerListener {
 		Action action = event.getAction();
 		if (action.equals(Action.RIGHT_CLICK_BLOCK)) {
 			System.out.println("Spawning");
-			BlockManager.SpawnMCOM(event.getClickedBlock().getLocation().add(0, 1, 0));
+			BlockManager.SpawnMCOM(event.getClickedBlock().getLocation()
+					.add(0, 1, 0));
 			event.setCancelled(true);
 			return;
 		}

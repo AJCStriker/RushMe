@@ -142,12 +142,12 @@ public class Team {
 				}
 				if (scores[i] == PlayerData.getScore(name)) {
 					if (!byScore.contains(name)) {
-					byScore.add(i, name);
+						byScore.add(i, name);
 					}
 				}
 			}
 		}
-		
+
 		return byScore;
 	}
 
@@ -158,7 +158,7 @@ public class Team {
 				System.out.println("Score < lastScore");
 				if (score > otherScore) {
 					System.out.println("Score > otherScore");
-				otherScore = score;
+					otherScore = score;
 				}
 			}
 		}

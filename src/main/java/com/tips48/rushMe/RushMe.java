@@ -57,7 +57,7 @@ public class RushMe extends JavaPlugin {
 				entityListener, Priority.Normal, this);
 		getServer().getPluginManager().registerEvent(Type.ENTITY_REGAIN_HEALTH,
 				entityListener, Priority.Normal, this);
-		
+
 		getCommand("RushMe").setExecutor(new RushMeCommand());
 
 		GameManager.createTeams();
@@ -87,11 +87,11 @@ public class RushMe extends JavaPlugin {
 	public GunManager getGunManager() {
 		return gManager;
 	}
-	
+
 	public static double getVersion() {
 		return version;
 	}
-	
+
 	public static int getSubVersion() {
 		return subVersion;
 	}

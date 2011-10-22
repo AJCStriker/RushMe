@@ -33,13 +33,13 @@ public class RMUtils {
 		}
 		return false;
 	}
-	
+
 	public static void giveAllGuns(Player player) {
 		for (Gun g : RushMe.getInstance().getGunManager().getGuns()) {
 			player.getInventory().addItem(g.toItemStack(1));
 		}
 	}
- 
+
 	public static boolean isGun(ItemStack item) {
 		if (item == null) {
 			return false;

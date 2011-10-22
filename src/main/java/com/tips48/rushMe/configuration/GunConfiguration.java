@@ -39,15 +39,21 @@ public class GunConfiguration {
 					+ ".timeBetweenFire");
 			Boolean bulletsExplode = guns.getBoolean("Guns." + name
 					+ ".bulletsExplode");
-			Float explosionSize = Double.valueOf(guns.getDouble("Guns." + name + ".explosionSize")).floatValue();
+			Float explosionSize = Double.valueOf(
+					guns.getDouble("Guns." + name + ".explosionSize"))
+					.floatValue();
 			Double entityExplosionRadius = guns.getDouble("Guns." + name
 					+ ".entityExplosionRadius");
 			Integer headshotDamage = guns.getInt("Guns." + name
 					+ ".headshotDamage");
 			Integer bodyDamage = guns.getInt("Guns." + name + ".bodyDamage");
 			Double recoilBack = guns.getDouble("Guns." + name + ".recoilBack");
-			Float recoilVertical = Double.valueOf(guns.getDouble("Guns." + name + ".recoilHorizontal")).floatValue();
-			Float recoilHorizontal = Double.valueOf(guns.getDouble("Guns." + name + ".recoilHorizontal")).floatValue();
+			Float recoilVertical = Double.valueOf(
+					guns.getDouble("Guns." + name + ".recoilHorizontal"))
+					.floatValue();
+			Float recoilHorizontal = Double.valueOf(
+					guns.getDouble("Guns." + name + ".recoilHorizontal"))
+					.floatValue();
 			SpoutManager.getFileManager().addToPreLoginCache(
 					RushMe.getInstance(), texture);
 			RushMe.getInstance()

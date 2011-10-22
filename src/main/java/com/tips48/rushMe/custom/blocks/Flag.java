@@ -11,7 +11,7 @@ import com.tips48.rushMe.RushMe;
 import com.tips48.rushMe.teams.Team;
 
 public class Flag extends GenericCustomBlock {
-	
+
 	private Team owner;
 
 	public Flag() {
