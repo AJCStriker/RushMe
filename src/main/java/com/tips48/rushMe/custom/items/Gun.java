@@ -1,13 +1,12 @@
 package com.tips48.rushMe.custom.items;
 
+import com.tips48.rushMe.RushMe;
+import com.tips48.rushMe.SpoutGUI;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.getspout.spoutapi.SpoutManager;
 import org.getspout.spoutapi.material.item.GenericCustomItem;
-
-import com.tips48.rushMe.RushMe;
-import com.tips48.rushMe.SpoutGUI;
 
 public class Gun extends GenericCustomItem {
 	// LAST FIRED
@@ -125,16 +124,13 @@ public class Gun extends GenericCustomItem {
 
 	public boolean canFire(Player player) {
 		if (reloading) {
-			return false;
+			return true;
 		}
 		if (loadedInClip == 0) {
-			return false;
+			return true;
 		}
-		if (!(System.currentTimeMillis() - lastFired >= timeBetweenFire * 100)) {
-			return false;
-		}
-		return true;
-	}
+        return System.currentTimeMillis() - lastFired < timeBetweenFire * 100;
+    }
 
 	public void fire(final Player player) {
 		loadedInClip--;

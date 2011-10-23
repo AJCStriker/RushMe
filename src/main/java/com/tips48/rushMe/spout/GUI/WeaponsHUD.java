@@ -1,21 +1,14 @@
 package com.tips48.rushMe.spout.GUI;
 
-import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
-import org.getspout.spoutapi.SpoutManager;
-import org.getspout.spoutapi.gui.Color;
-import org.getspout.spoutapi.gui.GenericGradient;
-import org.getspout.spoutapi.gui.GenericLabel;
-import org.getspout.spoutapi.gui.Gradient;
-import org.getspout.spoutapi.gui.Label;
-import org.getspout.spoutapi.gui.RenderPriority;
-import org.getspout.spoutapi.gui.WidgetAnchor;
-import org.getspout.spoutapi.player.SpoutPlayer;
-
 import com.tips48.rushMe.RushMe;
 import com.tips48.rushMe.custom.items.Gun;
 import com.tips48.rushMe.data.PlayerData;
 import com.tips48.rushMe.util.RMUtils;
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
+import org.getspout.spoutapi.SpoutManager;
+import org.getspout.spoutapi.gui.*;
+import org.getspout.spoutapi.player.SpoutPlayer;
 
 public class WeaponsHUD extends GenericGradient {
 
@@ -116,7 +109,7 @@ public class WeaponsHUD extends GenericGradient {
 		ChatColor inClipColor = inClip > 0 ? ChatColor.WHITE : ChatColor.RED;
 		ChatColor ammoColor = extraAmmo > 0 ? ChatColor.WHITE : ChatColor.RED;
 
-		boolean add0 = inClip < 10 ? true : false;
+		boolean add0 = inClip < 10;
 
 		String inClipString = Integer.toString(inClip);
 		if (add0) {

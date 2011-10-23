@@ -1,14 +1,13 @@
 package com.tips48.rushMe.data;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.bukkit.entity.Player;
-
 import com.tips48.rushMe.RushMe;
 import com.tips48.rushMe.SpoutGUI;
 import com.tips48.rushMe.spout.GUI.MainHUD;
 import com.tips48.rushMe.util.RMUtils;
+import org.bukkit.entity.Player;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class PlayerData {
 	private static Map<String, Integer> scores = new HashMap<String, Integer>();
@@ -163,7 +162,7 @@ public class PlayerData {
 	}
 
 	public static void setActive(String player, boolean a) {
-		if (a == true) {
+		if (a) {
 			Player p = RushMe.getInstance().getServer().getPlayer(player);
 			if (p != null) {
 				MainHUD hud = SpoutGUI.getHudOf(p);

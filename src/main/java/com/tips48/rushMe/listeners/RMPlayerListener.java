@@ -1,22 +1,5 @@
 package com.tips48.rushMe.listeners;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
-import org.bukkit.Location;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
-import org.bukkit.event.block.Action;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerItemHeldEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerListener;
-import org.bukkit.event.player.PlayerRespawnEvent;
-import org.bukkit.util.BlockIterator;
-
 import com.tips48.rushMe.GameManager;
 import com.tips48.rushMe.RushMe;
 import com.tips48.rushMe.SpoutGUI;
@@ -25,6 +8,18 @@ import com.tips48.rushMe.custom.items.Gun;
 import com.tips48.rushMe.data.PlayerData;
 import com.tips48.rushMe.teams.Team;
 import com.tips48.rushMe.util.RMUtils;
+import org.bukkit.Location;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.player.*;
+import org.bukkit.util.BlockIterator;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class RMPlayerListener extends PlayerListener {
 	@Override
@@ -63,7 +58,7 @@ public class RMPlayerListener extends PlayerListener {
 				|| action.equals(Action.LEFT_CLICK_BLOCK)) {
 			if (RMUtils.holdingGun(p)) {
 				Gun g = RMUtils.getGun(p);
-				if (!g.canFire(p)) {
+				if (g.canFire(p)) {
 					event.setCancelled(true);
 					return;
 				}

@@ -1,8 +1,6 @@
 package com.tips48.rushMe;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import com.tips48.rushMe.spout.GUI.MainHUD;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -14,7 +12,8 @@ import org.getspout.spoutapi.gui.Label;
 import org.getspout.spoutapi.gui.WidgetAnchor;
 import org.getspout.spoutapi.player.SpoutPlayer;
 
-import com.tips48.rushMe.spout.GUI.MainHUD;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SpoutGUI {
 
@@ -28,7 +27,7 @@ public class SpoutGUI {
 		l.setAnchor(WidgetAnchor.BOTTOM_CENTER);
 		l.setAlign(WidgetAnchor.CENTER_CENTER);
 		l.setY(-45);
-		String killedName = null;
+		String killedName;
 		if (killed instanceof Player) {
 			killedName = ((Player) killed).getDisplayName();
 		} else {
