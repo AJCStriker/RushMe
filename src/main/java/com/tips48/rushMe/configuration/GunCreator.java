@@ -1,11 +1,7 @@
 package com.tips48.rushMe.configuration;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Aidan
- * Date: 10/23/11
- * Time: 6:35 PM
- * To change this template use File | Settings | File Templates.
+ * RushMe
  */
 public class GunCreator {
 
