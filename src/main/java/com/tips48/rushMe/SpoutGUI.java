@@ -25,7 +25,6 @@ public class SpoutGUI {
         final SpoutPlayer sp = SpoutManager.getPlayer(killer);
         final Label l = new GenericLabel();
         l.setAnchor(WidgetAnchor.BOTTOM_CENTER);
-        l.setAlign(WidgetAnchor.CENTER_CENTER);
         l.setY(-45);
         String killedName;
         if (killed instanceof Player) {
