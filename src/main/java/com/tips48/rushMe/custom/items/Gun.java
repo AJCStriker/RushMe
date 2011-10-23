@@ -123,13 +123,7 @@ public class Gun extends GenericCustomItem {
     }
 
     public boolean canFire(Player player) {
-        if (reloading) {
-            return true;
-        }
-        if (loadedInClip == 0) {
-            return true;
-        }
-        return System.currentTimeMillis() - lastFired < timeBetweenFire * 100;
+       return if (!((reloading) && (loadedInClip == 0) && (System.currentTimeMillis() - lastFired < timeBetweenFire * 100)));
     }
 
     public void fire(final Player player) {
