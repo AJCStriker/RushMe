@@ -122,8 +122,8 @@ public class Gun extends GenericCustomItem {
                 amount);
     }
 
-    public boolean canFire(Player player) {
-       return if (!((reloading) && (loadedInClip == 0) && (System.currentTimeMillis() - lastFired < timeBetweenFire * 100)));
+    public boolean canFire() {
+       return if(!((reloading) && (loadedInClip == 0) && (System.currentTimeMillis() - lastFired < timeBetweenFire * 100)));
     }
 
     public void fire(final Player player) {
