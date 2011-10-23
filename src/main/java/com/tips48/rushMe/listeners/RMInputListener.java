@@ -1,7 +1,7 @@
 package com.tips48.rushMe.listeners;
 
+import com.tips48.rushMe.custom.GUI.Scoreboard;
 import com.tips48.rushMe.custom.items.Gun;
-import com.tips48.rushMe.spout.GUI.Scoreboard;
 import com.tips48.rushMe.util.RMUtils;
 import org.bukkit.entity.Player;
 import org.getspout.spoutapi.SpoutManager;

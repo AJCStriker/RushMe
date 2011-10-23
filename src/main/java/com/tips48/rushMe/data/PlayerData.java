@@ -2,7 +2,7 @@ package com.tips48.rushMe.data;
 
 import com.tips48.rushMe.RushMe;
 import com.tips48.rushMe.SpoutGUI;
-import com.tips48.rushMe.spout.GUI.MainHUD;
+import com.tips48.rushMe.custom.GUI.MainHUD;
 import com.tips48.rushMe.util.RMUtils;
 import org.bukkit.entity.Player;
 

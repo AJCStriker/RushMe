@@ -1,6 +1,6 @@
 package com.tips48.rushMe;
 
-import com.tips48.rushMe.spout.GUI.MainHUD;
+import com.tips48.rushMe.custom.GUI.MainHUD;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
