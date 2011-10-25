@@ -72,13 +72,11 @@ public class GameManager {
 
 	private static class PListener extends PlayerListener {
 		public void onPlayerLogin(PlayerLoginEvent event) {
-			System.out.println("Activating defaults");
 			PlayerData.setDefaults(event.getPlayer());
 		}
 
 		public void onPlayerJoin(PlayerJoinEvent event) {
 			PlayerData.setActive(event.getPlayer(), true);
-			System.out.println("Setting active (true)");
 		}
 	}
 
