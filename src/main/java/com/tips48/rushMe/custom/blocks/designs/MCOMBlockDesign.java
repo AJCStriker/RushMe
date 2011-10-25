@@ -4,7 +4,7 @@ import com.tips48.rushMe.RushMe;
 import org.getspout.spoutapi.block.design.GenericCubeBlockDesign;
 
 public class MCOMBlockDesign extends GenericCubeBlockDesign {
-    public MCOMBlockDesign() {
-        super(RushMe.getInstance(), "HeySexyLady", 1);
-    }
+	public MCOMBlockDesign() {
+		super(RushMe.getInstance(), "HeySexyLady", 1);
+	}
 }

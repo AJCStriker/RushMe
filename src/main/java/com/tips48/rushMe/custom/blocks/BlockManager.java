@@ -5,10 +5,10 @@ import org.getspout.spoutapi.SpoutManager;
 
 public class BlockManager {
 
-    public static void SpawnMCOM(Location base) {
-        SpoutManager.getMaterialManager().overrideBlock(base.getWorld(),
-                base.getBlockX(), base.getBlockY(), base.getBlockZ(),
-                new MCOM());
-    }
+	public static void SpawnMCOM(Location base) {
+		SpoutManager.getMaterialManager().overrideBlock(base.getWorld(),
+				base.getBlockX(), base.getBlockY(), base.getBlockZ(),
+				new MCOM());
+	}
 
 }

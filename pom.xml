@@ -9,7 +9,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-        <repositories>
+    <repositories>
         <repository>
             <id>spout-repo</id>
             <url>http://repo.getspout.org</url>
@@ -24,7 +24,7 @@
             <groupId>org.bukkit</groupId>
             <artifactId>bukkit</artifactId>
             <version>0.0.1-SNAPSHOT</version>
-            <type>jar </type>
+            <type>jar</type>
             <scope>compile</scope>
         </dependency>
         <dependency>
