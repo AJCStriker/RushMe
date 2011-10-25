@@ -8,10 +8,10 @@ import org.getspout.spoutapi.player.SpoutPlayer;
 
 public class MainHUD {
 
-	private SpoutPlayer player;
-	private InGameHUD hud;
-	private MapHUD mHud;
-	private WeaponsHUD wHud;
+	private final SpoutPlayer player;
+	private final InGameHUD hud;
+	private final MapHUD mHud;
+	private final WeaponsHUD wHud;
 
 	public MainHUD(Player player) {
 		this.player = SpoutManager.getPlayer(player);

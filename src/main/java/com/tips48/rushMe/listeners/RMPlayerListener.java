@@ -1,12 +1,10 @@
 package com.tips48.rushMe.listeners;
 
-import com.tips48.rushMe.GameManager;
 import com.tips48.rushMe.RushMe;
 import com.tips48.rushMe.SpoutGUI;
 import com.tips48.rushMe.custom.blocks.BlockManager;
 import com.tips48.rushMe.custom.items.Gun;
 import com.tips48.rushMe.data.PlayerData;
-import com.tips48.rushMe.teams.Team;
 import com.tips48.rushMe.util.RMUtils;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -19,18 +17,17 @@ import org.bukkit.util.BlockIterator;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class RMPlayerListener extends PlayerListener {
 	@Override
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		Player player = event.getPlayer();
 		RMUtils.giveAllGuns(player);
-		Random r = new Random();
-		Team t = GameManager.getTeams().get(
-				r.nextInt(GameManager.getTeams().size()));
-		GameManager.addPlayerToTeam(player, t);
-		GameManager.updateNames();
+		/*	Random r = new Random();
+				Team t = GameManager.getTeams().get(
+						r.nextInt(GameManager.getTeams().size()));
+				GameManager.addPlayerToTeam(player, t);
+				GameManager.updateNames(); */
 		SpoutGUI.getHudOf(player).updateHUD();
 	}
 
@@ -58,7 +55,7 @@ public class RMPlayerListener extends PlayerListener {
 				|| action.equals(Action.LEFT_CLICK_BLOCK)) {
 			if (RMUtils.holdingGun(p)) {
 				Gun g = RMUtils.getGun(p);
-				if (g.canFire(p)) {
+				if (g.canFire()) {
 					event.setCancelled(true);
 					return;
 				}
@@ -157,12 +154,12 @@ public class RMPlayerListener extends PlayerListener {
 				if ((bx - .75 <= ex && ex <= bx + 1.75)
 						&& (bz - .75 <= ez && ez <= bz + 1.75)
 						&& (by - 1 <= ey && ey <= by)) {
-					if (target instanceof Player) {
-						if (GameManager.getPlayersTeam((Player) target).equals(
-								GameManager.getPlayersTeam(player))) {
-							continue;
-						}
-					}
+					/*				if (target instanceof Player) {
+											if (GameManager.getPlayersTeam((Player) target).equals(
+													GameManager.getPlayersTeam(player))) {
+												continue;
+											}
+										}        */
 					// entity is close enough, set target and stop
 					target = e;
 					break;
@@ -203,12 +200,12 @@ public class RMPlayerListener extends PlayerListener {
 				if ((bx - .75 <= ex && ex <= bx + 1.75)
 						&& (bz - .75 <= ez && ez <= bz + 1.75)
 						&& (by - 1 <= ey && ey <= by + 2.5)) {
-					if (target instanceof Player) {
-						if (GameManager.getPlayersTeam((Player) target).equals(
-								GameManager.getPlayersTeam(player))) {
-							continue;
-						}
-					}
+					/*			if (target instanceof Player) {
+											if (GameManager.getPlayersTeam((Player) target).equals(
+													GameManager.getPlayersTeam(player))) {
+												continue;
+											}
+										}     */
 					// entity is close enough, set target and stop
 					target = e;
 					break;

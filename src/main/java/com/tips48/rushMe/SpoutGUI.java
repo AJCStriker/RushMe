@@ -17,7 +17,7 @@ import java.util.Map;
 
 public class SpoutGUI {
 
-	private static Map<String, MainHUD> huds = new HashMap<String, MainHUD>();
+	private static final Map<String, MainHUD> huds = new HashMap<String, MainHUD>();
 
 	@Deprecated
 	public static void showKill(Player killer, LivingEntity killed,

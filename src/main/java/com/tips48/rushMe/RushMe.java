@@ -59,8 +59,6 @@ public class RushMe extends JavaPlugin {
 
 		getCommand("RushMe").setExecutor(new RushMeCommand());
 
-		GameManager.createTeams();
-
 		CallHome.load(this);
 
 		log(true, "RushMe Version " + version + "_" + subVersion + " enabled");

@@ -1,9 +1,7 @@
 package com.tips48.rushMe.custom.GUI;
 
-import com.tips48.rushMe.GameManager;
 import com.tips48.rushMe.RushMe;
 import com.tips48.rushMe.data.PlayerData;
-import com.tips48.rushMe.teams.Team;
 import org.getspout.spoutapi.gui.*;
 import org.getspout.spoutapi.player.SpoutPlayer;
 
@@ -14,7 +12,7 @@ import java.util.Set;
 
 public class Scoreboard {
 
-	private static Map<String, Set<Widget>> widgets = new HashMap<String, Set<Widget>>();
+	private static final Map<String, Set<Widget>> widgets = new HashMap<String, Set<Widget>>();
 
 	public static void draw(SpoutPlayer player) {
 
@@ -99,31 +97,31 @@ public class Scoreboard {
 		enemyTeamBackground.setPriority(RenderPriority.High);
 		widgetsDrawn.add(enemyTeamBackground);
 
-		Team playerTeam = GameManager.getPlayersTeam(player);
-		Team enemyTeam = null;
-		for (Team team : GameManager.getTeams()) {
-			if (team != playerTeam) {
-				enemyTeam = team;
-			}
-		}
+		/*	Team playerTeam = GameManager.getPlayersTeam(player);
+				Team enemyTeam = null;
+				for (Team team : GameManager.getTeams()) {
+					if (team != playerTeam) {
+						enemyTeam = team;
+					}
+				}         */
 
-		Label teamName = new GenericLabel();
-		teamName.setText(playerTeam.getPrefix());
-		teamName.setAnchor(WidgetAnchor.CENTER_CENTER);
-		teamName.setX(-395);
-		teamName.setY(-148);
-		teamName.setScale(1.5F);
-		teamName.setPriority(RenderPriority.Low);
-		widgetsDrawn.add(teamName);
+		/*	Label teamName = new GenericLabel();
+				teamName.setText(playerTeam.getPrefix());
+				teamName.setAnchor(WidgetAnchor.CENTER_CENTER);
+				teamName.setX(-395);
+				teamName.setY(-148);
+				teamName.setScale(1.5F);
+				teamName.setPriority(RenderPriority.Low);
+				widgetsDrawn.add(teamName);
 
-		Label enemyName = new GenericLabel();
-		enemyName.setText(enemyTeam.getPrefix());
-		enemyName.setAnchor(WidgetAnchor.CENTER_CENTER);
-		enemyName.setY(-148);
-		enemyName.setX(5);
-		enemyName.setScale(1.5F);
-		enemyName.setPriority(RenderPriority.Low);
-		widgetsDrawn.add(enemyName);
+				Label enemyName = new GenericLabel();
+				enemyName.setText(enemyTeam.getPrefix());
+				enemyName.setAnchor(WidgetAnchor.CENTER_CENTER);
+				enemyName.setY(-148);
+				enemyName.setX(5);
+				enemyName.setScale(1.5F);
+				enemyName.setPriority(RenderPriority.Low);
+				widgetsDrawn.add(enemyName);      */
 
 		Label teamScoreLabel = new GenericLabel();
 		teamScoreLabel.setText("SCORE");
@@ -200,7 +198,7 @@ public class Scoreboard {
 			widgetsDrawn.add(enemyLine);
 		}
 
-		int currentY = 130;
+/*		int currentY = 130;
 		for (String name : playerTeam.getByScore()) {
 			Label playerName = new GenericLabel();
 			playerName.setAnchor(WidgetAnchor.CENTER_CENTER);
@@ -273,6 +271,7 @@ public class Scoreboard {
 
 			currentY -= 20;
 		}
+		 */
 
 		// TODO
 		// Lastly: Add to screen

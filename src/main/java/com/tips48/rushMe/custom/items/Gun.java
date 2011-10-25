@@ -13,25 +13,25 @@ public class Gun extends GenericCustomItem {
 	private long lastFired;
 	// RELOAD
 	private boolean reloading;
-	private int reloadTime;
+	private final int reloadTime;
 	// AMMO
-	private int maxClipSize;
+	private final int maxClipSize;
 	private int loadedInClip;
 	private int ammo;
-	private int maxAmmo;
+	private final int maxAmmo;
 	// OTHER
 	private Double timeBetweenFire;
 	private boolean autoReload;
-	private Double recoilBack;
-	private Float recoilVertical;
-	private Float recoilHorizontal;
+	private final Double recoilBack;
+	private final Float recoilVertical;
+	private final Float recoilHorizontal;
 	// EXPLOSIONS
-	private boolean bulletsExplode;
-	private Float explosionSize;
-	private Double entityDamageRadius;
+	private final boolean bulletsExplode;
+	private final Float explosionSize;
+	private final Double entityDamageRadius;
 	// DAMAGE
-	private Integer headshotDamage;
-	private Integer bodyDamage;
+	private final Integer headshotDamage;
+	private final Integer bodyDamage;
 
 	protected Gun(String name, String texture, Integer reloadTime,
 	              Boolean autoReload, Integer maxClipSize, Integer maxAmmo,
@@ -123,10 +123,7 @@ public class Gun extends GenericCustomItem {
 	}
 
 	public boolean canFire() {
-		if (reloading || loadedInClip == 0 || System.currentTimeMillis() - lastFired < timeBetweenFire * 100) {
-			return false;
-		}
-		return true;
+		return !(reloading || loadedInClip == 0 || System.currentTimeMillis() - lastFired < timeBetweenFire * 100);
 	}
 
 	public void fire(final Player player) {

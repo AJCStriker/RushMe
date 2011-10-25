@@ -12,13 +12,13 @@ import java.util.List;
 import java.util.Set;
 
 public class Team {
-	private Set<String> players = new HashSet<String>();
+	private final Set<String> players = new HashSet<String>();
 	private int spawnsLeft;
-	private String name;
-	private int playerLimit;
+	private final String name;
+	private final int playerLimit;
 	private Set<Location> spawns = new HashSet<Location>();
 	private boolean infiniteLives;
-	private String prefix;
+	private final String prefix;
 
 	public Team(String name, String prefix, int playerLimit) {
 		this.name = name;

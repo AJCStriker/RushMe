@@ -7,7 +7,7 @@ import java.util.Set;
 
 public class RushData {
 
-	private Set<MCOM> mcoms = new HashSet<MCOM>();
+	private final Set<MCOM> mcoms = new HashSet<MCOM>();
 
 	public Set<MCOM> getMCOMS() {
 		return mcoms;

@@ -33,6 +33,11 @@ public class FlagBase extends GenericCustomBlock {
 		return true;
 	}
 
+	public boolean isIndirectlyProvidingPowerTo(World world, int x, int y, int z,
+	                                            BlockFace bf) {
+		return true;
+	}
+
 	public void onBlockClicked(World world, int x, int y, int z, SpoutPlayer sp) {
 	}
 

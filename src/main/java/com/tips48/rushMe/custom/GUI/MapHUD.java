@@ -1,9 +1,6 @@
 package com.tips48.rushMe.custom.GUI;
 
-import com.tips48.rushMe.GameManager;
 import com.tips48.rushMe.RushMe;
-import com.tips48.rushMe.teams.Team;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.getspout.spoutapi.SpoutManager;
 import org.getspout.spoutapi.gui.*;
@@ -11,10 +8,10 @@ import org.getspout.spoutapi.player.SpoutPlayer;
 
 public class MapHUD extends GenericGradient {
 
-	private SpoutPlayer player;
-	private Label team1;
-	private Label team2;
-	private Gradient mcomSeperator;
+	private final SpoutPlayer player;
+	private final Label team1;
+	private final Label team2;
+	private final Gradient mcomSeperator;
 
 	public MapHUD(Player player) {
 		this.player = SpoutManager.getPlayer(player);
@@ -63,58 +60,59 @@ public class MapHUD extends GenericGradient {
 	}
 
 	public void updateTeams() {
+		/*
+	Team team = GameManager.getPlayersTeam(player);
 
-		Team team = GameManager.getPlayersTeam(player);
+	String name;
+	String left;
+	ChatColor teamColor;
 
-		String name;
-		String left;
-		ChatColor teamColor;
+	String enemyName;
+	String enemyLeft;
+	ChatColor enemyColor;
 
-		String enemyName;
-		String enemyLeft;
-		ChatColor enemyColor;
-
-		if (team != null) {
-			name = team.getPrefix();
-			teamColor = ChatColor.BLUE;
-			if (team.getInfiniteLives()) {
-				left = "Infinity";
-			} else {
-				left = Integer.toString(team.getSpawnsLeft());
-			}
-			Team other = null;
-			for (Team t : GameManager.getTeams()) {
-				if (t != team) {
-					other = t;
-				}
-			}
-			if (other != null) {
-				if (other.getInfiniteLives()) {
-					enemyLeft = "Infinity";
-				} else {
-					enemyLeft = Integer.toString(other.getSpawnsLeft());
-				}
-				enemyName = other.getPrefix();
-				enemyColor = ChatColor.RED;
-			} else {
-				enemyLeft = "Unknown";
-				enemyName = "Unknown";
-				enemyColor = ChatColor.WHITE;
-			}
+	if (team != null) {
+		name = team.getPrefix();
+		teamColor = ChatColor.BLUE;
+		if (team.getInfiniteLives()) {
+			left = "Infinity";
 		} else {
-			name = "Unknown";
-			teamColor = ChatColor.WHITE;
+			left = Integer.toString(team.getSpawnsLeft());
+		}
+		Team other = null;
+		for (Team t : GameManager.getTeams()) {
+			if (t != team) {
+				other = t;
+			}
+		}
+		if (other != null) {
+			if (other.getInfiniteLives()) {
+				enemyLeft = "Infinity";
+			} else {
+				enemyLeft = Integer.toString(other.getSpawnsLeft());
+			}
+			enemyName = other.getPrefix();
+			enemyColor = ChatColor.RED;
+		} else {
+			enemyLeft = "Unknown";
 			enemyName = "Unknown";
 			enemyColor = ChatColor.WHITE;
-			enemyLeft = "Unknown";
-			left = "Unknown";
 		}
+	} else {
+		name = "Unknown";
+		teamColor = ChatColor.WHITE;
+		enemyName = "Unknown";
+		enemyColor = ChatColor.WHITE;
+		enemyLeft = "Unknown";
+		left = "Unknown";
+	}
 
-		team1.setText(teamColor + name + ChatColor.WHITE + "           " + left)
-				.setDirty(true);
-		team2.setText(
-				enemyColor + enemyName + ChatColor.WHITE + "           "
-						+ enemyLeft).setDirty(true);
+	team1.setText(teamColor + name + ChatColor.WHITE + "           " + left)
+			.setDirty(true);
+	team2.setText(
+			enemyColor + enemyName + ChatColor.WHITE + "           "
+					+ enemyLeft).setDirty(true);
+					*/
 	}
 
 }

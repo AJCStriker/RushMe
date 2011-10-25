@@ -12,7 +12,7 @@ import org.getspout.spoutapi.player.SpoutPlayer;
 
 public class MCOM extends GenericCustomBlock {
 
-	private boolean armed = false;
+	private final boolean armed = false;
 
 	public MCOM() {
 		super(RushMe.getInstance(), "MCOM", true, new MCOMBlockDesign(), 0);
@@ -54,6 +54,12 @@ public class MCOM extends GenericCustomBlock {
 
 	public boolean isProvidingPowerTo(World world, int x, int y, int z,
 	                                  BlockFace bf) {
+		return true;
+	}
+
+	public boolean isIndirectlyProvidingPowerTo
+			(World world, int x, int y, int z,
+			 BlockFace bf) {
 		return true;
 	}
 

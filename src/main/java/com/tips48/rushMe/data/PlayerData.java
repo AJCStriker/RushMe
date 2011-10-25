@@ -10,11 +10,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PlayerData {
-	private static Map<String, Integer> scores = new HashMap<String, Integer>();
-	private static Map<String, Integer> kills = new HashMap<String, Integer>();
-	private static Map<String, Integer> deaths = new HashMap<String, Integer>();
-	private static Map<String, Integer> health = new HashMap<String, Integer>();
-	private static Map<String, Boolean> active = new HashMap<String, Boolean>();
+	private static final Map<String, Integer> scores = new HashMap<String, Integer>();
+	private static final Map<String, Integer> kills = new HashMap<String, Integer>();
+	private static final Map<String, Integer> deaths = new HashMap<String, Integer>();
+	private static final Map<String, Integer> health = new HashMap<String, Integer>();
+	private static final Map<String, Boolean> active = new HashMap<String, Boolean>();
 
 	public static int getScore(Player player) {
 		return getScore(player.getName());

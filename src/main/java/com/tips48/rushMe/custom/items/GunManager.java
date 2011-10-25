@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class GunManager {
-	private Set<Gun> guns = new HashSet<Gun>();
+	private final Set<Gun> guns = new HashSet<Gun>();
 
 	public Gun createGun(String name, String texture, Integer reloadTime,
 	                     Boolean autoReload, Integer maxClipSize, Integer maxAmmo,

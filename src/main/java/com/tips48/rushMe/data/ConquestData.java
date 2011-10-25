@@ -8,7 +8,7 @@ import java.util.Set;
 //import com.tips48.rushMe.teams.Team;
 
 public class ConquestData {
-	private Set<Flag> flags = new HashSet<Flag>();
+	private final Set<Flag> flags = new HashSet<Flag>();
 
 	public Set<Flag> getFlags() {
 		return flags;

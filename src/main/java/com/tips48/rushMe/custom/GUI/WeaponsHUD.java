@@ -12,12 +12,12 @@ import org.getspout.spoutapi.player.SpoutPlayer;
 
 public class WeaponsHUD extends GenericGradient {
 
-	private SpoutPlayer player;
-	private Label inClip;
-	private Label seperator;
-	private Label left;
-	private Gradient fullHealth;
-	private Gradient health;
+	private final SpoutPlayer player;
+	private final Label inClip;
+	private final Label seperator;
+	private final Label left;
+	private final Gradient fullHealth;
+	private final Gradient health;
 
 	public WeaponsHUD(Player player) {
 		this.player = SpoutManager.getPlayer(player);
