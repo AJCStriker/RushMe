@@ -7,7 +7,6 @@ import com.tips48.rushMe.custom.items.Gun;
 import com.tips48.rushMe.util.RMUtils;
 import org.bukkit.entity.Player;
 
-import javax.swing.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,7 +39,7 @@ public class PlayerData {
 
 		setHealth(hurt, damage);
 
-		if(hurtHud != null && hurtHud.isActive()) {
+		if (hurtHud != null && hurtHud.isActive()) {
 			hurtHud.updateHUD();
 		}
 

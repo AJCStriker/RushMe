@@ -16,13 +16,13 @@ public class RMEntityListener extends EntityListener {
 		}
 		Entity e = event.getEntity();
 		if (e instanceof Player && !PlayerData.isActive((Player) e)) {
-				return;
+			return;
 		}
-			PlayerData.damage((Player) e, event.getDamage());
-			event.setCancelled(true);
-			if (PlayerData.getHealth((Player) e) <= 0) {
-				((Player) e).setHealth(0);
-			}
+		PlayerData.damage((Player) e, event.getDamage());
+		event.setCancelled(true);
+		if (PlayerData.getHealth((Player) e) <= 0) {
+			((Player) e).setHealth(0);
+		}
 	}
 
 	@Override
