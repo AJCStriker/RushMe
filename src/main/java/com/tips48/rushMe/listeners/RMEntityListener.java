@@ -15,16 +15,14 @@ public class RMEntityListener extends EntityListener {
 			return;
 		}
 		Entity e = event.getEntity();
-		if (e instanceof Player) {
-			if (!(PlayerData.isActive((Player) e))) {
+		if (e instanceof Player && !PlayerData.isActive((Player) e)) {
 				return;
-			}
+		}
 			PlayerData.damage((Player) e, event.getDamage());
 			event.setCancelled(true);
 			if (PlayerData.getHealth((Player) e) <= 0) {
 				((Player) e).setHealth(0);
 			}
-		}
 	}
 
 	@Override
@@ -33,11 +31,11 @@ public class RMEntityListener extends EntityListener {
 			return;
 		}
 		Entity e = event.getEntity();
-		if (e instanceof Player) {
+		if (e instanceof Player && PlayerData.isActive((Player) e)) {
 			event.setCancelled(true);
 		}
 
-		// TODO health regain
+		// TODO custom health regain
 		/*
 				   * if(!(PlayerData.isActive((Player) e))) { return; }
 				   * PlayerData.heal((Player) e, event.getAmount() * 5);

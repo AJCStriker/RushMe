@@ -5,4 +5,4 @@ version: 0.1
 depend: [Spout]
 commands:
     RushMe:
-       description: Main command
+       description: Main command for RushMe

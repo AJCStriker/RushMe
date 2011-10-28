@@ -22,25 +22,25 @@ public class GameManager {
 	}
 
 /*	public static void updateNames() {
-		for (int i = 0; i < getTeams().size(); i++) {
+		for (int i = 0; i <= getTeams().size(); i++) {
 			Team t = getTeams().get(i);
 			for (String player : t.getPlayers()) {
 				Player p = RushMe.getInstance().getServer().getPlayer(player);
 				if (p != null) {
 					for (Player onlinePlayer : RushMe.getInstance().getServer()
 							.getOnlinePlayers()) {
+						if (onlinePlayer == p) {
+							continue;
+						}
 						Team team = getPlayersTeam(onlinePlayer);
-						ChatColor color;
-						if (team == null) {
-							color = ChatColor.WHITE;
-						} else {
+						ChatColor color == ChatColor.WHITE;
+						if (team != null) {
 							color = t.equals(team) ? ChatColor.GREEN : ChatColor.RED;
 						}
-						SpoutPlayer spoutP = SpoutManager.getPlayer(p);
-						SpoutManager.getAppearanceManager().setPlayerTitle(spoutP, onlinePlayer, color + onlinePlayer.getName());
+						SpoutManager.getAppearanceManager().setPlayerTitle(SpoutManager.getPlayer(p), onlinePlayer, color + onlinePlayer.getName());
 					}
 				}
 			}
 		}
-	}     */
+	}    */
 }

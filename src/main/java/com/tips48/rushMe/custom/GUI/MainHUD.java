@@ -13,6 +13,8 @@ public class MainHUD {
 	private final MapHUD mHud;
 	private final WeaponsHUD wHud;
 
+	private boolean active;
+
 	public MainHUD(Player player) {
 		this.player = SpoutManager.getPlayer(player);
 		hud = this.player.getMainScreen();
@@ -21,6 +23,11 @@ public class MainHUD {
 	}
 
 	public void init() {
+
+		if (isActive()) {
+			return;
+		}
+
 		hud.getArmorBar().setVisible(false);
 		hud.getBubbleBar().setVisible(false);
 		hud.getHungerBar().setVisible(false);
@@ -35,9 +42,16 @@ public class MainHUD {
 		hud.attachWidget(RushMe.getInstance(), wHud);
 
 		updateHUD();
+
+		active = true;
 	}
 
 	public void shutdown() {
+
+		if (!isActive()) {
+			return;
+		}
+
 		hud.getArmorBar().setVisible(true);
 		hud.getBubbleBar().setVisible(true);
 		hud.getHungerBar().setVisible(true);
@@ -48,12 +62,18 @@ public class MainHUD {
 		hud.removeWidget(mHud);
 		wHud.shutdown();
 		hud.removeWidget(wHud);
+
+		active = false;
 	}
 
 	public void updateHUD() {
 		wHud.updateAmmo();
 		mHud.updateTeams();
 		wHud.updateHealth();
+	}
+
+	public boolean isActive() {
+		return active;
 	}
 
 }

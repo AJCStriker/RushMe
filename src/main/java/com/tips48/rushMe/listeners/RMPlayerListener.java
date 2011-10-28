@@ -71,22 +71,26 @@ public class RMPlayerListener extends PlayerListener {
 							return;
 						}
 						LivingEntity le = (LivingEntity) e;
-						le.damage(10, p);
+						if (le instanceof Player) {
+							PlayerData.registerDamage((Player) le, p, 10, g);
+						} else {
+							le.damage(10, p);
+						}
 					}
 				} else {
 					if (getLookingAtHead(p) != null) {
 						LivingEntity e = getLookingAtHead(p);
-						e.damage(g.getHeadshotDamage(), p);
-						if (e.getHealth() <= 0) {
-							PlayerData.addKill(p);
-							SpoutGUI.showKill(p, e, g.getName());
+						if (e instanceof Player) {
+							PlayerData.registerDamage((Player) e, p, g.getHeadshotDamage(), g);
+						} else {
+							e.damage(g.getHeadshotDamage(), p);
 						}
 					} else if (getLookingAt(p) != null) {
 						LivingEntity e = getLookingAt(p);
-						e.damage(g.getBodyDamage(), p);
-						if (e.getHealth() <= 0) {
-							PlayerData.addKill(p);
-							SpoutGUI.showKill(p, e, g.getName());
+						if (e instanceof Player) {
+							PlayerData.registerDamage((Player) e, p, g.getBodyDamage(), g);
+						} else {
+							e.damage(g.getBodyDamage(), p);
 						}
 					}
 				}

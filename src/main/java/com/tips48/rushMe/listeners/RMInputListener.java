@@ -17,6 +17,8 @@ public class RMInputListener extends InputListener {
 			if (RMUtils.holdingGun(p)) {
 				Gun g = RMUtils.getGun(p);
 				g.reload(p);
+
+				// TODO show reloading
 			}
 		} else if (event.getKey().equals(Keyboard.KEY_TAB)) {
 			if (Scoreboard.hasScoreboardOpen(SpoutManager.getPlayer(p))) {

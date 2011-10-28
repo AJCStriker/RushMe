@@ -3,9 +3,11 @@ package com.tips48.rushMe.data;
 import com.tips48.rushMe.RushMe;
 import com.tips48.rushMe.SpoutGUI;
 import com.tips48.rushMe.custom.GUI.MainHUD;
+import com.tips48.rushMe.custom.items.Gun;
 import com.tips48.rushMe.util.RMUtils;
 import org.bukkit.entity.Player;
 
+import javax.swing.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,6 +17,40 @@ public class PlayerData {
 	private static final Map<String, Integer> deaths = new HashMap<String, Integer>();
 	private static final Map<String, Integer> health = new HashMap<String, Integer>();
 	private static final Map<String, Boolean> active = new HashMap<String, Boolean>();
+
+	public static void registerDamage(Player hurt, Player damager, int damage, Gun gun) {
+		registerDamage(hurt.getName(), damager.getName(), damage, gun);
+	}
+
+	public static void registerDamage(String hurt, String damager, int damage, Gun gun) {
+		Player hurtP = RushMe.getInstance().getServer().getPlayer(hurt);
+		Player damagerP = RushMe.getInstance().getServer().getPlayer(damager);
+
+		MainHUD hurtHud = SpoutGUI.getHudOf(hurt);
+		MainHUD damagerHud = SpoutGUI.getHudOf(damager);
+
+		if (!(isActive(hurt))) {
+			return;
+		}
+
+		if (hurtP == null || damagerP == null) {
+			setHealth(hurt, damage);
+			return;
+		}
+
+		setHealth(hurt, damage);
+
+		if(hurtHud != null && hurtHud.isActive()) {
+			hurtHud.updateHUD();
+		}
+
+		if (getHealth(hurt) <= 0) {
+			hurtP.setHealth(0);
+			addDeath(damager);
+			SpoutGUI.showKill(damagerP, hurtP, gun.getName());
+		}
+		// TODO if keeping gun stats, do here
+	}
 
 	public static int getScore(Player player) {
 		return getScore(player.getName());
