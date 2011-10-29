@@ -39,9 +39,9 @@ public class GameManager {
 	}
 
 	public static Arena getArena(String player) {
-	if (games.containsKey(player)) {
-		return games.get(player);
-	}
+		if (games.containsKey(player)) {
+			return games.get(player);
+		}
 		return null;
 	}
 

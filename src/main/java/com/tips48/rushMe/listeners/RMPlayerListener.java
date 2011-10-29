@@ -155,14 +155,14 @@ public class RMPlayerListener extends PlayerListener {
 				if ((bx - .75 <= ex && ex <= bx + 1.75)
 						&& (bz - .75 <= ez && ez <= bz + 1.75)
 						&& (by - 1 <= ey && ey <= by)) {
-									if (target instanceof Player) {
-										Arena a = GameManager.getArena((Player) target);
-										if (a != null) {
-											if (a.getPlayerTeam((Player) target).equals(a.getPlayerTeam(player))) {
-												continue;
-											}
-										}
-										}
+					if (target instanceof Player) {
+						Arena a = GameManager.getArena((Player) target);
+						if (a != null) {
+							if (a.getPlayerTeam((Player) target).equals(a.getPlayerTeam(player))) {
+								continue;
+							}
+						}
+					}
 					// entity is close enough, set target and stop
 					target = e;
 					break;
@@ -203,14 +203,14 @@ public class RMPlayerListener extends PlayerListener {
 				if ((bx - .75 <= ex && ex <= bx + 1.75)
 						&& (bz - .75 <= ez && ez <= bz + 1.75)
 						&& (by - 1 <= ey && ey <= by + 2.5)) {
-														if (target instanceof Player) {
-										Arena a = GameManager.getArena((Player) target);
-										if (a != null) {
-											if (a.getPlayerTeam((Player) target).equals(a.getPlayerTeam(player))) {
-												continue;
-											}
-										}
-										}
+					if (target instanceof Player) {
+						Arena a = GameManager.getArena((Player) target);
+						if (a != null) {
+							if (a.getPlayerTeam((Player) target).equals(a.getPlayerTeam(player))) {
+								continue;
+							}
+						}
+					}
 					// entity is close enough, set target and stop
 					target = e;
 					break;
