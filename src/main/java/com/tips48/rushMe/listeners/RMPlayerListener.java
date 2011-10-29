@@ -1,5 +1,7 @@
 package com.tips48.rushMe.listeners;
 
+import com.tips48.rushMe.Arena;
+import com.tips48.rushMe.GameManager;
 import com.tips48.rushMe.RushMe;
 import com.tips48.rushMe.SpoutGUI;
 import com.tips48.rushMe.custom.blocks.BlockManager;
@@ -23,11 +25,6 @@ public class RMPlayerListener extends PlayerListener {
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		Player player = event.getPlayer();
 		RMUtils.giveAllGuns(player);
-		/*	Random r = new Random();
-				Team t = GameManager.getTeams().get(
-						r.nextInt(GameManager.getTeams().size()));
-				GameManager.addPlayerToTeam(player, t);
-				GameManager.updateNames(); */
 		SpoutGUI.getHudOf(player).updateHUD();
 	}
 
@@ -158,12 +155,14 @@ public class RMPlayerListener extends PlayerListener {
 				if ((bx - .75 <= ex && ex <= bx + 1.75)
 						&& (bz - .75 <= ez && ez <= bz + 1.75)
 						&& (by - 1 <= ey && ey <= by)) {
-					/*				if (target instanceof Player) {
-											if (GameManager.getPlayersTeam((Player) target).equals(
-													GameManager.getPlayersTeam(player))) {
+									if (target instanceof Player) {
+										Arena a = GameManager.getArena((Player) target);
+										if (a != null) {
+											if (a.getPlayerTeam((Player) target).equals(a.getPlayerTeam(player))) {
 												continue;
 											}
-										}        */
+										}
+										}
 					// entity is close enough, set target and stop
 					target = e;
 					break;
@@ -204,12 +203,14 @@ public class RMPlayerListener extends PlayerListener {
 				if ((bx - .75 <= ex && ex <= bx + 1.75)
 						&& (bz - .75 <= ez && ez <= bz + 1.75)
 						&& (by - 1 <= ey && ey <= by + 2.5)) {
-					/*			if (target instanceof Player) {
-											if (GameManager.getPlayersTeam((Player) target).equals(
-													GameManager.getPlayersTeam(player))) {
+														if (target instanceof Player) {
+										Arena a = GameManager.getArena((Player) target);
+										if (a != null) {
+											if (a.getPlayerTeam((Player) target).equals(a.getPlayerTeam(player))) {
 												continue;
 											}
-										}     */
+										}
+										}
 					// entity is close enough, set target and stop
 					target = e;
 					break;

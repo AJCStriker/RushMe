@@ -26,7 +26,7 @@ public class PlayerData {
 		Player damagerP = RushMe.getInstance().getServer().getPlayer(damager);
 
 		MainHUD hurtHud = SpoutGUI.getHudOf(hurt);
-		MainHUD damagerHud = SpoutGUI.getHudOf(damager);
+		@SuppressWarnings ({"UnusedAssignment"}) MainHUD damagerHud = SpoutGUI.getHudOf(damager);
 
 		if (!(isActive(hurt))) {
 			return;

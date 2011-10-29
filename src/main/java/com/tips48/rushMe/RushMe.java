@@ -11,6 +11,7 @@ import org.bukkit.event.Event.Priority;
 import org.bukkit.event.Event.Type;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class RushMe extends JavaPlugin {
@@ -61,23 +62,23 @@ public class RushMe extends JavaPlugin {
 
 		CallHome.load(this);
 
-		log(true, "RushMe Version " + version + "_" + subVersion + " enabled");
-		log(true, "Guns loaded: " + gManager.getGunNames());
+		log(Level.INFO, true, "RushMe Version " + version + "_" + subVersion + " enabled");
+		log(Level.INFO, true, "Guns loaded: " + gManager.getGunNames());
 	}
 
 	public void onDisable() {
-		log(true, "Disabled");
+		log(Level.INFO, true, "Disabled");
 	}
 
 	public static RushMe getInstance() {
 		return instance;
 	}
 
-	public static void log(boolean usePrefix, String message) {
+	public static void log(Level lvl, boolean usePrefix, String message) {
 		if (usePrefix) {
-			log.info(prefix + " " + message);
+			log.log(lvl, prefix + " " + message);
 		} else {
-			log.info(message);
+			log.log(lvl, message);
 		}
 	}
 

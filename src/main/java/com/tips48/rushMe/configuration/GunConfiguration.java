@@ -6,6 +6,7 @@ import org.getspout.spoutapi.SpoutManager;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Level;
 
 public class GunConfiguration {
 	private static File gunsFile;
@@ -18,12 +19,16 @@ public class GunConfiguration {
 		if (!gunsFile.exists()) {
 			try {
 				if (gunsFile.getParentFile() != null) {
-					gunsFile.getParentFile().mkdirs();
+					if (!gunsFile.getParentFile().mkdirs()) {
+						RushMe.log(Level.SEVERE, true, "Unable to create folder " + gunsFile.getParentFile().getName());
+					}
 				}
-				gunsFile.createNewFile();
+				if (!gunsFile.createNewFile()) {
+					RushMe.log(Level.SEVERE, true, "Unable to create file " + gunsFile.getName());
+				}
 				addGunDefaults();
 			} catch (IOException e) {
-				RushMe.log(true, "Error creating file " + gunsFile.getName());
+				RushMe.log(Level.SEVERE, true, "Error creating file " + gunsFile.getName());
 			}
 			guns.options().copyDefaults(true);
 		}
