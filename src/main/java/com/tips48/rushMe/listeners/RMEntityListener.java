@@ -1,5 +1,6 @@
 package com.tips48.rushMe.listeners;
 
+import com.tips48.rushMe.GameManager;
 import com.tips48.rushMe.data.PlayerData;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -15,7 +16,7 @@ public class RMEntityListener extends EntityListener {
 			return;
 		}
 		Entity e = event.getEntity();
-		if (e instanceof Player && !PlayerData.isActive((Player) e)) {
+		if ((e instanceof Player) && !GameManager.inGame((Player) e)) {
 			return;
 		}
 		PlayerData.damage((Player) e, event.getDamage());
@@ -31,7 +32,7 @@ public class RMEntityListener extends EntityListener {
 			return;
 		}
 		Entity e = event.getEntity();
-		if (e instanceof Player && PlayerData.isActive((Player) e)) {
+		if ((e instanceof Player) && GameManager.inGame((Player) e)) {
 			event.setCancelled(true);
 		}
 

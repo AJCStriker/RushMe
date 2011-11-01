@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.tips48</groupId>
     <artifactId>RushMe</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.1</version>
     <name>RushMe</name>
     <description>Bukkit plugin adding BF3 to Minecraft! Requires Spout and Spoutcraft</description>
     <properties>
@@ -33,6 +33,7 @@
             <version>0.0.1-SNAPSHOT</version>
             <type>jar</type>
             <scope>compile</scope>
+
         </dependency>
         <dependency>
             <groupId>org.getspout</groupId>

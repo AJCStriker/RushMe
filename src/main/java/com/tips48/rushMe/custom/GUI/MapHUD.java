@@ -13,7 +13,7 @@ public class MapHUD extends GenericGradient {
 	private final Label team2;
 	private final Gradient mcomSeperator;
 
-	public MapHUD(Player player) {
+	protected MapHUD(Player player) {
 		this.player = SpoutManager.getPlayer(player);
 
 		this.setBottomColor(new Color(27, 76, 224, 200));

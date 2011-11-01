@@ -20,6 +20,35 @@ import java.util.Set;
 
 public class RMUtils {
 
+	private RMUtils() {
+
+	}
+
+	public static String readableArray(Object[] objects) {
+		StringBuilder sb = new StringBuilder();
+		for (Object o : objects) {
+			sb.append(o);
+		}
+		return sb.toString();
+	}
+
+	public static String readableList(List<Object> objects) {
+		StringBuilder sb = new StringBuilder();
+		for (Object o : objects) {
+			sb.append(o);
+		}
+		return sb.toString();
+	}
+
+	public static String readableSet(Set<Object> objects) {
+		StringBuilder sb = new StringBuilder();
+		for (Object o : objects) {
+			sb.append(o);
+		}
+		return sb.toString();
+	}
+
+
 	public static boolean holdingGun(Player player) {
 		SpoutPlayer p = SpoutManager.getPlayer(player);
 		ItemStack inHand = p.getItemInHand();

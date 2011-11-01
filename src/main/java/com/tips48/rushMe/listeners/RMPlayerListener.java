@@ -3,7 +3,7 @@ package com.tips48.rushMe.listeners;
 import com.tips48.rushMe.Arena;
 import com.tips48.rushMe.GameManager;
 import com.tips48.rushMe.RushMe;
-import com.tips48.rushMe.SpoutGUI;
+import com.tips48.rushMe.custom.GUI.SpoutGUI;
 import com.tips48.rushMe.custom.blocks.BlockManager;
 import com.tips48.rushMe.custom.items.Gun;
 import com.tips48.rushMe.data.PlayerData;
@@ -45,7 +45,7 @@ public class RMPlayerListener extends PlayerListener {
 			event.setCancelled(true);
 			return;
 		}
-		if (!PlayerData.isActive(p)) {
+		if (!GameManager.inGame(p)) {
 			return;
 		}
 		if (action.equals(Action.LEFT_CLICK_AIR)
@@ -61,9 +61,9 @@ public class RMPlayerListener extends PlayerListener {
 					Block last = lookedAt.get(lookedAt.size() - 1);
 					RMUtils.createAstheticExplosion(g, last.getLocation());
 					for (Entity e : RMUtils.getNearbyEntities(
-							last.getLocation(), g.getEntityDamageRadius(),
-							g.getEntityDamageRadius(),
-							g.getEntityDamageRadius())) {
+							last.getLocation(), g.getEntityDamageDistance(),
+							g.getEntityDamageDistance(),
+							g.getEntityDamageDistance())) {
 						if (!(e instanceof LivingEntity)) {
 							return;
 						}
@@ -100,7 +100,7 @@ public class RMPlayerListener extends PlayerListener {
 	@Override
 	public void onItemHeldChange(PlayerItemHeldEvent event) {
 		final Player player = event.getPlayer();
-		if (!PlayerData.isActive(player)) {
+		if (!GameManager.inGame(player)) {
 			return;
 		}
 		RushMe.getInstance().getServer().getScheduler()
@@ -116,7 +116,7 @@ public class RMPlayerListener extends PlayerListener {
 	@Override
 	public void onPlayerRespawn(PlayerRespawnEvent event) {
 		Player player = event.getPlayer();
-		if (!PlayerData.isActive(player)) {
+		if (!GameManager.inGame(player)) {
 			return;
 		}
 		PlayerData.setHealth(player, 100);
@@ -156,7 +156,7 @@ public class RMPlayerListener extends PlayerListener {
 						&& (bz - .75 <= ez && ez <= bz + 1.75)
 						&& (by - 1 <= ey && ey <= by)) {
 					if (target instanceof Player) {
-						Arena a = GameManager.getArena((Player) target);
+						Arena a = GameManager.getPlayerArena((Player) target);
 						if (a != null) {
 							if (a.getPlayerTeam((Player) target).equals(a.getPlayerTeam(player))) {
 								continue;
@@ -204,7 +204,7 @@ public class RMPlayerListener extends PlayerListener {
 						&& (bz - .75 <= ez && ez <= bz + 1.75)
 						&& (by - 1 <= ey && ey <= by + 2.5)) {
 					if (target instanceof Player) {
-						Arena a = GameManager.getArena((Player) target);
+						Arena a = GameManager.getPlayerArena((Player) target);
 						if (a != null) {
 							if (a.getPlayerTeam((Player) target).equals(a.getPlayerTeam(player))) {
 								continue;

@@ -19,7 +19,7 @@ public class WeaponsHUD extends GenericGradient {
 	private final Gradient fullHealth;
 	private final Gradient health;
 
-	public WeaponsHUD(Player player) {
+	protected WeaponsHUD(Player player) {
 		this.player = SpoutManager.getPlayer(player);
 
 		this.setAnchor(WidgetAnchor.BOTTOM_RIGHT);

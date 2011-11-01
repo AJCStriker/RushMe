@@ -9,19 +9,23 @@ import org.bukkit.event.player.PlayerListener;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.getspout.spoutapi.SpoutManager;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Set;
 
 public class GameManager {
 
-	private static Map<String, Arena> games = new HashMap<String, Arena>();
+	private static Set<Arena> games = new HashSet<Arena>();
 
 	public static void addToGame(Arena arena, Player player) {
 		addToGame(arena, player.getName());
 	}
 
 	public static void addToGame(Arena arena, String player) {
-		games.put(player, arena);
+		arena.addPlayer(player);
+		Player p = RushMe.getInstance().getServer().getPlayer(player);
+		if (p != null) {
+			arena.onPlayerJoin(p);
+		}
 	}
 
 	public static void removeFromGame(Arena arena, Player player) {
@@ -29,20 +33,58 @@ public class GameManager {
 	}
 
 	public static void removeFromGame(Arena arena, String player) {
-		if (games.containsKey(player)) {
-			games.remove(player);
+		if (arena.hasPlayer(player)) {
+			arena.removePlayer(player);
 		}
 	}
 
-	public static Arena getArena(Player player) {
-		return getArena(player.getName());
+	public static boolean inGame(Player player) {
+		return inGame(player.getName());
 	}
 
-	public static Arena getArena(String player) {
-		if (games.containsKey(player)) {
-			return games.get(player);
+	public static boolean inGame(String player) {
+		boolean i = false;
+		for (Arena a : games) {
+			for (String s : a.getPlayers()) {
+				if (s.equals(player)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	public static Arena getPlayerArena(Player player) {
+		return getPlayerArena(player.getName());
+	}
+
+	public static Arena getPlayerArena(String player) {
+		for (Arena a : games) {
+			if (a.hasPlayer(player)) {
+				return a;
+			}
 		}
 		return null;
+	}
+
+	public static Arena getArena(String name) {
+		for (Arena a : games) {
+			if (a.getName().equalsIgnoreCase(name)) {
+				return a;
+			}
+		}
+		return null;
+	}
+
+	public static void removeArena(Arena a) {
+		a.stop();
+		games.remove(a);
+	}
+
+	public static Arena createArena(String name, GameMode gamemode, int time) {
+		Arena a = new Arena(gamemode, time, name);
+		games.add(a);
+		return a;
 	}
 
 	protected static PListener getPListener() {
@@ -52,10 +94,6 @@ public class GameManager {
 	private static class PListener extends PlayerListener {
 		public void onPlayerLogin(PlayerLoginEvent event) {
 			PlayerData.setDefaults(event.getPlayer());
-		}
-
-		public void onPlayerJoin(PlayerJoinEvent event) {
-			PlayerData.setActive(event.getPlayer(), true);
 		}
 	}
 

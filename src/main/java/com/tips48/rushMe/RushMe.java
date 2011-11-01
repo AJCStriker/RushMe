@@ -2,10 +2,12 @@ package com.tips48.rushMe;
 
 import com.tips48.rushMe.commands.RushMeCommand;
 import com.tips48.rushMe.configuration.GunConfiguration;
+import com.tips48.rushMe.custom.GUI.SpoutGUI;
 import com.tips48.rushMe.custom.items.GunManager;
 import com.tips48.rushMe.listeners.RMEntityListener;
 import com.tips48.rushMe.listeners.RMInputListener;
 import com.tips48.rushMe.listeners.RMPlayerListener;
+import com.tips48.rushMe.util.RMUtils;
 import org.blockface.bukkitstats.CallHome;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.Event.Type;
@@ -44,8 +46,6 @@ public class RushMe extends JavaPlugin {
 		getServer().getPluginManager().registerEvent(Type.PLAYER_LOGIN,
 				GameManager.getPListener(), Priority.Lowest, this);
 		getServer().getPluginManager().registerEvent(Type.PLAYER_JOIN,
-				GameManager.getPListener(), Priority.Low, this);
-		getServer().getPluginManager().registerEvent(Type.PLAYER_JOIN,
 				SpoutGUI.getPListener(), Priority.Lowest, this);
 		getServer().getPluginManager().registerEvent(Type.PLAYER_INTERACT,
 				playerListener, Priority.Normal, this);
@@ -63,7 +63,7 @@ public class RushMe extends JavaPlugin {
 		CallHome.load(this);
 
 		log(Level.INFO, true, "RushMe Version " + version + "_" + subVersion + " enabled");
-		log(Level.INFO, true, "Guns loaded: " + gManager.getGunNames());
+		log(Level.INFO, true, "Guns loaded: " + RMUtils.readableArray(gManager.getGunNames().toArray()));
 	}
 
 	public void onDisable() {

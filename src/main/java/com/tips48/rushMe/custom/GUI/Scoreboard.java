@@ -1,5 +1,6 @@
 package com.tips48.rushMe.custom.GUI;
 
+import com.tips48.rushMe.GameManager;
 import com.tips48.rushMe.RushMe;
 import com.tips48.rushMe.data.PlayerData;
 import org.getspout.spoutapi.gui.*;
@@ -14,9 +15,13 @@ public class Scoreboard {
 
 	private static final Map<String, Set<Widget>> widgets = new HashMap<String, Set<Widget>>();
 
+	private Scoreboard() {
+
+	}
+
 	public static void draw(SpoutPlayer player) {
 
-		if (!PlayerData.isActive(player)) {
+		if (!GameManager.inGame(player)) {
 			return;
 		}
 
@@ -289,7 +294,7 @@ public class Scoreboard {
 	}
 
 	public static void remove(SpoutPlayer player) {
-		if (!PlayerData.isActive(player)) {
+		if (!GameManager.inGame(player)) {
 			return;
 		}
 		if (widgets.containsKey(player.getName())) {

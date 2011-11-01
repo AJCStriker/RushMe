@@ -20,6 +20,10 @@ public class SpoutGUI {
 
 	private static final Map<String, MainHUD> huds = new HashMap<String, MainHUD>();
 
+	private SpoutGUI() {
+
+	}
+
 	@Deprecated
 	public static void showKill(Player killer, LivingEntity killed,
 	                            String weapon) {
@@ -55,7 +59,7 @@ public class SpoutGUI {
 		return null;
 	}
 
-	protected static PListener getPListener() {
+	public static PListener getPListener() {
 		return new PListener();
 	}
 

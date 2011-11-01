@@ -12,6 +12,9 @@ public class GunConfiguration {
 	private static File gunsFile;
 	private static YamlConfiguration guns;
 
+	/**
+	 * Loads all guns from the configuration file guns.yml
+	 */
 	public static void loadGuns() {
 		gunsFile = new File(RushMe.getInstance().getDataFolder()
 				+ File.separator + "guns.yml");
@@ -70,6 +73,9 @@ public class GunConfiguration {
 		}
 	}
 
+	/**
+	 * Adds defaults guns to the configuration file
+	 */
 	private static void addGunDefaults() {
 		// M9
 		guns.set("Guns.M9.image", "http://i.imgur.com/R4TMM.png");

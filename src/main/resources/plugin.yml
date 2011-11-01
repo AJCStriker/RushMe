@@ -6,3 +6,10 @@ depend: [Spout]
 commands:
     RushMe:
        description: Main command for RushMe
+permissions:
+    RushMe.create:
+       description: Access to the /RushMe create command
+       default: op
+    RushMe.delete:
+       description: Access to the /RushMe delete command
+       default: op
