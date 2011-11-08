@@ -1,0 +1,68 @@
+# Guns.yml file for RushMe.
+# This file allowes the creation and specification of custom guns.  3 guns are provided below, as well # as the commented out example.
+
+# Please note all damage is out of 100, as RushMe has its own damage system
+
+#  NAME:
+#    image: Link to .png or .jpg image of gun
+#    reloadTime: Time (in seconds) how long it takes to reload
+#    autoReload: If the gun auto reloads when its out of ammo
+#    maxClipSize: Max size in the clip
+#    maxAmmo: Max ammo not loaded in the gun
+#    timeBetweenFire: Time between the gun firing (In seconds)
+#    bulletsExplode: If bullets explode (Bazooka, etc)
+#    explosionSize: How big the explosion is (Bazooka, etc)
+#    entityExplosionRadius: How far the entities have to be away to get damaged (Bazooka)
+#    headshotDamage: How much damage a headshot does
+#    bodyDamage: How much damage a body shot does
+#    recoilBack: Recoil BACK when the gun is fired.  Negative for the player to go foward
+#    recoilVertical: Recoil UP AND DOWN when the gun is fired.  Negative to go down
+#    recoilHorizontal: Recoil SIDE TO SIDE when the gun is fired. Negative to go left.
+
+Guns:
+  M9:
+    image: http://i.imgur.com/R4TMM.png
+    reloadTime: 60
+    autoReload: false
+    maxClipSize: 18
+    maxAmmo: 72
+    timeBetweenFire: 1.0
+    bulletsExplode: false
+    explosionSize: null
+    entityExplosionRadius: null
+    headshotDamage: 10
+    bodyDamage: 5
+    recoilBack: 0.8
+    recoilVertical: 3.0
+    recoilHorizontal: 0.0010
+  AK - 47:
+    image: http://i.imgur.com/Ok52I.png
+    reloadTime: 20
+    autoReload: false
+    maxClipSize: 30
+    maxAmmo: 120
+    timeBetweenFire: 1.0
+    bulletsExplode: false
+    explosionSize: null
+    entityExplosionRadius: null
+    headshotDamage: 15
+    bodyDamage: 10
+    recoilBack: 0.15
+    recoilVertical: 5.0
+    recoilHorizontal: 0.2
+  Bazooka:
+    image: http://i.imgur.com/8qmk0.png
+    reloadTime: 100
+    autoReload: true
+    maxClipSize: 1
+    maxAmmo: 3
+    timeBetweenFire: 1.0
+    bulletsExplode: true
+    explosionSize: 2.0
+    entityExplosionRadius: 15.0
+    headshotDamage: 'null'
+    bodyDamage: 'null'
+    recoilBack: 2.0
+    recoilVertical: 15.0
+    recoilHorizontal: 0.0
+

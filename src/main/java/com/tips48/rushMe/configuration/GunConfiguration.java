@@ -2,11 +2,11 @@ package com.tips48.rushMe.configuration;
 
 import com.tips48.rushMe.RushMe;
 import com.tips48.rushMe.custom.items.GunManager;
+
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.getspout.spoutapi.SpoutManager;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.logging.Level;
 
 public class GunConfiguration {
@@ -19,26 +19,34 @@ public class GunConfiguration {
 	public static void loadGuns() {
 		gunsFile = new File(RushMe.getInstance().getDataFolder()
 				+ File.separator + "guns.yml");
-		guns = YamlConfiguration.loadConfiguration(gunsFile);
-		if (!gunsFile.exists()) {
-			try {
-				if (gunsFile.getParentFile() != null) {
-					if (!gunsFile.getParentFile().mkdirs()) {
-						RushMe.log(Level.SEVERE, true,
-								"Unable to create folder "
-										+ gunsFile.getParentFile().getName());
-					}
+		guns = YamlConfiguration.loadConfiguration(RushMe.getInstance()
+				.getResource("guns.yml"));
+		if (!(gunsFile.exists())) {
+			if (!(gunsFile.getParentFile().exists())) {
+				if (!(gunsFile.getParentFile().mkdirs())) {
+					RushMe.log(Level.SEVERE, true, "Error creating the folder "
+							+ gunsFile.getParentFile().getName());
 				}
-				if (!gunsFile.createNewFile()) {
-					RushMe.log(Level.SEVERE, true, "Unable to create file "
+			}
+			try {
+				if (!(gunsFile.createNewFile())) {
+					RushMe.log(Level.SEVERE, true, "Error creating the file "
 							+ gunsFile.getName());
 				}
-				addGunDefaults();
-			} catch (IOException e) {
-				RushMe.log(Level.SEVERE, true, "Error creating file "
+			} catch (Exception e) {
+				RushMe.log(Level.SEVERE, true, "Error creating the file "
 						+ gunsFile.getName());
 			}
+			guns.options().copyDefaults(true);
+			try {
+				guns.save(gunsFile);
+			} catch (Exception e) {
+				RushMe.log(Level.SEVERE, true,
+						"Error saving to " + gunsFile.getName());
+			}
+			RushMe.log(Level.INFO, true, "Created " + gunsFile.getName());
 		}
+		guns = YamlConfiguration.loadConfiguration(gunsFile);
 		for (String name : guns.getConfigurationSection("Guns").getKeys(false)) {
 			String texture = guns.getString("Guns." + name + ".image");
 			Integer reloadTime = guns.getInt("Guns." + name + ".reloadTime");
@@ -71,63 +79,6 @@ public class GunConfiguration {
 					maxClipSize, maxAmmo, timeBetweenFire, bulletsExplode,
 					explosionSize, entityExplosionRadius, headshotDamage,
 					bodyDamage, recoilBack, recoilVertical, recoilHorizontal);
-		}
-	}
-
-	/**
-	 * Adds defaults guns to the configuration file
-	 */
-	private static void addGunDefaults() {
-		// M9
-		guns.set("Guns.M9.image", "http://i.imgur.com/R4TMM.png");
-		guns.set("Guns.M9.reloadTime", 60);
-		guns.set("Guns.M9.autoReload", false);
-		guns.set("Guns.M9.maxClipSize", 18);
-		guns.set("Guns.M9.maxAmmo", 72);
-		guns.set("Guns.M9.timeBetweenFire", 1D);
-		guns.set("Guns.M9.bulletsExplode", false);
-		guns.set("Guns.M9.explosionSize", "null");
-		guns.set("Guns.M9.entityExplosionRadius", "null");
-		guns.set("Guns.M9.headshotDamage", 10);
-		guns.set("Guns.M9.bodyDamage", 5);
-		guns.set("Guns.M9.recoilBack", 0.8D);
-		guns.set("Guns.M9.recoilVertical", 3F);
-		guns.set("Guns.M9.recoilHorizontal", 0.001F);
-		// AK - 47
-		guns.set("Guns.AK - 47.image", "http://i.imgur.com/Ok52I.png");
-		guns.set("Guns.AK - 47.reloadTime", 20);
-		guns.set("Guns.AK - 47.autoReload", false);
-		guns.set("Guns.AK - 47.maxClipSize", 30);
-		guns.set("Guns.AK - 47.maxAmmo", 120);
-		guns.set("Guns.AK - 47.timeBetweenFire", 1D);
-		guns.set("Guns.AK - 47.bulletsExplode", false);
-		guns.set("Guns.AK - 47.explosionSize", "null");
-		guns.set("Guns.AK - 47.entityExplosionRadius", "null");
-		guns.set("Guns.AK - 47.headshotDamage", 15);
-		guns.set("Guns.AK - 47.bodyDamage", 10);
-		guns.set("Guns.AK - 47.recoilBack", 0.15D);
-		guns.set("Guns.AK - 47.recoilVertical", 5F);
-		guns.set("Guns.AK - 47.recoilHorizontal", 0.2F);
-		// Bazooka
-		guns.set("Guns.Bazooka.image", "http://i.imgur.com/8qmk0.png");
-		guns.set("Guns.Bazooka.reloadTime", 100);
-		guns.set("Guns.Bazooka.autoReload", true);
-		guns.set("Guns.Bazooka.maxClipSize", 1);
-		guns.set("Guns.Bazooka.maxAmmo", 3);
-		guns.set("Guns.Bazooka.timeBetweenFire", 1D);
-		guns.set("Guns.Bazooka.bulletsExplode", true);
-		guns.set("Guns.Bazooka.explosionSize", 2F);
-		guns.set("Guns.Bazooka.entityExplosionRadius", 15D);
-		guns.set("Guns.Bazooka.headshotDamage", "null");
-		guns.set("Guns.Bazooka.bodyDamage", "null");
-		guns.set("Guns.Bazooka.recoilBack", 2D);
-		guns.set("Guns.Bazooka.recoilVertical", 15F);
-		guns.set("Guns.Bazooka.recoilHorizontal", 0F);
-
-		try {
-			guns.save(gunsFile);
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 	}
 }
