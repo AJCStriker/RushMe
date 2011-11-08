@@ -11,59 +11,61 @@ import javax.xml.stream.Location;
  */
 public class Grenade extends GenericCustomItem {
 
-    private GrenadeType type;
-    private Integer defaultAmount;
-    private Integer startAmount;
+	private GrenadeType type;
+	private Integer defaultAmount;
+	private Integer startAmount;
 
-    private Integer explosionSize;
-    private Integer timeBeforeExplosion;
+	private Integer explosionSize;
+	private Integer timeBeforeExplosion;
 
-    private Integer damage;
+	private Integer damage;
 
-    private Integer stunTime;
+	private Integer stunTime;
 
-    protected Grenade(String name, String texture, GrenadeType type, Integer defaultAmount, Integer startAmount, Integer explosionSize, Integer timeBeforeExplosion, Integer damage, Integer stunTime) {
-        super(RushMe.getInstance(), name, texture);
+	protected Grenade(String name, String texture, GrenadeType type,
+			Integer defaultAmount, Integer startAmount, Integer explosionSize,
+			Integer timeBeforeExplosion, Integer damage, Integer stunTime) {
+		super(RushMe.getInstance(), name, texture);
 
-        this.type = type;
-        this.defaultAmount = defaultAmount;
-        this.startAmount = startAmount;
-        this.explosionSize = explosionSize;
-        this.timeBeforeExplosion = timeBeforeExplosion;
-        this.damage = damage;
-        this.stunTime = stunTime;
-    }
+		this.type = type;
+		this.defaultAmount = defaultAmount;
+		this.startAmount = startAmount;
+		this.explosionSize = explosionSize;
+		this.timeBeforeExplosion = timeBeforeExplosion;
+		this.damage = damage;
+		this.stunTime = stunTime;
+	}
 
-    public GrenadeType getType() {
-        return type;
-    }
+	public GrenadeType getType() {
+		return type;
+	}
 
-    public Integer getDefaultAmount() {
-        return defaultAmount;
-    }
+	public Integer getDefaultAmount() {
+		return defaultAmount;
+	}
 
-    public Integer getStartAmount() {
-        return startAmount;
-    }
+	public Integer getStartAmount() {
+		return startAmount;
+	}
 
-    public Integer getExplosionSize() {
-        return explosionSize;
-    }
+	public Integer getExplosionSize() {
+		return explosionSize;
+	}
 
-    public Integer getTimeBeforeExplosion() {
-        return timeBeforeExplosion;
-    }
+	public Integer getTimeBeforeExplosion() {
+		return timeBeforeExplosion;
+	}
 
-    public Integer getDamage() {
-        return damage;
-    }
+	public Integer getDamage() {
+		return damage;
+	}
 
-    public Integer getStunTime() {
-        return stunTime;
-    }
+	public Integer getStunTime() {
+		return stunTime;
+	}
 
-    public void fire(Location loc) {
+	public void fire(Location loc) {
 
-    }
+	}
 
 }

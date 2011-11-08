@@ -65,7 +65,7 @@ public class PlayerData {
 		}
 
 		setHealth(hurt, damage);
-		
+
 		if (hurtP == null || damagerP == null) {
 			return;
 		}
@@ -73,7 +73,7 @@ public class PlayerData {
 		if (hurtHud != null && hurtHud.isActive()) {
 			hurtHud.updateHUD();
 		}
-		
+
 		if (damagerHud != null && damagerHud.isActive()) {
 			damagerHud.updateHUD();
 		}

@@ -81,7 +81,7 @@ public class RushMe extends JavaPlugin {
 	public static int getSubVersion() {
 		return subVersion;
 	}
-	
+
 	private void registerEvents() {
 		getServer().getPluginManager().registerEvent(Type.PLAYER_JOIN,
 				playerListener, Priority.Monitor, this);
@@ -104,5 +104,5 @@ public class RushMe extends JavaPlugin {
 		getServer().getPluginManager().registerEvent(Type.ENTITY_REGAIN_HEALTH,
 				entityListener, Priority.Normal, this);
 	}
-	
+
 }

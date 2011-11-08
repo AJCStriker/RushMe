@@ -22,7 +22,7 @@ import java.util.List;
 public class RMPlayerListener extends PlayerListener {
 	@Override
 	public void onPlayerJoin(PlayerJoinEvent event) {
-	//	Player player = event.getPlayer();
+		// Player player = event.getPlayer();
 
 	}
 

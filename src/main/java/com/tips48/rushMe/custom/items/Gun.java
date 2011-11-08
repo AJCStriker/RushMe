@@ -338,9 +338,10 @@ public class Gun extends GenericCustomItem {
 	public double getEntityDamageDistance() {
 		return entityDamageDistance;
 	}
-    
+
 	/**
 	 * Overrides and returns the name of the Gun
+	 * 
 	 * @return name of gun
 	 */
 	@Override
