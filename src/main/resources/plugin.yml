@@ -13,3 +13,9 @@ permissions:
     RushMe.delete:
        description: Access to the /RushMe delete command
        default: op
+    RushMe.start:
+       description: Access to the /RushMe start command
+       default: op
+    RushMe.stop:
+       description: Access to the /RushMe stop command
+       default: op

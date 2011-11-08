@@ -23,9 +23,13 @@ public class Team {
 
 	/**
 	 * Creates a team
-	 * @param name Team's name
-	 * @param prefix Team's preifx
-	 * @param playerLimit How many players are allowed on the team
+	 * 
+	 * @param name
+	 *            Team's name
+	 * @param prefix
+	 *            Team's preifx
+	 * @param playerLimit
+	 *            How many players are allowed on the team
 	 */
 	public Team(String name, String prefix, int playerLimit) {
 		this.name = name;
@@ -35,6 +39,7 @@ public class Team {
 
 	/**
 	 * Gets the team's name
+	 * 
 	 * @return the teams name
 	 */
 	public String getName() {
@@ -43,6 +48,7 @@ public class Team {
 
 	/**
 	 * Gets the team's prefix
+	 * 
 	 * @return the teams prefix
 	 */
 	public String getPrefix() {
@@ -51,6 +57,7 @@ public class Team {
 
 	/**
 	 * Gets how many spawns until the team loses
+	 * 
 	 * @return how many spawns left until the team loses
 	 */
 	public int getSpawnsLeft() {
@@ -85,7 +92,9 @@ public class Team {
 
 	/**
 	 * Sets the spawns left of the team
-	 * @param spawnsLeft New spawns left
+	 * 
+	 * @param spawnsLeft
+	 *            New spawns left
 	 */
 	public void setSpawnsLeft(int spawnsLeft) {
 		this.spawnsLeft = spawnsLeft;
@@ -99,6 +108,7 @@ public class Team {
 
 	/**
 	 * Gets a Set with all the players names who are on the team
+	 * 
 	 * @return
 	 */
 	public Set<String> getPlayers() {
@@ -107,7 +117,9 @@ public class Team {
 
 	/**
 	 * Adds the specified player to team
-	 * @param player Player's name
+	 * 
+	 * @param player
+	 *            Player's name
 	 */
 	public void addPlayer(String player) {
 		if (playerLimit > players.size()) {
@@ -117,7 +129,9 @@ public class Team {
 
 	/**
 	 * Removes the specified player from the team
-	 * @param player Player's name
+	 * 
+	 * @param player
+	 *            Player's name
 	 */
 	public void removePlayer(String player) {
 		if (players.contains(player)) {
@@ -127,8 +141,10 @@ public class Team {
 
 	/**
 	 * Utility method
+	 * 
+	 * @param player
+	 *            {@link Player}
 	 * @see #addPlayer(String)
-	 * @param player {@link Player}
 	 */
 	public void addPlayer(Player player) {
 		addPlayer(player.getName());
@@ -136,7 +152,9 @@ public class Team {
 
 	/**
 	 * Utiltiy method
-	 * @param player {@link Player}
+	 * 
+	 * @param player
+	 *            {@link Player}
 	 */
 	public void removePlayer(Player player) {
 		removePlayer(player.getName());
@@ -144,7 +162,9 @@ public class Team {
 
 	/**
 	 * Gets if the team contains the specified player
-	 * @param player Player's name
+	 * 
+	 * @param player
+	 *            Player's name
 	 * @return if the team contains the specified player
 	 */
 	public boolean containsPlayer(String player) {
@@ -153,9 +173,11 @@ public class Team {
 
 	/**
 	 * Utility method
-	 * @see #containsPlayer(String)
-	 * @param player {@link Player}
+	 * 
+	 * @param player
+	 *            {@link Player}
 	 * @return if the team contains the specified player
+	 * @see #containsPlayer(String)
 	 */
 	public boolean containsPlayer(Player player) {
 		return containsPlayer(player.getName());
@@ -163,6 +185,7 @@ public class Team {
 
 	/**
 	 * Gets the limit of players allowed on the team
+	 * 
 	 * @return the limit of players allowed on the team
 	 */
 	public int getPlayerLimit() {
@@ -171,6 +194,7 @@ public class Team {
 
 	/**
 	 * Gets a list with the spawn Locations
+	 * 
 	 * @return a list with the {@link Location}s
 	 */
 	public List<Location> getSpawns() {
@@ -179,7 +203,9 @@ public class Team {
 
 	/**
 	 * Sets the spawn locations
-	 * @param spawns List with each spawn {@link Location}
+	 * 
+	 * @param spawns
+	 *            List with each spawn {@link Location}
 	 */
 	public void setSpawns(List<Location> spawns) {
 		this.spawns = spawns;
@@ -187,7 +213,9 @@ public class Team {
 
 	/**
 	 * Adds a spawn to the list of spawns
-	 * @param spawn {@link Location} spawn
+	 * 
+	 * @param spawn
+	 *            {@link Location} spawn
 	 */
 	public void addSpawn(Location spawn) {
 		spawns.add(spawn);
@@ -195,6 +223,7 @@ public class Team {
 
 	/**
 	 * Gets if the team has infinite lives
+	 * 
 	 * @return if the team has infinite lives
 	 */
 	public boolean getInfiniteLives() {
@@ -203,14 +232,18 @@ public class Team {
 
 	/**
 	 * Sets if the team has infinite lives
-	 * @param infiniteLives If the team has infinite lives
+	 * 
+	 * @param infiniteLives
+	 *            If the team has infinite lives
 	 */
 	public void setInfiniteLives(boolean infiniteLives) {
 		this.infiniteLives = infiniteLives;
 	}
 
 	/**
-	 * Gets a list of with each player on the team ranked by score, with 0 as highest
+	 * Gets a list of with each player on the team ranked by score, with 0 as
+	 * highest
+	 * 
 	 * @return a list of with each player on the team by score
 	 */
 	public List<String> getByScore() {
@@ -245,7 +278,9 @@ public class Team {
 
 	/**
 	 * Gets the score highest but under the specified score
-	 * @param lastScore Limit of score
+	 * 
+	 * @param lastScore
+	 *            Limit of score
 	 * @return score highest but under the specified score
 	 */
 	private int getHighestScore(int lastScore) {
@@ -262,6 +297,7 @@ public class Team {
 
 	/**
 	 * Gets the highest score
+	 * 
 	 * @return the highest score
 	 */
 	private int getHighestScore() {

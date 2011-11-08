@@ -1,6 +1,7 @@
 package com.tips48.rushMe.configuration;
 
 import com.tips48.rushMe.RushMe;
+import com.tips48.rushMe.custom.items.GunManager;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.getspout.spoutapi.SpoutManager;
 
@@ -23,17 +24,20 @@ public class GunConfiguration {
 			try {
 				if (gunsFile.getParentFile() != null) {
 					if (!gunsFile.getParentFile().mkdirs()) {
-						RushMe.log(Level.SEVERE, true, "Unable to create folder " + gunsFile.getParentFile().getName());
+						RushMe.log(Level.SEVERE, true,
+								"Unable to create folder "
+										+ gunsFile.getParentFile().getName());
 					}
 				}
 				if (!gunsFile.createNewFile()) {
-					RushMe.log(Level.SEVERE, true, "Unable to create file " + gunsFile.getName());
+					RushMe.log(Level.SEVERE, true, "Unable to create file "
+							+ gunsFile.getName());
 				}
 				addGunDefaults();
 			} catch (IOException e) {
-				RushMe.log(Level.SEVERE, true, "Error creating file " + gunsFile.getName());
+				RushMe.log(Level.SEVERE, true, "Error creating file "
+						+ gunsFile.getName());
 			}
-			guns.options().copyDefaults(true);
 		}
 		for (String name : guns.getConfigurationSection("Guns").getKeys(false)) {
 			String texture = guns.getString("Guns." + name + ".image");
@@ -63,13 +67,10 @@ public class GunConfiguration {
 					.floatValue();
 			SpoutManager.getFileManager().addToPreLoginCache(
 					RushMe.getInstance(), texture);
-			RushMe.getInstance()
-					.getGunManager()
-					.createGun(name, texture, reloadTime, autoReload,
-							maxClipSize, maxAmmo, timeBetweenFire,
-							bulletsExplode, explosionSize,
-							entityExplosionRadius, headshotDamage, bodyDamage,
-							recoilBack, recoilVertical, recoilHorizontal);
+			GunManager.createGun(name, texture, reloadTime, autoReload,
+					maxClipSize, maxAmmo, timeBetweenFire, bulletsExplode,
+					explosionSize, entityExplosionRadius, headshotDamage,
+					bodyDamage, recoilBack, recoilVertical, recoilHorizontal);
 		}
 	}
 

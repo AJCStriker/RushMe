@@ -1,7 +1,6 @@
 package com.tips48.rushMe.custom.GUI;
 
 import com.tips48.rushMe.RushMe;
-import com.tips48.rushMe.custom.GUI.MainHUD;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -26,7 +25,7 @@ public class SpoutGUI {
 
 	@Deprecated
 	public static void showKill(Player killer, LivingEntity killed,
-	                            String weapon) {
+			String weapon) {
 		final SpoutPlayer sp = SpoutManager.getPlayer(killer);
 		final Label l = new GenericLabel();
 		l.setAnchor(WidgetAnchor.BOTTOM_CENTER);

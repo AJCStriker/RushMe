@@ -1,6 +1,5 @@
 package com.tips48.rushMe.listeners;
 
-import com.tips48.rushMe.GameManager;
 import com.tips48.rushMe.data.PlayerData;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -16,7 +15,7 @@ public class RMEntityListener extends EntityListener {
 			return;
 		}
 		Entity e = event.getEntity();
-		if ((e instanceof Player) && !GameManager.inGame((Player) e)) {
+		if (!(e instanceof Player)) {
 			return;
 		}
 		PlayerData.damage((Player) e, event.getDamage());
@@ -32,16 +31,16 @@ public class RMEntityListener extends EntityListener {
 			return;
 		}
 		Entity e = event.getEntity();
-		if ((e instanceof Player) && GameManager.inGame((Player) e)) {
-			event.setCancelled(true);
+		if (!(e instanceof Player)) {
+			return;
 		}
 
 		// TODO custom health regain
 		/*
-				   * if(!(PlayerData.isActive((Player) e))) { return; }
-				   * PlayerData.heal((Player) e, event.getAmount() * 5);
-				   * event.setCancelled(true); }
-				   */
+		 * if(!(PlayerData.isActive((Player) e))) { return; }
+		 * PlayerData.heal((Player) e, event.getAmount() * 5);
+		 * event.setCancelled(true); }
+		 */
 	}
 
 }

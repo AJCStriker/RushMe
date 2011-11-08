@@ -61,58 +61,29 @@ public class MapHUD extends GenericGradient {
 
 	public void updateTeams() {
 		/*
-	Team team = GameManager.getPlayersTeam(player);
-
-	String name;
-	String left;
-	ChatColor teamColor;
-
-	String enemyName;
-	String enemyLeft;
-	ChatColor enemyColor;
-
-	if (team != null) {
-		name = team.getPrefix();
-		teamColor = ChatColor.BLUE;
-		if (team.getInfiniteLives()) {
-			left = "Infinity";
-		} else {
-			left = Integer.toString(team.getSpawnsLeft());
-		}
-		Team other = null;
-		for (Team t : GameManager.getTeams()) {
-			if (t != team) {
-				other = t;
-			}
-		}
-		if (other != null) {
-			if (other.getInfiniteLives()) {
-				enemyLeft = "Infinity";
-			} else {
-				enemyLeft = Integer.toString(other.getSpawnsLeft());
-			}
-			enemyName = other.getPrefix();
-			enemyColor = ChatColor.RED;
-		} else {
-			enemyLeft = "Unknown";
-			enemyName = "Unknown";
-			enemyColor = ChatColor.WHITE;
-		}
-	} else {
-		name = "Unknown";
-		teamColor = ChatColor.WHITE;
-		enemyName = "Unknown";
-		enemyColor = ChatColor.WHITE;
-		enemyLeft = "Unknown";
-		left = "Unknown";
-	}
-
-	team1.setText(teamColor + name + ChatColor.WHITE + "           " + left)
-			.setDirty(true);
-	team2.setText(
-			enemyColor + enemyName + ChatColor.WHITE + "           "
-					+ enemyLeft).setDirty(true);
-					*/
+		 * Team team = GameManager.getPlayersTeam(player);
+		 * 
+		 * String name; String left; ChatColor teamColor;
+		 * 
+		 * String enemyName; String enemyLeft; ChatColor enemyColor;
+		 * 
+		 * if (team != null) { name = team.getPrefix(); teamColor =
+		 * ChatColor.BLUE; if (team.getInfiniteLives()) { left = "Infinity"; }
+		 * else { left = Integer.toString(team.getSpawnsLeft()); } Team other =
+		 * null; for (Team t : GameManager.getTeams()) { if (t != team) { other
+		 * = t; } } if (other != null) { if (other.getInfiniteLives()) {
+		 * enemyLeft = "Infinity"; } else { enemyLeft =
+		 * Integer.toString(other.getSpawnsLeft()); } enemyName =
+		 * other.getPrefix(); enemyColor = ChatColor.RED; } else { enemyLeft =
+		 * "Unknown"; enemyName = "Unknown"; enemyColor = ChatColor.WHITE; } }
+		 * else { name = "Unknown"; teamColor = ChatColor.WHITE; enemyName =
+		 * "Unknown"; enemyColor = ChatColor.WHITE; enemyLeft = "Unknown"; left
+		 * = "Unknown"; }
+		 * 
+		 * team1.setText(teamColor + name + ChatColor.WHITE + "           " +
+		 * left) .setDirty(true); team2.setText( enemyColor + enemyName +
+		 * ChatColor.WHITE + "           " + enemyLeft).setDirty(true);
+		 */
 	}
 
 }

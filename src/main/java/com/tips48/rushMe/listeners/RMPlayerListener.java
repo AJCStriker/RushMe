@@ -4,7 +4,6 @@ import com.tips48.rushMe.Arena;
 import com.tips48.rushMe.GameManager;
 import com.tips48.rushMe.RushMe;
 import com.tips48.rushMe.custom.GUI.SpoutGUI;
-import com.tips48.rushMe.custom.blocks.BlockManager;
 import com.tips48.rushMe.custom.items.Gun;
 import com.tips48.rushMe.data.PlayerData;
 import com.tips48.rushMe.util.RMUtils;
@@ -23,31 +22,45 @@ import java.util.List;
 public class RMPlayerListener extends PlayerListener {
 	@Override
 	public void onPlayerJoin(PlayerJoinEvent event) {
-		Player player = event.getPlayer();
-		RMUtils.giveAllGuns(player);
-		SpoutGUI.getHudOf(player).updateHUD();
+	//	Player player = event.getPlayer();
+
 	}
 
-	@SuppressWarnings ("deprecation")
+	@Override
+	public void onPlayerQuit(PlayerQuitEvent event) {
+		Player p = event.getPlayer();
+		if (GameManager.inGame(p)) {
+			GameManager.getPlayerArena(p).removePlayer(p);
+		}
+		RMUtils.clearInventoryOfGuns(p);
+	}
+
 	@Override
 	public void onPlayerInteract(PlayerInteractEvent event) {
 		Player p = event.getPlayer();
 		Action action = event.getAction();
-		if (action.equals(Action.RIGHT_CLICK_BLOCK)) {
-			System.out.println("Spawning");
-			BlockManager.SpawnMCOM(event.getClickedBlock().getLocation()
-					.add(0, 1, 0));
-			event.setCancelled(true);
-			return;
-		}
 		if ((action.equals(Action.RIGHT_CLICK_BLOCK) || action
-				.equals(Action.RIGHT_CLICK_AIR)) && RMUtils.holdingGun(p)) {
-			event.setCancelled(true);
-			return;
+				.equals(Action.RIGHT_CLICK_AIR))) {
+			if (Arena.hasArena(p)) {
+				Arena a = Arena.getArena(p);
+				if (a.getLocation1() == null) {
+					a.setLocation1(event.getClickedBlock().getLocation());
+				} else {
+					a.setLocation2(event.getClickedBlock().getLocation());
+					Arena.removeArena(p);
+				}
+				event.setCancelled(true);
+				return;
+			}
+			if (RMUtils.holdingGun(p)) {
+				event.setCancelled(true);
+				return;
+			}
 		}
 		if (!GameManager.inGame(p)) {
 			return;
 		}
+
 		if (action.equals(Action.LEFT_CLICK_AIR)
 				|| action.equals(Action.LEFT_CLICK_BLOCK)) {
 			if (RMUtils.holdingGun(p)) {
@@ -78,20 +91,33 @@ public class RMPlayerListener extends PlayerListener {
 					if (getLookingAtHead(p) != null) {
 						LivingEntity e = getLookingAtHead(p);
 						if (e instanceof Player) {
-							PlayerData.registerDamage((Player) e, p, g.getHeadshotDamage(), g);
+							PlayerData.registerDamage((Player) e, p,
+									g.getHeadshotDamage(), g);
 						} else {
 							e.damage(g.getHeadshotDamage(), p);
 						}
 					} else if (getLookingAt(p) != null) {
 						LivingEntity e = getLookingAt(p);
 						if (e instanceof Player) {
-							PlayerData.registerDamage((Player) e, p, g.getBodyDamage(), g);
+							PlayerData.registerDamage((Player) e, p,
+									g.getBodyDamage(), g);
 						} else {
 							e.damage(g.getBodyDamage(), p);
 						}
 					}
 				}
 				g.fire(p);
+				event.setCancelled(true);
+			}
+		}
+	}
+
+	@Override
+	public void onPlayerMove(PlayerMoveEvent event) {
+		Player player = event.getPlayer();
+		if (GameManager.inGame(player)) {
+			Arena a = GameManager.getPlayerArena(player);
+			if (!(a.inArena(event.getTo()))) {
 				event.setCancelled(true);
 			}
 		}
@@ -156,9 +182,11 @@ public class RMPlayerListener extends PlayerListener {
 						&& (bz - .75 <= ez && ez <= bz + 1.75)
 						&& (by - 1 <= ey && ey <= by)) {
 					if (target instanceof Player) {
-						Arena a = GameManager.getPlayerArena((Player) target);
-						if (a != null) {
-							if (a.getPlayerTeam((Player) target).equals(a.getPlayerTeam(player))) {
+						if (GameManager.inGame((Player) target)) {
+							Arena a = GameManager
+									.getPlayerArena((Player) target);
+							if (a.getPlayerTeam((Player) target).equals(
+									a.getPlayerTeam(player))) {
 								continue;
 							}
 						}
@@ -204,9 +232,11 @@ public class RMPlayerListener extends PlayerListener {
 						&& (bz - .75 <= ez && ez <= bz + 1.75)
 						&& (by - 1 <= ey && ey <= by + 2.5)) {
 					if (target instanceof Player) {
-						Arena a = GameManager.getPlayerArena((Player) target);
-						if (a != null) {
-							if (a.getPlayerTeam((Player) target).equals(a.getPlayerTeam(player))) {
+						if (GameManager.inGame((Player) target)) {
+							Arena a = GameManager
+									.getPlayerArena((Player) target);
+							if (a.getPlayerTeam((Player) target).equals(
+									a.getPlayerTeam(player))) {
 								continue;
 							}
 						}

@@ -4,7 +4,6 @@ import com.tips48.rushMe.data.PlayerData;
 import com.tips48.rushMe.teams.Team;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerListener;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.getspout.spoutapi.SpoutManager;
@@ -15,6 +14,8 @@ import java.util.Set;
 public class GameManager {
 
 	private static Set<Arena> games = new HashSet<Arena>();
+	private static Set<GameMode> gameModes = new HashSet<GameMode>();
+	private static GameMode defaultGameMode = null;
 
 	public static void addToGame(Arena arena, Player player) {
 		addToGame(arena, player.getName());
@@ -24,7 +25,7 @@ public class GameManager {
 		arena.addPlayer(player);
 		Player p = RushMe.getInstance().getServer().getPlayer(player);
 		if (p != null) {
-			arena.onPlayerJoin(p);
+			arena.handlePlayerJoin(p);
 		}
 	}
 
@@ -35,6 +36,10 @@ public class GameManager {
 	public static void removeFromGame(Arena arena, String player) {
 		if (arena.hasPlayer(player)) {
 			arena.removePlayer(player);
+			Player p = RushMe.getInstance().getServer().getPlayer(player);
+			if (p != null) {
+				arena.handlePlayerLeave(p);
+			}
 		}
 	}
 
@@ -43,7 +48,6 @@ public class GameManager {
 	}
 
 	public static boolean inGame(String player) {
-		boolean i = false;
 		for (Arena a : games) {
 			for (String s : a.getPlayers()) {
 				if (s.equals(player)) {
@@ -81,10 +85,46 @@ public class GameManager {
 		games.remove(a);
 	}
 
-	public static Arena createArena(String name, GameMode gamemode, int time) {
-		Arena a = new Arena(gamemode, time, name);
+	public static Arena createArena(String name, GameMode gamemode) {
+		Arena a = new Arena(gamemode, name);
 		games.add(a);
 		return a;
+	}
+
+	public static GameMode createGameMode(String name, GameModeType type,
+			Integer time, Boolean respawn, Integer respawnTime) {
+		GameMode gm = new GameMode(name, type, time, respawn, respawnTime);
+
+		gameModes.add(gm);
+
+		return gm;
+	}
+
+	public static GameMode getGameMode(String name) {
+		for (GameMode g : gameModes) {
+			if (g.getName().equalsIgnoreCase(name)) {
+				return g;
+			}
+		}
+		return null;
+	}
+
+	public static Set<String> getGameModeNames() {
+		Set<String> list = new HashSet<String>();
+		for (GameMode g : gameModes) {
+			list.add(g.getName());
+		}
+		return list;
+	}
+
+	public static GameMode getDefaultGameMode() {
+		return defaultGameMode;
+	}
+
+	public static void setDefaultGameMode(GameMode g) {
+		if (defaultGameMode == null) {
+			defaultGameMode = g;
+		}
 	}
 
 	protected static PListener getPListener() {
@@ -111,9 +151,12 @@ public class GameManager {
 						Team team = arena.getPlayerTeam(onlinePlayer);
 						ChatColor color = ChatColor.WHITE;
 						if (team != null) {
-							color = t.equals(team) ? ChatColor.GREEN : ChatColor.RED;
+							color = t.equals(team) ? ChatColor.GREEN
+									: ChatColor.RED;
 						}
-						SpoutManager.getAppearanceManager().setPlayerTitle(SpoutManager.getPlayer(p), onlinePlayer, color + onlinePlayer.getName());
+						SpoutManager.getAppearanceManager().setPlayerTitle(
+								SpoutManager.getPlayer(p), onlinePlayer,
+								color + onlinePlayer.getName());
 					}
 				}
 			}

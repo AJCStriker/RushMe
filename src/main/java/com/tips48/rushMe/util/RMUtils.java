@@ -1,7 +1,7 @@
 package com.tips48.rushMe.util;
 
-import com.tips48.rushMe.RushMe;
 import com.tips48.rushMe.custom.items.Gun;
+import com.tips48.rushMe.custom.items.GunManager;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -27,27 +27,56 @@ public class RMUtils {
 	public static String readableArray(Object[] objects) {
 		StringBuilder sb = new StringBuilder();
 		for (Object o : objects) {
-			sb.append(o);
+			sb.append(", " + o.toString());
 		}
-		return sb.toString();
+		return sb.toString().replaceFirst(", ", "").replace("[", "")
+				.replace("]", "");
 	}
 
-	public static String readableList(List<Object> objects) {
+	public static String readableList(List<?> objects) {
 		StringBuilder sb = new StringBuilder();
 		for (Object o : objects) {
-			sb.append(o);
+			sb.append(", " + o.toString());
 		}
-		return sb.toString();
+		return sb.toString().replaceFirst(", ", "").replace("[", "")
+				.replace("]", "");
 	}
 
-	public static String readableSet(Set<Object> objects) {
+	public static String readableSet(Set<?> objects) {
 		StringBuilder sb = new StringBuilder();
 		for (Object o : objects) {
-			sb.append(o);
+			sb.append(", " + o.toString());
 		}
-		return sb.toString();
+		return sb.toString().replaceFirst(", ", "").replace("[", "")
+				.replace("]", "");
 	}
 
+	public static String parseIntForMinute(Integer i) {
+		int i2 = i;
+		int minutes = 0;
+		boolean stop = false;
+		while (!stop) {
+			if (i2 - 60 >= 0) {
+				minutes++;
+				i2 -= 60;
+			} else {
+				stop = true;
+			}
+		}
+		String minuteResult = Integer.toString(minutes);
+		String i2Result = Integer.toString(i2);
+		if (minutes == 0) {
+			minuteResult = "00";
+		} else if (!(minutes - 10 >= 0)) {
+			minuteResult = "0" + Integer.toString(minutes);
+		}
+		if (i2 == 0) {
+			i2Result = "00";
+		} else if (!(i2 - 10 >= 0)) {
+			i2Result = "0" + Integer.toString(i2);
+		}
+		return minuteResult + ":" + i2Result;
+	}
 
 	public static boolean holdingGun(Player player) {
 		SpoutPlayer p = SpoutManager.getPlayer(player);
@@ -55,7 +84,7 @@ public class RMUtils {
 		if (SpoutManager.getMaterialManager().getCustomItem(inHand) != null) {
 			CustomItem i = SpoutManager.getMaterialManager().getCustomItem(
 					inHand);
-			if (RushMe.getInstance().getGunManager().getGun(i) != null) {
+			if (GunManager.getGun(i) != null) {
 				return true;
 			}
 		}
@@ -63,7 +92,7 @@ public class RMUtils {
 	}
 
 	public static void giveAllGuns(Player player) {
-		for (Gun g : RushMe.getInstance().getGunManager().getGuns()) {
+		for (Gun g : GunManager.getGuns()) {
 			player.getInventory().addItem(g.toItemStack(1));
 		}
 	}
@@ -74,7 +103,7 @@ public class RMUtils {
 		}
 		CustomItem i = SpoutManager.getMaterialManager().getCustomItem(item);
 		if (i != null) {
-			Gun g = RushMe.getInstance().getGunManager().getGun(i);
+			Gun g = GunManager.getGun(i);
 			if (g != null) {
 				return true;
 			}
@@ -100,11 +129,11 @@ public class RMUtils {
 		SpoutPlayer p = SpoutManager.getPlayer(player);
 		ItemStack inHand = p.getItemInHand();
 		CustomItem i = SpoutManager.getMaterialManager().getCustomItem(inHand);
-		return RushMe.getInstance().getGunManager().getGun(i);
+		return GunManager.getGun(i);
 	}
 
 	public static List<Entity> getNearbyEntities(Location loc, double radiusX,
-	                                             double radiusY, double radiusZ) {
+			double radiusY, double radiusZ) {
 		Entity e = loc.getWorld().spawn(loc, Minecart.class);
 		List<Entity> entities = e.getNearbyEntities(radiusX, radiusY, radiusZ);
 		e.remove();

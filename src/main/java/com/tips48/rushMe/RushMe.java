@@ -1,6 +1,8 @@
 package com.tips48.rushMe;
 
+import com.randomappdev.bukkitstats.CallHome;
 import com.tips48.rushMe.commands.RushMeCommand;
+import com.tips48.rushMe.configuration.GameModeConfiguration;
 import com.tips48.rushMe.configuration.GunConfiguration;
 import com.tips48.rushMe.custom.GUI.SpoutGUI;
 import com.tips48.rushMe.custom.items.GunManager;
@@ -8,7 +10,6 @@ import com.tips48.rushMe.listeners.RMEntityListener;
 import com.tips48.rushMe.listeners.RMInputListener;
 import com.tips48.rushMe.listeners.RMPlayerListener;
 import com.tips48.rushMe.util.RMUtils;
-import org.blockface.bukkitstats.CallHome;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.Event.Type;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -22,7 +23,6 @@ public class RushMe extends JavaPlugin {
 	private final static double version = 0.1;
 	private final static int subVersion = 0;
 	private final static Logger log = Logger.getLogger("Minecraft");
-	private final GunManager gManager = new GunManager();
 
 	private RMInputListener inputListener;
 	private RMPlayerListener playerListener;
@@ -40,30 +40,22 @@ public class RushMe extends JavaPlugin {
 	public void onEnable() {
 
 		GunConfiguration.loadGuns();
+		GameModeConfiguration.loadGameModes();
 
-		getServer().getPluginManager().registerEvent(Type.PLAYER_JOIN,
-				playerListener, Priority.Monitor, this);
-		getServer().getPluginManager().registerEvent(Type.PLAYER_LOGIN,
-				GameManager.getPListener(), Priority.Lowest, this);
-		getServer().getPluginManager().registerEvent(Type.PLAYER_JOIN,
-				SpoutGUI.getPListener(), Priority.Lowest, this);
-		getServer().getPluginManager().registerEvent(Type.PLAYER_INTERACT,
-				playerListener, Priority.Normal, this);
-		getServer().getPluginManager().registerEvent(Type.CUSTOM_EVENT,
-				inputListener, Priority.Normal, this);
-		getServer().getPluginManager().registerEvent(Type.PLAYER_ITEM_HELD,
-				playerListener, Priority.Monitor, this);
-		getServer().getPluginManager().registerEvent(Type.ENTITY_DAMAGE,
-				entityListener, Priority.Normal, this);
-		getServer().getPluginManager().registerEvent(Type.ENTITY_REGAIN_HEALTH,
-				entityListener, Priority.Normal, this);
+		registerEvents();
 
 		getCommand("RushMe").setExecutor(new RushMeCommand());
 
 		CallHome.load(this);
 
-		log(Level.INFO, true, "RushMe Version " + version + "_" + subVersion + " enabled");
-		log(Level.INFO, true, "Guns loaded: " + RMUtils.readableArray(gManager.getGunNames().toArray()));
+		log(Level.INFO, true, "RushMe Version " + version + "_" + subVersion
+				+ " enabled");
+		log(Level.INFO, true,
+				"Guns loaded: " + RMUtils.readableSet(GunManager.getGunNames()));
+		log(Level.INFO,
+				true,
+				"GameModes loaded: "
+						+ RMUtils.readableSet(GameManager.getGameModeNames()));
 	}
 
 	public void onDisable() {
@@ -82,10 +74,6 @@ public class RushMe extends JavaPlugin {
 		}
 	}
 
-	public GunManager getGunManager() {
-		return gManager;
-	}
-
 	public static double getVersion() {
 		return version;
 	}
@@ -93,4 +81,28 @@ public class RushMe extends JavaPlugin {
 	public static int getSubVersion() {
 		return subVersion;
 	}
+	
+	private void registerEvents() {
+		getServer().getPluginManager().registerEvent(Type.PLAYER_JOIN,
+				playerListener, Priority.Monitor, this);
+		getServer().getPluginManager().registerEvent(Type.PLAYER_MOVE,
+				playerListener, Priority.Monitor, this);
+		getServer().getPluginManager().registerEvent(Type.PLAYER_QUIT,
+				playerListener, Priority.Monitor, this);
+		getServer().getPluginManager().registerEvent(Type.PLAYER_LOGIN,
+				GameManager.getPListener(), Priority.Lowest, this);
+		getServer().getPluginManager().registerEvent(Type.PLAYER_JOIN,
+				SpoutGUI.getPListener(), Priority.Lowest, this);
+		getServer().getPluginManager().registerEvent(Type.PLAYER_INTERACT,
+				playerListener, Priority.Normal, this);
+		getServer().getPluginManager().registerEvent(Type.CUSTOM_EVENT,
+				inputListener, Priority.Normal, this);
+		getServer().getPluginManager().registerEvent(Type.PLAYER_ITEM_HELD,
+				playerListener, Priority.Monitor, this);
+		getServer().getPluginManager().registerEvent(Type.ENTITY_DAMAGE,
+				entityListener, Priority.Normal, this);
+		getServer().getPluginManager().registerEvent(Type.ENTITY_REGAIN_HEALTH,
+				entityListener, Priority.Normal, this);
+	}
+	
 }

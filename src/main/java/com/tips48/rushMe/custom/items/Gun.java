@@ -35,29 +35,50 @@ public class Gun extends GenericCustomItem {
 
 	/**
 	 * Creates a gun
-	 * @param name Name of gun
-	 * @param texture Online texture URL
-	 * @param reloadTime Time between reloads
-	 * @param autoReload If gun auto reloads
-	 * @param maxClipSize Max clip size
-	 * @param maxAmmo Max ammo of gun
-	 * @param timeBetweenFire Time between firing
-	 * @param bulletsExplode If Bullets explode
-	 * @param explosionSize Size of explosion (Can be null if bullets don't explode)
-	 * @param entityDamageDistance Distance in which entities get damaged by explosions (Can be null if bullets don't explode)
-	 * @param headshotDamage Damage of a head shot (Can be null if bullets explode)
-	 * @param bodyDamage Damage of a body shot (Can be null if bullets explode)
-	 * @param recoilBack Recoil moving the player back (Negative if the player should move forward)
-	 * @param recoilVertical Recoil moving the player's gun up (Negative if the player's gun should go down)
-	 * @param recoilHorizontal Recoil moving the player's gun to the right (Negative if the player's gun should go to the left)
+	 * 
+	 * @param name
+	 *            Name of gun
+	 * @param texture
+	 *            Online texture URL
+	 * @param reloadTime
+	 *            Time between reloads
+	 * @param autoReload
+	 *            If gun auto reloads
+	 * @param maxClipSize
+	 *            Max clip size
+	 * @param maxAmmo
+	 *            Max ammo of gun
+	 * @param timeBetweenFire
+	 *            Time between firing
+	 * @param bulletsExplode
+	 *            If Bullets explode
+	 * @param explosionSize
+	 *            Size of explosion (Can be null if bullets don't explode)
+	 * @param entityDamageDistance
+	 *            Distance in which entities get damaged by explosions (Can be
+	 *            null if bullets don't explode)
+	 * @param headshotDamage
+	 *            Damage of a head shot (Can be null if bullets explode)
+	 * @param bodyDamage
+	 *            Damage of a body shot (Can be null if bullets explode)
+	 * @param recoilBack
+	 *            Recoil moving the player back (Negative if the player should
+	 *            move forward)
+	 * @param recoilVertical
+	 *            Recoil moving the player's gun up (Negative if the player's
+	 *            gun should go down)
+	 * @param recoilHorizontal
+	 *            Recoil moving the player's gun to the right (Negative if the
+	 *            player's gun should go to the left)
 	 */
 	protected Gun(String name, String texture, Integer reloadTime,
-	              Boolean autoReload, Integer maxClipSize, Integer maxAmmo,
-	              Double timeBetweenFire, Boolean bulletsExplode,
-	              Float explosionSize, Double entityDamageDistance,
-	              Integer headshotDamage, Integer bodyDamage, Double recoilBack,
-	              Float recoilVertical, Float recoilHorizontal) {
+			Boolean autoReload, Integer maxClipSize, Integer maxAmmo,
+			Double timeBetweenFire, Boolean bulletsExplode,
+			Float explosionSize, Double entityDamageDistance,
+			Integer headshotDamage, Integer bodyDamage, Double recoilBack,
+			Float recoilVertical, Float recoilHorizontal) {
 		super(RushMe.getInstance(), name, texture);
+
 		this.reloadTime = reloadTime;
 		this.maxClipSize = maxClipSize;
 		this.loadedInClip = maxClipSize;
@@ -77,6 +98,7 @@ public class Gun extends GenericCustomItem {
 
 	/**
 	 * Gets if bullets explode when hitting an object
+	 * 
 	 * @return if bullets explode
 	 */
 	public boolean getBulletsExplode() {
@@ -85,6 +107,7 @@ public class Gun extends GenericCustomItem {
 
 	/**
 	 * Gets the explosion size for when bullets explode
+	 * 
 	 * @return explosion size when bullets explode
 	 */
 	public Float getExplosionSize() {
@@ -93,6 +116,7 @@ public class Gun extends GenericCustomItem {
 
 	/**
 	 * Gets the guns head shot damage
+	 * 
 	 * @return head shot damage
 	 */
 	public int getHeadshotDamage() {
@@ -101,6 +125,7 @@ public class Gun extends GenericCustomItem {
 
 	/**
 	 * Gets the guns body damage
+	 * 
 	 * @return body damage
 	 */
 	public int getBodyDamage() {
@@ -109,6 +134,7 @@ public class Gun extends GenericCustomItem {
 
 	/**
 	 * Gets the current amount of ammo loaded not loaded in the gun
+	 * 
 	 * @return current amount of not loaded ammo
 	 */
 	public int getAmmo() {
@@ -117,7 +143,9 @@ public class Gun extends GenericCustomItem {
 
 	/**
 	 * Sets the amount of ammo not loaded in the gun
-	 * @param ammo Ammo to be not loaded in the gun
+	 * 
+	 * @param ammo
+	 *            Ammo to be not loaded in the gun
 	 */
 	public void setAmmo(int ammo) {
 		if (maxAmmo - ammo >= 0) {
@@ -129,6 +157,7 @@ public class Gun extends GenericCustomItem {
 
 	/**
 	 * Gets the maximum ammo a gun can have not loaded at one time
+	 * 
 	 * @return maximum amount of ammo the gun can have not loaded at one time
 	 */
 	public int getMaxAmmo() {
@@ -137,6 +166,7 @@ public class Gun extends GenericCustomItem {
 
 	/**
 	 * Gets how much ammo is currently loaded in the gun
+	 * 
 	 * @return how much ammo is currently loaded
 	 */
 	public int getLoadedInClip() {
@@ -145,7 +175,9 @@ public class Gun extends GenericCustomItem {
 
 	/**
 	 * Sets how much ammo is currently loaded in the gun
-	 * @param loadedInClip how much ammo is to be loaded
+	 * 
+	 * @param loadedInClip
+	 *            how much ammo is to be loaded
 	 */
 	public void setLoadedInClip(int loadedInClip) {
 		if (maxClipSize - loadedInClip >= 0) {
@@ -157,6 +189,7 @@ public class Gun extends GenericCustomItem {
 
 	/**
 	 * Gets the maximum amount of ammo that can be loaded in the gun at one time
+	 * 
 	 * @return maximum amount of ammo that can be loaded at one time
 	 */
 	public int getMaxClipSize() {
@@ -165,6 +198,7 @@ public class Gun extends GenericCustomItem {
 
 	/**
 	 * Gets the time between shots
+	 * 
 	 * @return how long between shots
 	 */
 	public double getTimeBetweenFire() {
@@ -173,7 +207,9 @@ public class Gun extends GenericCustomItem {
 
 	/**
 	 * Sets the time between shots
-	 * @param timeBetweenFire Time between shots
+	 * 
+	 * @param timeBetweenFire
+	 *            Time between shots
 	 */
 	public void setTimeBetweenFire(double timeBetweenFire) {
 		this.timeBetweenFire = timeBetweenFire;
@@ -181,6 +217,7 @@ public class Gun extends GenericCustomItem {
 
 	/**
 	 * Gets how long the gun takes to reload
+	 * 
 	 * @return time gun takes to reload
 	 */
 	public int getReloadTime() {
@@ -189,7 +226,9 @@ public class Gun extends GenericCustomItem {
 
 	/**
 	 * Converts the gun to an ItemStack
-	 * @param amount Amount of guns that should be in the ItemStack
+	 * 
+	 * @param amount
+	 *            Amount of guns that should be in the ItemStack
 	 * @return {@link ItemStack} with the gun in it
 	 */
 	public ItemStack toItemStack(int amount) {
@@ -199,15 +238,19 @@ public class Gun extends GenericCustomItem {
 
 	/**
 	 * Gets if the gun can fire
+	 * 
 	 * @return if the gun can fire
 	 */
 	public boolean canFire() {
-		return !(reloading || loadedInClip == 0 || System.currentTimeMillis() - lastFired < timeBetweenFire * 100);
+		return !(reloading || loadedInClip == 0 || System.currentTimeMillis()
+				- lastFired < timeBetweenFire * 100);
 	}
 
 	/**
 	 * Simulates the gun being fired
-	 * @param player Player that fired the gun
+	 * 
+	 * @param player
+	 *            Player that fired the gun
 	 */
 	public void fire(final Player player) {
 		loadedInClip--;
@@ -237,7 +280,9 @@ public class Gun extends GenericCustomItem {
 
 	/**
 	 * Reloads the gun
-	 * @param player Player to reload the gun
+	 * 
+	 * @param player
+	 *            Player to reload the gun
 	 */
 	public void reload(final Player player) {
 		if (ammo <= 0) {
@@ -267,6 +312,7 @@ public class Gun extends GenericCustomItem {
 
 	/**
 	 * Gets if the gun automatically reloads when out of ammo
+	 * 
 	 * @return if the gun should automatically reload when its out of ammo
 	 */
 	public boolean isAutoReload() {
@@ -275,18 +321,31 @@ public class Gun extends GenericCustomItem {
 
 	/**
 	 * Sets if the gun should automatically reload when out of ammo
-	 * @param autoReload If the gun should automatically reload
+	 * 
+	 * @param autoReload
+	 *            If the gun should automatically reload
 	 */
 	public void setAutoReload(boolean autoReload) {
 		this.autoReload = autoReload;
 	}
 
 	/**
-	 * Gets the distance from a bullet when it explodes (@see #getBulletsExplode) that entities will get hurt
+	 * Gets the distance from a bullet when it explodes (@see
+	 * #getBulletsExplode) that entities will get hurt
+	 * 
 	 * @return distance entities have to be to not get hurt by explosions
 	 */
 	public double getEntityDamageDistance() {
 		return entityDamageDistance;
+	}
+    
+	/**
+	 * Overrides and returns the name of the Gun
+	 * @return name of gun
+	 */
+	@Override
+	public String toString() {
+		return this.getName();
 	}
 
 }
