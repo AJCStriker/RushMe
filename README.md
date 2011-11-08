@@ -7,7 +7,7 @@ Website links:
 * [Spout thread](http://forums.getspout.org/threads/wip-rushme-v0-1-guns-more-1337.43/)
 * Bukkitdev thread coming soon
 
-The team
+The Team
 -----------
 * Main Dev: Tips48
 * Assistant Dev's: TheHutch, Butkicker12
