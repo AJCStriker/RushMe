@@ -1,17 +1,11 @@
 package com.tips48.rushMe.configuration;
 
-/**
- * RushMe
- */
+import java.io.File;
+import org.bukkit.configuration.file.YamlConfiguration;
+
 public class GunCreator {
 
-	/**
-	 * Start GUI editor
-	 * 
-	 * @param args
-	 *            Command-line arguments
-	 */
-	public static void main(String[] args) {
-		// TODO gun creation GUI
-	}
+    private static File gun;
+    private static YamlConfiguration yml;
+    
 }

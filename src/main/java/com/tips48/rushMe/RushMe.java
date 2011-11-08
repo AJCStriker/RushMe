@@ -9,6 +9,7 @@ import com.tips48.rushMe.custom.items.GunManager;
 import com.tips48.rushMe.listeners.RMEntityListener;
 import com.tips48.rushMe.listeners.RMInputListener;
 import com.tips48.rushMe.listeners.RMPlayerListener;
+import com.tips48.rushMe.teams.Team;
 import com.tips48.rushMe.util.RMUtils;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.Event.Type;
@@ -23,18 +24,19 @@ public class RushMe extends JavaPlugin {
 	private final static double version = 0.1;
 	private final static int subVersion = 0;
 	private final static Logger log = Logger.getLogger("Minecraft");
-
+     
 	private RMInputListener inputListener;
 	private RMPlayerListener playerListener;
 	private RMEntityListener entityListener;
 
 	private static RushMe instance;
+        private Team t;
 
 	public void onLoad() {
 		instance = this;
 		inputListener = new RMInputListener();
 		playerListener = new RMPlayerListener();
-		entityListener = new RMEntityListener();
+		entityListener = new RMEntityListener(t);
 	}
 
 	public void onEnable() {

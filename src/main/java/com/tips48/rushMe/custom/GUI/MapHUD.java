@@ -43,14 +43,13 @@ public class MapHUD extends GenericGradient {
 		team2.setY(-62);
 		team2.setPriority(RenderPriority.Low);
 
-		updateTeams();
+		//updateTeams();
 	}
 
 	public void init() {
 		this.player.getMainScreen().attachWidget(RushMe.getInstance(), team1);
 		this.player.getMainScreen().attachWidget(RushMe.getInstance(), team2);
-		this.player.getMainScreen().attachWidget(RushMe.getInstance(),
-				mcomSeperator);
+		this.player.getMainScreen().attachWidget(RushMe.getInstance(), mcomSeperator);
 	}
 
 	public void shutdown() {

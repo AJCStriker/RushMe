@@ -1,13 +1,13 @@
 package com.tips48.rushMe.configuration;
 
+
 import com.tips48.rushMe.GameManager;
 import com.tips48.rushMe.GameModeType;
 import com.tips48.rushMe.RushMe;
-import org.bukkit.configuration.file.YamlConfiguration;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
+import org.bukkit.configuration.file.YamlConfiguration;
 
 public class GameModeConfiguration {
 

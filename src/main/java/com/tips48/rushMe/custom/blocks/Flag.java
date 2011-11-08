@@ -6,6 +6,7 @@ import org.bukkit.World;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.getspout.spoutapi.material.block.GenericCustomBlock;
 import org.getspout.spoutapi.player.SpoutPlayer;
 
@@ -57,6 +58,10 @@ public class Flag extends GenericCustomBlock {
 
 	public void onBlockPlace(World world, int x, int y, int z,
 			LivingEntity placer) {
+            if(placer instanceof Player) {
+                Player p = (Player)placer;
+                p.sendMessage("");
+            }
 	}
 
 	public void onEntityMoveAt(World world, int x, int y, int z, Entity mover) {

@@ -1,5 +1,6 @@
 package com.tips48.rushMe.listeners;
 
+
 import com.tips48.rushMe.Arena;
 import com.tips48.rushMe.GameManager;
 import com.tips48.rushMe.RushMe;
@@ -7,6 +8,8 @@ import com.tips48.rushMe.custom.GUI.SpoutGUI;
 import com.tips48.rushMe.custom.items.Gun;
 import com.tips48.rushMe.data.PlayerData;
 import com.tips48.rushMe.util.RMUtils;
+import java.util.ArrayList;
+import java.util.List;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
@@ -16,15 +19,15 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.*;
 import org.bukkit.util.BlockIterator;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class RMPlayerListener extends PlayerListener {
+    
+
 	@Override
 	public void onPlayerJoin(PlayerJoinEvent event) {
 	//	Player player = event.getPlayer();
 
 	}
+        
 
 	@Override
 	public void onPlayerQuit(PlayerQuitEvent event) {

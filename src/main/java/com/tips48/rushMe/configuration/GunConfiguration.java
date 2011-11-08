@@ -1,13 +1,13 @@
 package com.tips48.rushMe.configuration;
 
+
 import com.tips48.rushMe.RushMe;
 import com.tips48.rushMe.custom.items.GunManager;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.getspout.spoutapi.SpoutManager;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.getspout.spoutapi.SpoutManager;
 
 public class GunConfiguration {
 	private static File gunsFile;

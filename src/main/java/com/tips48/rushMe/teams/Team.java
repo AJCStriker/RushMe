@@ -1,16 +1,16 @@
 package com.tips48.rushMe.teams;
 
+
 import com.tips48.rushMe.GameManager;
 import com.tips48.rushMe.RushMe;
 import com.tips48.rushMe.custom.GUI.SpoutGUI;
 import com.tips48.rushMe.data.PlayerData;
-import org.bukkit.Location;
-import org.bukkit.entity.Player;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
 
 public class Team {
 	private final Set<String> players = new HashSet<String>();
@@ -20,14 +20,14 @@ public class Team {
 	private List<Location> spawns = new ArrayList<Location>();
 	private boolean infiniteLives;
 	private final String prefix;
-
+        
 	/**
 	 * Creates a team
 	 * 
 	 * @param name
 	 *            Team's name
 	 * @param prefix
-	 *            Team's preifx
+	 *            Team's prefix
 	 * @param playerLimit
 	 *            How many players are allowed on the team
 	 */
@@ -151,7 +151,7 @@ public class Team {
 	}
 
 	/**
-	 * Utiltiy method
+	 * Utility method
 	 * 
 	 * @param player
 	 *            {@link Player}
