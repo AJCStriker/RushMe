@@ -1,14 +1,21 @@
 package com.tips48.rushMe.util;
 
+import com.tips48.rushMe.RushMe;
 import com.tips48.rushMe.custom.items.Gun;
 import com.tips48.rushMe.custom.items.GunManager;
+
+import net.minecraft.server.MathHelper;
+
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.craftbukkit.entity.CraftEntity;
+import org.bukkit.craftbukkit.entity.CraftLivingEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Minecart;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.Vector;
 import org.getspout.spoutapi.SpoutManager;
 import org.getspout.spoutapi.material.CustomItem;
 import org.getspout.spoutapi.player.SpoutPlayer;
@@ -182,9 +189,9 @@ public class RMUtils {
 						// RushMe
 
 						for (float f2 = 0.3F; f1 > 0.0F; f1 -= f2 * 0.75F) {
-							int l = floor(d0);
-							int i1 = floor(d1);
-							int j1 = floor(d2);
+							int l = MathHelper.floor(d0);
+							int i1 = MathHelper.floor(d1);
+							int j1 = MathHelper.floor(d2);
 							int k1 = loc.getWorld().getBlockAt(l, i1, j1)
 									.getTypeId();
 
@@ -217,10 +224,44 @@ public class RMUtils {
 		}
 	}
 
-	private static int floor(double d0) {
-		int i = (int) d0;
+	/**
+	 * This function can be called and will return a list of any players that
+	 * have been spotted by the player casting.
+	 * 
+	 * It will return a empty Set<{#link Player}> if none are found.
+	 * 
+	 * This code was contributed to RushMe by tips48, from the CounterCraftDev
+	 * team. Original file can be found at
+	 * https://github.com/AJCStriker/Counter-
+	 * Craft/edit/master/src/net/countercraft/ccserver/maths/MathsHelper.java
+	 * 
+	 * @param Player
+	 *            who has pressed the spot button as org.bukkit.entity.Player.
+	 * @return Set<String> of spotted players.
+	 */
+	public static Set<String> rayCast(Player spotter) {
+		Set<String> spottedList = new HashSet<String>();
+		for (Player player : RushMe.getInstance().getServer()
+				.getOnlinePlayers()) {
+			if (!player.equals(spotter)) {
+				double x = spotter.getLocation().toVector()
+						.distance(player.getLocation().toVector());
 
-		return d0 < (double) i ? i - 1 : i;
+				Vector direction = spotter.getLocation().getDirection()
+						.multiply(x);
+
+				Vector answer = direction.add(spotter.getLocation().toVector());
+
+				if (((CraftLivingEntity) player).getHandle().f(
+						((CraftEntity) spotter).getHandle())) {
+					if (answer.distance(player.getLocation().toVector()) < 1.37) {
+						System.out.println(spotter.getDisplayName()
+								+ " spotted " + player.getDisplayName());
+						spottedList.add(player.getName());
+					}
+				}
+			}
+		}
+		return spottedList;
 	}
-
 }
