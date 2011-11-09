@@ -1,0 +1,39 @@
+# Gamemodes.yml file for RushMe.
+# This file allowes the creation and specification of custom gamemodes.  1 gamemode is provided below, as # well as the commented out example.
+# 
+# 
+# 
+#  NAME:
+#    gameModeType: What kind of type of gamemode this is.
+#    Possible cases:
+#    - OBJECTIVE
+#    - DEATHMATCH
+#    - CAPTURE
+#    respawn: If respawns are allowed in the gamemode
+#    respawnTime: Time (in seconds) before the player can respawn again
+#    time: Time (in seconds) that the game lasts once started
+#    default: If this is default gamemode when none is specified.  There should be one gamemode with this
+#    maxPlayers: Maximum players allowed on one team
+#    teams:
+#        NAME:
+#            preifx: 2/3 Letter prefix of the team
+#            infiniteSpawns: If the team has infinite spawns (Defending teams often have infinite spawns)
+#            spawns: How many spawns the team has till the game ends
+
+GameModes:
+  Rush:
+    gameModeType: OBJECTIVE
+    respawn: true
+    respawnTime: 5
+    time: 600
+    default: true
+    maxPlayers: 12
+    teams:
+        Russians:
+            preifx: RUS
+            infiniteSpawns: true
+            spawns: 1
+        Americans:
+            prefix: US
+            infiniteSpawns: false
+            spawns: 75

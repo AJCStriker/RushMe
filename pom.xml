@@ -66,6 +66,7 @@
                     <include>plugin.yml</include>
                     <include>CHANGELOG.txt</include>
                     <include>guns.yml</include>
+                    <include>gamemodes.yml</include>
                 </includes>
             </resource>
         </resources>

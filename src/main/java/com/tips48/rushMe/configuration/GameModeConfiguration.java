@@ -3,10 +3,13 @@ package com.tips48.rushMe.configuration;
 import com.tips48.rushMe.GameManager;
 import com.tips48.rushMe.GameModeType;
 import com.tips48.rushMe.RushMe;
+import com.tips48.rushMe.teams.Team;
+
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 
 public class GameModeConfiguration {
@@ -17,62 +20,67 @@ public class GameModeConfiguration {
 	public static void loadGameModes() {
 		gamemodeFile = new File(RushMe.getInstance().getDataFolder()
 				+ File.separator + "gamemodes.yml");
-		gamemode = YamlConfiguration.loadConfiguration(gamemodeFile);
-		if (!gamemodeFile.exists()) {
-			try {
-				if (gamemodeFile.getParentFile() != null) {
-					if (!gamemodeFile.getParentFile().mkdirs()) {
-						RushMe.log(Level.SEVERE, true,
-								"Unable to create folder "
-										+ gamemodeFile.getParentFile()
-												.getName());
-					}
+		gamemode = YamlConfiguration.loadConfiguration(RushMe.getInstance()
+				.getResource("gamemodes.yml"));
+		if (!(gamemodeFile.exists())) {
+			if (!(gamemodeFile.getParentFile().exists())) {
+				if (!(gamemodeFile.getParentFile().mkdirs())) {
+					RushMe.log(Level.SEVERE, true, "Error creating the folder "
+							+ gamemodeFile.getParentFile().getName());
 				}
-				if (!gamemodeFile.createNewFile()) {
-					RushMe.log(Level.SEVERE, true, "Unable to create file "
+			}
+			try {
+				if (!(gamemodeFile.createNewFile())) {
+					RushMe.log(Level.SEVERE, true, "Error creating the file "
 							+ gamemodeFile.getName());
 				}
-				addGameModeDefaults();
-			} catch (IOException e) {
-				RushMe.log(Level.SEVERE, true, "Error creating file "
+			} catch (Exception e) {
+				RushMe.log(Level.SEVERE, true, "Error creating the file "
 						+ gamemodeFile.getName());
 			}
-		}
-		for (String name : gamemode.getConfigurationSection("GameModes")
-				.getKeys(false)) {
-			String gmtString = gamemode.getString("GameModes." + name
-					+ ".gameModeType");
-			GameModeType t = GameModeType.valueOf(gmtString);
-			if (t == null) {
-				RushMe.log(Level.SEVERE, true, "Error loading GameMode " + name
-						+ ".  The GameModeType " + gmtString
-						+ " is not a valid GameModeType.");
-				continue;
+			gamemode.options().copyDefaults(true);
+			try {
+				gamemode.save(gamemodeFile);
+			} catch (Exception e) {
+				RushMe.log(Level.SEVERE, true, "Error saving to "
+						+ gamemodeFile.getName());
 			}
-			Boolean respawn = gamemode.getBoolean("GameModes." + name
-					+ ".respawn");
-			Integer respawnTime = gamemode.getInt("GameModes." + name
-					+ ".respawnTime");
-			Integer time = gamemode.getInt("GameModes." + name + ".time");
-			if (gamemode.getBoolean("GameModes." + name + ".default")) {
-				GameManager.setDefaultGameMode(GameManager.createGameMode(name,
-						t, time, respawn, respawnTime));
-			} else {
-				GameManager.createGameMode(name, t, time, respawn, respawnTime);
+			RushMe.log(Level.INFO, true, "Created " + gamemodeFile.getName());
+			for (String name : gamemode.getConfigurationSection("GameModes")
+					.getKeys(false)) {
+				String gmtString = gamemode.getString("GameModes." + name
+						+ ".gameModeType");
+				GameModeType t = GameModeType.valueOf(gmtString);
+				if (t == null) {
+					RushMe.log(Level.SEVERE, true, "Error loading GameMode "
+							+ name + ".  The GameModeType " + gmtString
+							+ " is not a valid GameModeType.");
+					continue;
+				}
+				Boolean respawn = gamemode.getBoolean("GameModes." + name
+						+ ".respawn");
+				Integer respawnTime = gamemode.getInt("GameModes." + name
+						+ ".respawnTime");
+				Integer time = gamemode.getInt("GameModes." + name + ".time");
+				Integer maxPlayers = gamemode.getInt("GameModes." + name + ".maxPlayers");
+				List<Team> teams = new ArrayList<Team>();
+				for (String teamName : gamemode.getConfigurationSection("GameModes." + name +".teams").getKeys(false)) {
+					String prefix = gamemode.getString("GameModes." + name + ".teams." + teamName + ".prefix");
+					Boolean infiniteSpawns = gamemode.getBoolean("GameModes." + name + ".teams." + teamName + ".infiniteSpawns");
+					Integer spawns = gamemode.getInt("GameModes." + name + ".teams." + teamName + ".spawns");
+					Team team = new Team(teamName, prefix, maxPlayers);
+					team.setInfiniteLives(infiniteSpawns);
+					team.setSpawnsLeft(spawns);
+					teams.add(team);
+				}
+				if (gamemode.getBoolean("GameModes." + name + ".default")) {
+					GameManager.setDefaultGameMode(GameManager.createGameMode(
+							name, t, time, respawn, respawnTime, maxPlayers, teams));
+				} else {
+					GameManager.createGameMode(name, t, time, respawn,
+							respawnTime, maxPlayers, teams);
+				}
 			}
-		}
-	}
-
-	private static void addGameModeDefaults() {
-		gamemode.set("GameModes.Rush.gameModeType", "OBJECTIVE");
-		gamemode.set("GameModes.Rush.respawn", true);
-		gamemode.set("GameModes.Rush.respawnTime", 5);
-		gamemode.set("GameModes.Rush.time", 600);
-		gamemode.set("GameModes.Rush.default", true);
-		try {
-			gamemode.save(gamemodeFile);
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 	}
 
