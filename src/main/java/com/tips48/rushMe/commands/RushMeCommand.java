@@ -36,9 +36,9 @@ public class RushMeCommand implements CommandExecutor {
 				RMChat.sendHelp(sender);
 			} else if (args[0].equalsIgnoreCase("list")) {
 				sender.sendMessage(ChatColor.RED + "Arena's:");
-				sender.sendMessage(ChatColor.AQUA + RMUtils.readableSet(GameManager.getArenaNames()));
-			}
-			else {
+				sender.sendMessage(ChatColor.AQUA
+						+ RMUtils.readableSet(GameManager.getArenaNames()));
+			} else {
 				RMChat.sendWrongArguments(sender);
 			}
 		} else if (args.length == 2) {
@@ -96,7 +96,8 @@ public class RushMeCommand implements CommandExecutor {
 					return true;
 				}
 				if (GameManager.getArena(args[1]) != null) {
-					sender.sendMessage(ChatColor.RED + "There is already an arena with that name.  Please choose another");
+					sender.sendMessage(ChatColor.RED
+							+ "There is already an arena with that name.  Please choose another");
 					return true;
 				}
 				Arena a = GameManager.createArena(args[1],
@@ -169,7 +170,8 @@ public class RushMeCommand implements CommandExecutor {
 					return true;
 				}
 				if (GameManager.getArena(args[1]) != null) {
-					sender.sendMessage(ChatColor.RED + "There is already an arena with that name.  Please choose another");
+					sender.sendMessage(ChatColor.RED
+							+ "There is already an arena with that name.  Please choose another");
 					return true;
 				}
 				GameMode g = GameManager.getGameMode(args[2]);

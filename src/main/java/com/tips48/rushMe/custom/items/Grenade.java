@@ -43,11 +43,11 @@ public class Grenade extends GenericCustomItem {
 	public Integer getStartAmount() {
 		return startAmount;
 	}
-	
+
 	public Integer getAmount() {
 		return amount;
 	}
-	
+
 	public void setAmount(int amount) {
 		this.amount = amount;
 	}
@@ -72,7 +72,7 @@ public class Grenade extends GenericCustomItem {
 		if (amount <= 0) {
 			return;
 		}
-		
+
 	}
 
 }

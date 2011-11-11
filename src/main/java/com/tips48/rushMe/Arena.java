@@ -107,12 +107,13 @@ public class Arena {
 			Team t = teams.get(r.nextInt(teams.size() - 1));
 			team = t.addPlayer(player);
 		}
-		
+
 		Player p = RushMe.getInstance().getServer().getPlayer(player);
 		if (p != null) {
 			savedInventories.addInventory(p, p.getInventory());
 			p.getInventory().clear();
-			SpoutManager.getAppearanceManager().setGlobalSkin(p, getPlayerTeam(p).getTexture());
+			SpoutManager.getAppearanceManager().setGlobalSkin(p,
+					getPlayerTeam(p).getTexture());
 			MainHUD h = SpoutGUI.getHudOf(p);
 			if (h != null) {
 				h.init();
@@ -182,7 +183,7 @@ public class Arena {
 				team.doLost();
 				gameWon = true;
 			}
-		} 
+		}
 	}
 
 	public void start() {

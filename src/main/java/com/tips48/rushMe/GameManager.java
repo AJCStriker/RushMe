@@ -87,14 +87,16 @@ public class GameManager {
 		Arena a = new Arena(gamemode, name);
 		return a;
 	}
-	
+
 	protected static void addArena(Arena a) {
 		games.add(a);
 	}
 
 	public static GameMode createGameMode(String name, GameModeType type,
-			Integer time, Boolean respawn, Integer respawnTime, Integer maxPlayers, List<Team> teams) {
-		GameMode gm = new GameMode(name, type, time, respawn, respawnTime, maxPlayers, teams);
+			Integer time, Boolean respawn, Integer respawnTime,
+			Integer maxPlayers, List<Team> teams) {
+		GameMode gm = new GameMode(name, type, time, respawn, respawnTime,
+				maxPlayers, teams);
 
 		gameModes.add(gm);
 
@@ -127,7 +129,7 @@ public class GameManager {
 			defaultGameMode = g;
 		}
 	}
-	
+
 	public static Set<String> getArenaNames() {
 		Set<String> names = new HashSet<String>();
 		for (Arena a : games) {

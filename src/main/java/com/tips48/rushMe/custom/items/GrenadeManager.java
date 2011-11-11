@@ -13,10 +13,11 @@ import org.getspout.spoutapi.material.CustomItem;
  * this template use File | Settings | File Templates.
  */
 public class GrenadeManager {
-	
+
 	private static final Set<Grenade> grenades = new HashSet<Grenade>();
-	
+
 	private static final Map<String, Set<Grenade>> playerGrenades = new HashMap<String, Set<Grenade>>();
+
 	/**
 	 * Creates a gun with the specified specifications
 	 * 
@@ -24,16 +25,19 @@ public class GrenadeManager {
 	 *            Name of gun
 	 * @param texture
 	 *            Online texture URL
-	 *  @param type
-	 *  			Type of grenade
-	 *  @param startAmount
-	 *  			Default amount of grenades started with by the player
-	 *  @param explosionSize 
-	 *  			Size of explosion
+	 * @param type
+	 *            Type of grenade
+	 * @param startAmount
+	 *            Default amount of grenades started with by the player
+	 * @param explosionSize
+	 *            Size of explosion
 	 */
-	public static void createGrenade(String name, String texture, GrenadeType type,Integer startAmount, Integer explosionSize, Integer timeBeforeExplosion, Integer damage, Integer stunTime) {
+	public static void createGrenade(String name, String texture,
+			GrenadeType type, Integer startAmount, Integer explosionSize,
+			Integer timeBeforeExplosion, Integer damage, Integer stunTime) {
 
-		Grenade grenade = new Grenade(name, texture, type, startAmount, explosionSize, timeBeforeExplosion, damage, stunTime);
+		Grenade grenade = new Grenade(name, texture, type, startAmount,
+				explosionSize, timeBeforeExplosion, damage, stunTime);
 
 		grenades.add(grenade);
 	}
@@ -91,11 +95,11 @@ public class GrenadeManager {
 		}
 		return names;
 	}
-	
+
 	public static Set<Grenade> getGrenades(Player player) {
 		return getGrenades(player.getName());
 	}
-	
+
 	public static Set<Grenade> getGrenades(String player) {
 		return playerGrenades.get(player);
 	}
@@ -103,9 +107,9 @@ public class GrenadeManager {
 	public static void createGrenades(String player) {
 		playerGrenades.put(player, grenades);
 	}
-	
+
 	public static void createGrenades(Player player) {
 		createGrenades(player.getName());
 	}
-	
+
 }

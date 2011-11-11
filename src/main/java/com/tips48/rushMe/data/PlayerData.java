@@ -423,21 +423,25 @@ public class PlayerData {
 		setKills(player, 0);
 		setScore(player, 0);
 	}
-	
+
 	/**
 	 * Utility method
 	 * 
-	 * @param player {@link Player}
+	 * @param player
+	 *            {@link Player}
 	 * @see #setSpotted(String, boolean)
 	 */
 	public static void setSpotted(Player player, boolean s) {
 		setSpotted(player.getName(), s);
 	}
-	
+
 	/**
 	 * Sets if the specified player is spotted
-	 * @param player Specified player
-	 * @param s if the player is spotted
+	 * 
+	 * @param player
+	 *            Specified player
+	 * @param s
+	 *            if the player is spotted
 	 */
 	public static void setSpotted(String player, boolean s) {
 		if (s) {
@@ -448,25 +452,27 @@ public class PlayerData {
 			}
 		}
 	}
-	
+
 	/**
 	 * Utility method
 	 * 
-	 * @param player {@link Player}
+	 * @param player
+	 *            {@link Player}
 	 * @see #isSpotted(String)
 	 */
 	public static boolean isSpotted(Player player) {
 		return isSpotted(player.getName());
 	}
-	
+
 	/**
 	 * Gets if the specified player is spotted
 	 * 
-	 * @param player Specified player
+	 * @param player
+	 *            Specified player
 	 * @return is the specified player is spotted
 	 */
 	public static boolean isSpotted(String player) {
 		return spotted.contains(player);
 	}
- 
+
 }

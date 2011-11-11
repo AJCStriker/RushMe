@@ -15,7 +15,8 @@ public class GameMode {
 	private final List<Team> teams;
 
 	protected GameMode(String name, GameModeType type, Integer time,
-			Boolean respawn, Integer respawnTime, Integer maxPlayers, List<Team> teams) {
+			Boolean respawn, Integer respawnTime, Integer maxPlayers,
+			List<Team> teams) {
 		this.name = name;
 		this.type = type;
 		this.time = time;
@@ -44,11 +45,11 @@ public class GameMode {
 	public int getRespawnTime() {
 		return respawnTime;
 	}
-	
+
 	public int getMaxPlayers() {
 		return maxPlayers;
 	}
-	
+
 	public List<Team> getTeams() {
 		return teams;
 	}

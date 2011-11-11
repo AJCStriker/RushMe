@@ -52,7 +52,8 @@ public class RMInputListener extends InputListener {
 				if (!(GameManager.inGame(ply))) {
 					continue;
 				}
-				if (GameManager.getPlayerArena(ply).getPlayerTeam(ply).equals(playerTeam)) {
+				if (GameManager.getPlayerArena(ply).getPlayerTeam(ply)
+						.equals(playerTeam)) {
 					playersNotOnTeam.add(ply);
 				}
 			}

@@ -228,7 +228,8 @@ public class RMUtils {
 	 * This function can be called and will return a list of any players that
 	 * have been spotted by the player casting.
 	 * 
-	 * It will return a empty Set<{@link org.bukkit.entity.Player}> if none are found.
+	 * It will return a empty Set<{@link org.bukkit.entity.Player}> if none are
+	 * found.
 	 * 
 	 * This code was contributed to RushMe by tips48, from the CounterCraftDev
 	 * team. Original file can be found at

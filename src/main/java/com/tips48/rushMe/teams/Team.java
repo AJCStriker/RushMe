@@ -20,7 +20,7 @@ public class Team {
 	private List<Location> spawns = new ArrayList<Location>();
 	private boolean infiniteLives;
 	private final String prefix;
-	
+
 	private final String texture;
 
 	/**
@@ -32,14 +32,14 @@ public class Team {
 	 *            Team's preifx
 	 * @param playerLimit
 	 *            How many players are allowed on the team
-	 *  @param texture
-	 *  		   URL to texture for team
+	 * @param texture
+	 *            URL to texture for team
 	 */
 	public Team(String name, String prefix, int playerLimit, String texture) {
 		this.name = name;
 		this.playerLimit = playerLimit;
 		this.prefix = prefix;
-		this.texture =texture;
+		this.texture = texture;
 	}
 
 	/**
@@ -104,7 +104,7 @@ public class Team {
 	public void setSpawnsLeft(int spawnsLeft) {
 		this.spawnsLeft = spawnsLeft;
 		if (spawnsLeft <= 0) {
-		
+
 		}
 		for (String player : players) {
 			Player p = RushMe.getInstance().getServer().getPlayer(player);
@@ -319,15 +319,15 @@ public class Team {
 		}
 		return highest;
 	}
-	
+
 	public void doWon() {
-		
+
 	}
-	
+
 	public void doLost() {
-		
+
 	}
-	
+
 	public String getTexture() {
 		return texture;
 	}
