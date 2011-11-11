@@ -1,6 +1,11 @@
 package com.tips48.rushMe.custom.GUI;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import com.tips48.rushMe.RushMe;
+import com.tips48.rushMe.custom.items.Grenade;
+import com.tips48.rushMe.custom.items.GrenadeManager;
 import com.tips48.rushMe.custom.items.Gun;
 import com.tips48.rushMe.data.PlayerData;
 import com.tips48.rushMe.util.RMUtils;
@@ -18,6 +23,7 @@ public class WeaponsHUD extends GenericGradient {
 	private final Label left;
 	private final Gradient fullHealth;
 	private final Gradient health;
+	private final Set<Label> grenadeLabels = new HashSet<Label>();
 
 	protected WeaponsHUD(Player player) {
 		this.player = SpoutManager.getPlayer(player);
@@ -78,6 +84,20 @@ public class WeaponsHUD extends GenericGradient {
 	}
 
 	public void init() {
+		int y = 40;
+		for (Grenade g : GrenadeManager.getGrenades(player)) {
+			Label gLabel = new GenericLabel();
+			gLabel.setText(g.getName() + " x" + g.getAmount());
+			gLabel.setY(-y);
+			gLabel.setX(-20);
+			gLabel.setAnchor(WidgetAnchor.BOTTOM_RIGHT);
+			gLabel.setScale(1.3F);
+			gLabel.setPriority(RenderPriority.Low);
+			player.getMainScreen().attachWidget(RushMe.getInstance(), gLabel);
+			grenadeLabels.add(gLabel);
+			y -= 10;
+		}
+
 		player.getMainScreen().attachWidget(RushMe.getInstance(), inClip);
 		player.getMainScreen().attachWidget(RushMe.getInstance(), seperator);
 		player.getMainScreen().attachWidget(RushMe.getInstance(), left);
@@ -86,6 +106,11 @@ public class WeaponsHUD extends GenericGradient {
 	}
 
 	public void shutdown() {
+		for (Label l : grenadeLabels) {
+			player.getMainScreen().removeWidget(l);
+		}
+		grenadeLabels.clear();
+
 		player.getMainScreen().removeWidget(inClip);
 		player.getMainScreen().removeWidget(seperator);
 		player.getMainScreen().removeWidget(left);
@@ -120,13 +145,21 @@ public class WeaponsHUD extends GenericGradient {
 
 		this.left.setText(ammoColor + Integer.toString(extraAmmo)).setDirty(
 				true);
-
 	}
 
 	public void updateHealth() {
 		this.health.setWidth(PlayerData.getHealth(player)).setDirty(true);
-		System.out.println(player.getName() + " Health: "
-				+ PlayerData.getHealth(player));
+	}
+
+	public void updateGrenades() {
+		for (Grenade g : GrenadeManager.getGrenades(player)) {
+			for (Label l : grenadeLabels) {
+				if (l.getText().contains(g.getName())) {
+					l.setText(g.getName() + " x" + g.getAmount())
+							.setDirty(true);
+				}
+			}
+		}
 	}
 
 }

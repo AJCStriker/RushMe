@@ -23,6 +23,7 @@ public class RMChat {
 	public static void sendHelp(CommandSender sender) {
 		sender.sendMessage(ChatColor.RED + "Commands:");
 		sender.sendMessage(ChatColor.AQUA + "/RushMe - General Information");
+		sender.sendMessage(ChatColor.AQUA + "/RushMe list - Lists all the created Arena's");
 		sender.sendMessage(ChatColor.AQUA
 				+ "/RushMe create <Name> [GameMode] - Creates the specified Arena");
 		sender.sendMessage(ChatColor.AQUA

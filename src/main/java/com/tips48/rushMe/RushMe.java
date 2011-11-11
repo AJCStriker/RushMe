@@ -1,10 +1,12 @@
 package com.tips48.rushMe;
 
-import com.randomappdev.bukkitstats.CallHome;
+import com.randomappdev.pluginstats.Ping;
 import com.tips48.rushMe.commands.RushMeCommand;
 import com.tips48.rushMe.configuration.GameModeConfiguration;
 import com.tips48.rushMe.configuration.GunConfiguration;
 import com.tips48.rushMe.custom.GUI.SpoutGUI;
+import com.tips48.rushMe.custom.items.GrenadeManager;
+import com.tips48.rushMe.custom.items.GrenadeType;
 import com.tips48.rushMe.custom.items.GunManager;
 import com.tips48.rushMe.listeners.RMEntityListener;
 import com.tips48.rushMe.listeners.RMInputListener;
@@ -46,12 +48,19 @@ public class RushMe extends JavaPlugin {
 
 		getCommand("RushMe").setExecutor(new RushMeCommand());
 
-		CallHome.load(this);
+		Ping.init(this);
+
+		GrenadeManager.createGrenade("TestGrenade1234", "Bleh",
+				GrenadeType.CONCUSSION, 3, 1, 2, 5, 5);
 
 		log(Level.INFO, true, "RushMe Version " + version + "_" + subVersion
 				+ " enabled");
 		log(Level.INFO, true,
 				"Guns loaded: " + RMUtils.readableSet(GunManager.getGunNames()));
+		log(Level.INFO,
+				true,
+				"Grenades loaded: "
+						+ RMUtils.readableSet(GrenadeManager.getGrenadeNames()));
 		log(Level.INFO,
 				true,
 				"GameModes loaded: "

@@ -239,7 +239,7 @@ public class RMUtils {
 	 *            who has pressed the spot button as org.bukkit.entity.Player.
 	 * @return Set<String> of spotted players.
 	 */
-	public static Set<String> rayCast(Player spotter) {
+	public static Set<String> spot(Player spotter) {
 		Set<String> spottedList = new HashSet<String>();
 		for (Player player : RushMe.getInstance().getServer()
 				.getOnlinePlayers()) {

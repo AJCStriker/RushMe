@@ -30,10 +30,12 @@ GameModes:
     maxPlayers: 12
     teams:
         Russians:
+            skin: test1
             preifx: RUS
             infiniteSpawns: true
             spawns: 1
         Americans:
+            skin: test2
             prefix: US
             infiniteSpawns: false
             spawns: 75

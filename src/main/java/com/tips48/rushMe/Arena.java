@@ -4,8 +4,10 @@ import com.tips48.rushMe.custom.GUI.MainHUD;
 import com.tips48.rushMe.custom.GUI.SpoutGUI;
 import com.tips48.rushMe.teams.Team;
 import com.tips48.rushMe.util.RMUtils;
-import org.bukkit.Location;
+import org.bukkit.util.Vector;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.PlayerInventory;
+import org.getspout.spoutapi.SpoutManager;
 
 import java.util.*;
 
@@ -21,8 +23,8 @@ public class Arena {
 	private Set<String> players;
 	private boolean started;
 	private int startingIn;
-	private Location loc1;
-	private Location loc2;
+	private Vector loc1;
+	private Vector loc2;
 
 	private int doSecondScheduler;
 	private int startingScheduler;
@@ -33,7 +35,8 @@ public class Arena {
 		this.gamemode = gamemode;
 		this.name = name;
 
-		teams = new ArrayList<Team>();
+		teams = gamemode.getTeams();
+
 		players = new HashSet<String>();
 		started = false;
 		startingIn = 600;
@@ -97,8 +100,19 @@ public class Arena {
 
 	public void addPlayer(String player) {
 		players.add(player);
+		// TODO not random teams
+		boolean team = false;
+		Random r = new Random();
+		while (!team) {
+			Team t = teams.get(r.nextInt(teams.size() - 1));
+			team = t.addPlayer(player);
+		}
+		
 		Player p = RushMe.getInstance().getServer().getPlayer(player);
 		if (p != null) {
+			savedInventories.addInventory(p, p.getInventory());
+			p.getInventory().clear();
+			SpoutManager.getAppearanceManager().setGlobalSkin(p, getPlayerTeam(p).getTexture());
 			MainHUD h = SpoutGUI.getHudOf(p);
 			if (h != null) {
 				h.init();
@@ -113,6 +127,19 @@ public class Arena {
 	public void removePlayer(String player) {
 		if (players.contains(player)) {
 			players.remove(player);
+			Player p = RushMe.getInstance().getServer().getPlayer(player);
+			if (p != null) {
+				if (savedInventories.hasInventory(p)) {
+					PlayerInventory pi = savedInventories.getInventory(p);
+					p.getInventory().setContents(pi.getContents());
+					p.getInventory().setArmorContents(pi.getArmorContents());
+					savedInventories.removeInventory(p);
+				}
+				MainHUD h = SpoutGUI.getHudOf(p);
+				if (h != null) {
+					h.shutdown();
+				}
+			}
 		}
 	}
 
@@ -139,19 +166,23 @@ public class Arena {
 		return RMUtils.parseIntForMinute(startingIn);
 	}
 
-	protected void handlePlayerJoin(Player player) {
-		// TODO
-	}
-
-	protected void handlePlayerLeave(Player player) {
-		// TODO
-	}
-
 	private void doSecond() {
 		timeLeft--;
 		if (timeLeft == 0) {
 			stop();
 		}
+		boolean gameWon = false;
+		for (Team team : teams) {
+			if (gameWon) {
+				team.doWon();
+				return;
+			}
+			if (team.getSpawnsLeft() == 0 && !team.getInfiniteLives()) {
+				stop();
+				team.doLost();
+				gameWon = true;
+			}
+		} 
 	}
 
 	public void start() {
@@ -209,34 +240,38 @@ public class Arena {
 		started = false;
 	}
 
-	public Location getLocation1() {
+	public Vector getVector1() {
 		return loc1;
 	}
 
-	public Location getLocation2() {
+	public Vector getVector2() {
 		return loc2;
 	}
 
-	public void setLocation1(Location loc) {
+	public void setVector1(Vector loc) {
 		if (loc1 == null) {
 			this.loc1 = loc;
+			if (getVector2() != null) {
+				GameManager.addArena(this);
+			}
 		}
 	}
 
-	public void setLocation2(Location loc) {
+	public void setVector2(Vector loc) {
 		if (loc2 == null) {
 			this.loc2 = loc;
+			if (getVector1() != null) {
+				GameManager.addArena(this);
+			}
 		}
 	}
 
-	public boolean inArena(Location loc) {
+	public boolean inArena(Vector loc) {
 		double x = loc.getX();
-		double y = loc.getY();
 		double z = loc.getZ();
 
-		return x >= loc1.getBlockX() && x <= loc2.getBlockX()
-				&& y >= loc1.getBlockY() && y <= loc2.getBlockY()
-				&& z >= loc1.getBlockZ() && z <= loc2.getBlockZ();
+		return (x >= loc1.getBlockX() && x <= loc2.getBlockX() + 1
+				&& z >= loc1.getBlockZ() && z <= loc2.getBlockZ() + 1);
 	}
 
 	public static boolean hasArena(Player player) {
@@ -271,5 +306,42 @@ public class Arena {
 		if (locationsNeeded.containsKey(p)) {
 			locationsNeeded.remove(p);
 		}
+	}
+
+	private static class savedInventories {
+		private static final Map<String, PlayerInventory> inventories = new HashMap<String, PlayerInventory>();
+
+		protected static PlayerInventory getInventory(String player) {
+			return inventories.get(player);
+		}
+
+		protected static PlayerInventory getInventory(Player player) {
+			return getInventory(player.getName());
+		}
+
+		protected static boolean hasInventory(Player player) {
+			return hasInventory(player.getName());
+		}
+
+		protected static boolean hasInventory(String player) {
+			return inventories.containsKey(player);
+		}
+
+		protected static void removeInventory(Player player) {
+			removeInventory(player.getName());
+		}
+
+		protected static void removeInventory(String player) {
+			inventories.remove(player);
+		}
+
+		protected static void addInventory(Player player, PlayerInventory pi) {
+			addInventory(player.getName(), pi);
+		}
+
+		protected static void addInventory(String player, PlayerInventory pi) {
+			inventories.put(player, pi);
+		}
+
 	}
 }

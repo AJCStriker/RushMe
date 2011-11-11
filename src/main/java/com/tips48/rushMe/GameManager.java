@@ -1,5 +1,6 @@
 package com.tips48.rushMe;
 
+import com.tips48.rushMe.custom.items.GrenadeManager;
 import com.tips48.rushMe.data.PlayerData;
 import com.tips48.rushMe.teams.Team;
 import org.bukkit.ChatColor;
@@ -9,6 +10,7 @@ import org.bukkit.event.player.PlayerLoginEvent;
 import org.getspout.spoutapi.SpoutManager;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class GameManager {
@@ -22,11 +24,8 @@ public class GameManager {
 	}
 
 	public static void addToGame(Arena arena, String player) {
+		GrenadeManager.createGrenades(player);
 		arena.addPlayer(player);
-		Player p = RushMe.getInstance().getServer().getPlayer(player);
-		if (p != null) {
-			arena.handlePlayerJoin(p);
-		}
 	}
 
 	public static void removeFromGame(Arena arena, Player player) {
@@ -36,10 +35,6 @@ public class GameManager {
 	public static void removeFromGame(Arena arena, String player) {
 		if (arena.hasPlayer(player)) {
 			arena.removePlayer(player);
-			Player p = RushMe.getInstance().getServer().getPlayer(player);
-			if (p != null) {
-				arena.handlePlayerLeave(p);
-			}
 		}
 	}
 
@@ -82,18 +77,24 @@ public class GameManager {
 
 	public static void removeArena(Arena a) {
 		a.stop();
+		for (String player : a.getPlayers()) {
+			a.removePlayer(player);
+		}
 		games.remove(a);
 	}
 
 	public static Arena createArena(String name, GameMode gamemode) {
 		Arena a = new Arena(gamemode, name);
-		games.add(a);
 		return a;
+	}
+	
+	protected static void addArena(Arena a) {
+		games.add(a);
 	}
 
 	public static GameMode createGameMode(String name, GameModeType type,
-			Integer time, Boolean respawn, Integer respawnTime) {
-		GameMode gm = new GameMode(name, type, time, respawn, respawnTime);
+			Integer time, Boolean respawn, Integer respawnTime, Integer maxPlayers, List<Team> teams) {
+		GameMode gm = new GameMode(name, type, time, respawn, respawnTime, maxPlayers, teams);
 
 		gameModes.add(gm);
 
@@ -125,6 +126,14 @@ public class GameManager {
 		if (defaultGameMode == null) {
 			defaultGameMode = g;
 		}
+	}
+	
+	public static Set<String> getArenaNames() {
+		Set<String> names = new HashSet<String>();
+		for (Arena a : games) {
+			names.add(a.getName());
+		}
+		return names;
 	}
 
 	protected static PListener getPListener() {

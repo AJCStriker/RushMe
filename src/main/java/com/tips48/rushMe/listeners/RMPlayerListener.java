@@ -7,6 +7,8 @@ import com.tips48.rushMe.custom.GUI.SpoutGUI;
 import com.tips48.rushMe.custom.items.Gun;
 import com.tips48.rushMe.data.PlayerData;
 import com.tips48.rushMe.util.RMUtils;
+
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
@@ -16,8 +18,9 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.*;
 import org.bukkit.util.BlockIterator;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class RMPlayerListener extends PlayerListener {
 	@Override
@@ -41,13 +44,24 @@ public class RMPlayerListener extends PlayerListener {
 		Action action = event.getAction();
 		if ((action.equals(Action.RIGHT_CLICK_BLOCK) || action
 				.equals(Action.RIGHT_CLICK_AIR))) {
+			if (!(event.hasBlock())) {
+				return;
+				// Fix NPE's
+			}
 			if (Arena.hasArena(p)) {
 				Arena a = Arena.getArena(p);
-				if (a.getLocation1() == null) {
-					a.setLocation1(event.getClickedBlock().getLocation());
+				if (a.getVector1() == null) {
+					a.setVector1(event.getClickedBlock().getLocation()
+							.toVector());
+					if (a.getVector2() != null) {
+						Arena.removeArena(p);
+						p.sendMessage(ChatColor.AQUA + "Points selected");
+					}
 				} else {
-					a.setLocation2(event.getClickedBlock().getLocation());
+					a.setVector2(event.getClickedBlock().getLocation()
+							.toVector());
 					Arena.removeArena(p);
+					p.sendMessage(ChatColor.AQUA + "Points selected");
 				}
 				event.setCancelled(true);
 				return;
@@ -115,10 +129,14 @@ public class RMPlayerListener extends PlayerListener {
 	@Override
 	public void onPlayerMove(PlayerMoveEvent event) {
 		Player player = event.getPlayer();
+		Location from = event.getFrom();
 		if (GameManager.inGame(player)) {
 			Arena a = GameManager.getPlayerArena(player);
-			if (!(a.inArena(event.getTo()))) {
-				event.setCancelled(true);
+				if (!(a.inArena(event.getTo().toVector()))) {
+					from.setX(from.getBlockX() + 0.5);
+					from.setY(from.getBlockY());
+					from.setZ(from.getBlockZ() + 0.5);
+					event.setTo(from);
 			}
 		}
 	}
@@ -151,8 +169,8 @@ public class RMPlayerListener extends PlayerListener {
 	}
 
 	private LivingEntity getLookingAtHead(Player player) {
-		List<Entity> ne = player.getNearbyEntities(100, 100, 100);
-		ArrayList<LivingEntity> entities = new ArrayList<LivingEntity>();
+		List<Entity> ne = player.getNearbyEntities(500, 500, 500);
+		Set<LivingEntity> entities = new HashSet<LivingEntity>();
 
 		for (Entity e : ne) {
 			if (e instanceof LivingEntity) {
@@ -182,6 +200,7 @@ public class RMPlayerListener extends PlayerListener {
 						&& (bz - .75 <= ez && ez <= bz + 1.75)
 						&& (by - 1 <= ey && ey <= by)) {
 					if (target instanceof Player) {
+						// Check teams
 						if (GameManager.inGame((Player) target)) {
 							Arena a = GameManager
 									.getPlayerArena((Player) target);
@@ -201,8 +220,8 @@ public class RMPlayerListener extends PlayerListener {
 	}
 
 	private LivingEntity getLookingAt(Player player) {
-		List<Entity> ne = player.getNearbyEntities(100, 100, 100);
-		ArrayList<LivingEntity> entities = new ArrayList<LivingEntity>();
+		List<Entity> ne = player.getNearbyEntities(500, 500, 500);
+		Set<LivingEntity> entities = new HashSet<LivingEntity>();
 
 		for (Entity e : ne) {
 			if (e instanceof LivingEntity) {

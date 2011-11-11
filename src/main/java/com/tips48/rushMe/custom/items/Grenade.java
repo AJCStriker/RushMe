@@ -12,8 +12,8 @@ import javax.xml.stream.Location;
 public class Grenade extends GenericCustomItem {
 
 	private GrenadeType type;
-	private Integer defaultAmount;
 	private Integer startAmount;
+	private Integer amount;
 
 	private Integer explosionSize;
 	private Integer timeBeforeExplosion;
@@ -23,13 +23,13 @@ public class Grenade extends GenericCustomItem {
 	private Integer stunTime;
 
 	protected Grenade(String name, String texture, GrenadeType type,
-			Integer defaultAmount, Integer startAmount, Integer explosionSize,
+			Integer startAmount, Integer explosionSize,
 			Integer timeBeforeExplosion, Integer damage, Integer stunTime) {
 		super(RushMe.getInstance(), name, texture);
 
 		this.type = type;
-		this.defaultAmount = defaultAmount;
 		this.startAmount = startAmount;
+		this.amount = startAmount;
 		this.explosionSize = explosionSize;
 		this.timeBeforeExplosion = timeBeforeExplosion;
 		this.damage = damage;
@@ -40,12 +40,16 @@ public class Grenade extends GenericCustomItem {
 		return type;
 	}
 
-	public Integer getDefaultAmount() {
-		return defaultAmount;
-	}
-
 	public Integer getStartAmount() {
 		return startAmount;
+	}
+	
+	public Integer getAmount() {
+		return amount;
+	}
+	
+	public void setAmount(int amount) {
+		this.amount = amount;
 	}
 
 	public Integer getExplosionSize() {
@@ -65,7 +69,10 @@ public class Grenade extends GenericCustomItem {
 	}
 
 	public void fire(Location loc) {
-
+		if (amount <= 0) {
+			return;
+		}
+		
 	}
 
 }

@@ -114,6 +114,7 @@ public class MainHUD {
 		wHud.updateAmmo();
 		mHud.updateTeams();
 		wHud.updateHealth();
+		wHud.updateGrenades();
 	}
 
 	public boolean isActive() {

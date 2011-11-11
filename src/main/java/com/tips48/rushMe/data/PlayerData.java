@@ -1,24 +1,23 @@
 package com.tips48.rushMe.data;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import com.tips48.rushMe.GameManager;
 import com.tips48.rushMe.RushMe;
 import com.tips48.rushMe.custom.GUI.MainHUD;
 import com.tips48.rushMe.custom.GUI.SpoutGUI;
 import com.tips48.rushMe.custom.items.Gun;
-import com.tips48.rushMe.util.RMUtils;
 import gnu.trove.map.TObjectIntMap;
 import gnu.trove.map.hash.TObjectIntHashMap;
 import org.bukkit.entity.Player;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class PlayerData {
 	private static final TObjectIntMap<String> scores = new TObjectIntHashMap<String>();
 	private static final TObjectIntMap<String> kills = new TObjectIntHashMap<String>();
 	private static final TObjectIntMap<String> deaths = new TObjectIntHashMap<String>();
 	private static final TObjectIntMap<String> health = new TObjectIntHashMap<String>();
-	private static final Map<String, Boolean> active = new HashMap<String, Boolean>();
+	private static final Set<String> spotted = new HashSet<String>();
 
 	/**
 	 * Utility method
@@ -424,39 +423,50 @@ public class PlayerData {
 		setKills(player, 0);
 		setScore(player, 0);
 	}
-
+	
 	/**
-	 * Sets if the specified player is currently active
+	 * Utility method
 	 * 
-	 * @param player
-	 *            Player's name
-	 * @param a
-	 *            If the player is active
-	 * @deprecated Use GameManager
+	 * @param player {@link Player}
+	 * @see #setSpotted(String, boolean)
 	 */
-	@Deprecated
-	public static void setActive(String player, boolean a) {
-		if (a) {
-			Player p = RushMe.getInstance().getServer().getPlayer(player);
-			if (p != null) {
-				MainHUD hud = SpoutGUI.getHudOf(p);
-				if (hud != null) {
-					hud.init();
-					// TODO give player guns
-				}
-			}
-			active.put(player, true);
+	public static void setSpotted(Player player, boolean s) {
+		setSpotted(player.getName(), s);
+	}
+	
+	/**
+	 * Sets if the specified player is spotted
+	 * @param player Specified player
+	 * @param s if the player is spotted
+	 */
+	public static void setSpotted(String player, boolean s) {
+		if (s) {
+			spotted.add(player);
 		} else {
-			Player p = RushMe.getInstance().getServer().getPlayer(player);
-			if (p != null) {
-				MainHUD hud = SpoutGUI.getHudOf(p);
-				if (hud != null) {
-					hud.shutdown();
-				}
-				RMUtils.clearInventoryOfGuns(p);
+			if (spotted.contains(player)) {
+				spotted.remove(player);
 			}
-			active.put(player, false);
 		}
 	}
-
+	
+	/**
+	 * Utility method
+	 * 
+	 * @param player {@link Player}
+	 * @see #isSpotted(String)
+	 */
+	public static boolean isSpotted(Player player) {
+		return isSpotted(player.getName());
+	}
+	
+	/**
+	 * Gets if the specified player is spotted
+	 * 
+	 * @param player Specified player
+	 * @return is the specified player is spotted
+	 */
+	public static boolean isSpotted(String player) {
+		return spotted.contains(player);
+	}
+ 
 }
