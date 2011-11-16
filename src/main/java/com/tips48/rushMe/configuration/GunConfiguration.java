@@ -12,6 +12,10 @@ import java.util.logging.Level;
 public class GunConfiguration {
 	private static File gunsFile;
 	private static YamlConfiguration guns;
+	
+	private GunConfiguration() {
+		
+	}
 
 	/**
 	 * Loads all guns from the configuration file guns.yml

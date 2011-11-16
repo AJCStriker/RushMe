@@ -18,6 +18,10 @@ public class GrenadeManager {
 	private static final Set<Grenade> grenades = new HashSet<Grenade>();
 
 	private static final TIntObjectMap<Set<Grenade>> playerGrenades = new TIntObjectHashMap<Set<Grenade>>();
+	
+	private GrenadeManager() {
+		
+	}
 
 	/**
 	 * Creates a gun with the specified specifications

@@ -16,6 +16,10 @@ public class GameModeConfiguration {
 
 	private static File gamemodeFile;
 	private static YamlConfiguration gamemode;
+	
+	private GameModeConfiguration() {
+		
+	}
 
 	public static void loadGameModes() {
 		gamemodeFile = new File(RushMe.getInstance().getDataFolder()

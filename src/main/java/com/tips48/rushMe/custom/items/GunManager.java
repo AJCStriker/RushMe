@@ -7,6 +7,10 @@ import java.util.Set;
 
 public class GunManager {
 	private static final Set<Gun> guns = new HashSet<Gun>();
+	
+	private GunManager() {
+		
+	}
 
 	/**
 	 * Creates a gun with the specified specifications

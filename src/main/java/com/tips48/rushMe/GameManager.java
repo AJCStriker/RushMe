@@ -20,6 +20,10 @@ public class GameManager {
 	private static GameMode defaultGameMode = null;
 
 	private static Set<Arena> notDone = new HashSet<Arena>();
+	
+	private GameManager() {
+		
+	}
 
 	public static void addToGame(Arena arena, Player player, Team prefered) {
 		addToGame(arena, player.getEntityId(), prefered);

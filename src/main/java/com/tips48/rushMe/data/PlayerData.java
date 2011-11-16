@@ -20,6 +20,10 @@ public class PlayerData {
 	private static final TIntIntMap deaths = new TIntIntHashMap();
 	private static final TIntIntMap health = new TIntIntHashMap();
 	private static final TIntSet spotted = new TIntHashSet();
+	
+	private PlayerData() {
+		
+	}
 
 	/**
 	 * Utility method
