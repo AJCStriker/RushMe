@@ -1,6 +1,8 @@
 package com.tips48.rushMe.custom.blocks;
 
 import com.tips48.rushMe.RushMe;
+import com.tips48.rushMe.custom.blocks.designs.FlagBaseBlockDesign;
+
 import org.bukkit.World;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Entity;
@@ -10,9 +12,7 @@ import org.getspout.spoutapi.player.SpoutPlayer;
 
 public class FlagBase extends GenericCustomBlock {
 	public FlagBase() {
-		super(RushMe.getInstance(), "FlagBase", true);
-
-		// TODO block model and id
+		super(RushMe.getInstance(), "FlagBase", true, new FlagBaseBlockDesign(), 0);
 	}
 
 	public boolean canPlaceBlockAt(World world, int x, int y, int z) {
