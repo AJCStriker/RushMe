@@ -5,13 +5,12 @@ package com.randomappdev.pluginstats;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
+
 import java.io.File;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.UUID;
-import java.util.logging.FileHandler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.logging.*;
 
 public class Ping {
 	private static final File configFile = new File(
@@ -39,7 +38,7 @@ public class Ping {
 	private static Boolean configExists() {
 		config.addDefault("opt-out", false);
 		config.addDefault("guid", UUID.randomUUID().toString());
-		if (!configFile.exists() || config.get("hash", null) == null) {
+		if (!configFile.exists() || (config.get("hash", null) == null)) {
 			System.out
 					.println("PluginStats is initializing for the first time. To opt-out for any reason check plugins/PluginStats/config.yml");
 			try {
@@ -71,14 +70,14 @@ public class Ping {
 }
 
 class Pinger implements Runnable {
-	private Plugin plugin;
-	private String guid;
-	private Logger logger;
+	private final Plugin plugin;
+	private final String guid;
+	private final Logger logger;
 
 	public Pinger(Plugin plugin, String guid, Logger theLogger) {
 		this.plugin = plugin;
 		this.guid = guid;
-		this.logger = theLogger;
+		logger = theLogger;
 	}
 
 	public void run() {
