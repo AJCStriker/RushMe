@@ -19,6 +19,7 @@ package com.tips48.rushMe.custom.blocks;
 
 import com.tips48.rushMe.RushMe;
 import com.tips48.rushMe.teams.Team;
+
 import org.bukkit.World;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Entity;
@@ -90,6 +91,12 @@ public class Flag extends GenericCustomBlock {
 
 	public void setOwner(Team owner) {
 		this.owner = owner;
+	}
+
+	public void onBlockDestroyed(World arg0, int arg1, int arg2, int arg3,
+			LivingEntity arg4) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

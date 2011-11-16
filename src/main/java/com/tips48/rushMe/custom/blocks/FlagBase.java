@@ -29,8 +29,7 @@ import org.getspout.spoutapi.player.SpoutPlayer;
 
 public class FlagBase extends GenericCustomBlock {
 	public FlagBase() {
-		super(RushMe.getInstance(), "FlagBase", true,
-				new FlagBaseBlockDesign(), 0);
+		super(RushMe.getInstance(), "FlagBase", true, new FlagBaseBlockDesign());
 	}
 
 	public boolean canPlaceBlockAt(World world, int x, int y, int z) {
@@ -80,5 +79,11 @@ public class FlagBase extends GenericCustomBlock {
 	public void onNeighborBlockChange(World world, int x, int y, int z,
 			int unknown) {
 		// TODO find out 4th arg
+	}
+
+	public void onBlockDestroyed(World arg0, int arg1, int arg2, int arg3,
+			LivingEntity arg4) {
+		// TODO Auto-generated method stub
+
 	}
 }

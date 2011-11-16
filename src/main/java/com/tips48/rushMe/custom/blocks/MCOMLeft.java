@@ -19,6 +19,7 @@ package com.tips48.rushMe.custom.blocks;
 
 import com.tips48.rushMe.RushMe;
 import com.tips48.rushMe.custom.blocks.designs.MCOMBlockDesign;
+
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.block.BlockFace;
@@ -32,7 +33,7 @@ public class MCOMLeft extends GenericCustomBlock {
 	private final boolean armed = false;
 
 	public MCOMLeft() {
-		super(RushMe.getInstance(), "MCOM", true, new MCOMBlockDesign(), 0);
+		super(RushMe.getInstance(), "MCOM", true, new MCOMBlockDesign());
 	}
 
 	public boolean isArmed() {
@@ -103,6 +104,12 @@ public class MCOMLeft extends GenericCustomBlock {
 	public void onNeighborBlockChange(World world, int x, int y, int z,
 			int unknown) {
 		// TODO find out 4th arg
+	}
+
+	public void onBlockDestroyed(World arg0, int arg1, int arg2, int arg3,
+			LivingEntity arg4) {
+		// TODO Auto-generated method stub
+
 	}
 
 }
