@@ -1,16 +1,15 @@
 package com.tips48.rushMe.custom.GUI;
 
-import com.tips48.rushMe.RushMe;
+import com.tips48.rushMe.Arena;
+import com.tips48.rushMe.GameManager;
+import com.tips48.rushMe.custom.items.Gun;
+import com.tips48.rushMe.teams.Team;
+
 import org.bukkit.ChatColor;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerListener;
 import org.getspout.spoutapi.SpoutManager;
-import org.getspout.spoutapi.gui.GenericLabel;
-import org.getspout.spoutapi.gui.Label;
-import org.getspout.spoutapi.gui.WidgetAnchor;
-import org.getspout.spoutapi.player.SpoutPlayer;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,28 +22,34 @@ public class SpoutGUI {
 
 	}
 
-	@Deprecated
-	public static void showKill(Player killer, LivingEntity killed,
-			String weapon) {
-		final SpoutPlayer sp = SpoutManager.getPlayer(killer);
-		final Label l = new GenericLabel();
-		l.setAnchor(WidgetAnchor.BOTTOM_CENTER);
-		l.setY(-45);
-		String killedName;
-		if (killed instanceof Player) {
-			killedName = ((Player) killed).getDisplayName();
-		} else {
-			killedName = killed.getClass().getInterfaces()[0].getSimpleName();
+	public static void showKill(Player killer, Player killed,
+			Gun weapon) {
+		Arena a = GameManager.getPlayerArena(killer);
+		Team pTeam = a.getPlayerTeam(killer);
+		Team other = null;
+		for (Team t :a.getTeams()) {
+			if (t != pTeam) {
+				other = t;
+			}
 		}
-		l.setText(ChatColor.GREEN + killer.getName() + ChatColor.WHITE + " ["
-				+ weapon + "] " + ChatColor.RED + killedName);
-		sp.getMainScreen().attachWidget(RushMe.getInstance(), l);
-		RushMe.getInstance().getServer().getScheduler()
-				.scheduleSyncDelayedTask(RushMe.getInstance(), new Runnable() {
-					public void run() {
-						sp.getMainScreen().removeWidget(l);
-					}
-				}, 20 * 5);
+		for (int i : pTeam.getPlayers().toArray()) {
+			Player p = SpoutManager.getPlayerFromId(i);
+			if (p != null) {
+				MainHUD hud = getHudOf(p);
+				if (hud != null) {
+					hud.getKillFeedQueue().addToQueue(ChatColor.GREEN + killer.getDisplayName() + ChatColor.WHITE + "[" + weapon.getName() + "]" + ChatColor.RED + killed.getDisplayName());
+				}
+			}
+		}
+		for (int i : other.getPlayers().toArray()) {
+			Player p = SpoutManager.getPlayerFromId(i);
+			if (p != null) {
+				MainHUD hud = getHudOf(p);
+				if (hud != null) {
+					hud.getKillFeedQueue().addToQueue(ChatColor.RED + killer.getDisplayName() + ChatColor.WHITE + "[" + weapon.getName() + "]" + ChatColor.GREEN + killed.getDisplayName());
+				}
+			}
+		}
 	}
 
 	public static MainHUD getHudOf(Player player) {

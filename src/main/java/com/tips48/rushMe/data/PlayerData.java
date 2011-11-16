@@ -52,7 +52,6 @@ public class PlayerData {
 	 * @param gun
 	 *            {@link Gun} object
 	 */
-	@SuppressWarnings("deprecation")
 	public static void registerDamage(int hurt, int damager, int damage, Gun gun) {
 		Player hurtP = SpoutManager.getPlayerFromId(hurt);
 		Player damagerP = SpoutManager.getPlayerFromId(damager);
@@ -81,7 +80,9 @@ public class PlayerData {
 
 		if (getHealth(hurt) <= 0) {
 			addDeath(damager);
-			SpoutGUI.showKill(damagerP, hurtP, gun.getName());
+			SpoutGUI.showKill(damagerP, hurtP, gun);
+			damagerHud.getPointQueue().addToQueue("Enemy killed - 100");
+			setScore(damagerP, getScore(damagerP) + 100);
 		}
 		// TODO if keeping gun stats, do here
 	}
