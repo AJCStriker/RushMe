@@ -46,22 +46,23 @@ public class RMPlayerListener extends PlayerListener {
 				.equals(Action.RIGHT_CLICK_AIR))) {
 			if (!(event.hasBlock())) {
 				return;
-				// Fix NPE's
 			}
-			if (Arena.hasArena(p)) {
-				Arena a = Arena.getArena(p);
+			if (GameManager.creatingArena(p)) {
+				Arena a = GameManager.getCreatingArena(p);
 				if (a.getVector1() == null) {
 					a.setVector1(event.getClickedBlock().getLocation()
 							.toVector());
 					if (a.getVector2() != null) {
-						Arena.removeArena(p);
 						p.sendMessage(ChatColor.AQUA + "Points selected");
+						a.startCountdownTillStart(60);
 					}
 				} else {
 					a.setVector2(event.getClickedBlock().getLocation()
 							.toVector());
-					Arena.removeArena(p);
-					p.sendMessage(ChatColor.AQUA + "Points selected");
+					if (a.getVector1() != null) {
+						p.sendMessage(ChatColor.AQUA + "Points selected");
+						a.startCountdownTillStart(60);
+					}
 				}
 				event.setCancelled(true);
 				return;
@@ -137,6 +138,7 @@ public class RMPlayerListener extends PlayerListener {
 				from.setY(from.getBlockY());
 				from.setZ(from.getBlockZ() + 0.5);
 				event.setTo(from);
+				return;
 			}
 		}
 	}

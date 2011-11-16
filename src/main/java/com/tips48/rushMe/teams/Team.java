@@ -1,27 +1,31 @@
 package com.tips48.rushMe.teams;
 
 import com.tips48.rushMe.GameManager;
-import com.tips48.rushMe.RushMe;
 import com.tips48.rushMe.custom.GUI.SpoutGUI;
 import com.tips48.rushMe.data.PlayerData;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.getspout.spoutapi.SpoutManager;
+
+import gnu.trove.list.TIntList;
+import gnu.trove.list.array.TIntArrayList;
+import gnu.trove.set.TIntSet;
+import gnu.trove.set.hash.TIntHashSet;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class Team {
-	private final Set<String> players = new HashSet<String>();
+	private final TIntSet players;
 	private int spawnsLeft;
 	private final String name;
 	private final int playerLimit;
 	private List<Location> spawns = new ArrayList<Location>();
 	private boolean infiniteLives;
-	private final String prefix;
 
+	private final String prefix;
 	private final String texture;
+	private final Integer maxSpawnsLeft;
 
 	/**
 	 * Creates a team
@@ -35,11 +39,16 @@ public class Team {
 	 * @param texture
 	 *            URL to texture for team
 	 */
-	public Team(String name, String prefix, int playerLimit, String texture) {
+	public Team(String name, String prefix, int playerLimit, String texture,
+			Integer maxSpawnsLeft) {
 		this.name = name;
 		this.playerLimit = playerLimit;
 		this.prefix = prefix;
 		this.texture = texture;
+		this.maxSpawnsLeft = maxSpawnsLeft;
+		this.spawnsLeft = maxSpawnsLeft;
+
+		players = new TIntHashSet();
 	}
 
 	/**
@@ -74,8 +83,8 @@ public class Team {
 	 */
 	public void addSpawnsLeft() {
 		spawnsLeft++;
-		for (String player : players) {
-			Player p = RushMe.getInstance().getServer().getPlayer(player);
+		for (int player : players.toArray()) {
+			Player p = SpoutManager.getPlayerFromId(player);
 			if (p != null) {
 				SpoutGUI.getHudOf(p).updateHUD();
 			}
@@ -87,8 +96,8 @@ public class Team {
 	 */
 	public void subtractSpawnsLeft() {
 		spawnsLeft--;
-		for (String player : players) {
-			Player p = RushMe.getInstance().getServer().getPlayer(player);
+		for (int player : players.toArray()) {
+			Player p = SpoutManager.getPlayerFromId(player);
 			if (p != null) {
 				SpoutGUI.getHudOf(p).updateHUD();
 			}
@@ -106,8 +115,8 @@ public class Team {
 		if (spawnsLeft <= 0) {
 
 		}
-		for (String player : players) {
-			Player p = RushMe.getInstance().getServer().getPlayer(player);
+		for (int player : players.toArray()) {
+			Player p = SpoutManager.getPlayerFromId(player);
 			if (p != null) {
 				SpoutGUI.getHudOf(p).updateHUD();
 			}
@@ -119,7 +128,7 @@ public class Team {
 	 * 
 	 * @return
 	 */
-	public Set<String> getPlayers() {
+	public TIntSet getPlayers() {
 		return players;
 	}
 
@@ -129,7 +138,7 @@ public class Team {
 	 * @param player
 	 *            Player's name
 	 */
-	public boolean addPlayer(String player) {
+	public boolean addPlayer(int player) {
 		if (playerLimit > players.size()) {
 			players.add(player);
 			return true;
@@ -143,7 +152,7 @@ public class Team {
 	 * @param player
 	 *            Player's name
 	 */
-	public void removePlayer(String player) {
+	public void removePlayer(int player) {
 		if (players.contains(player)) {
 			players.remove(player);
 		}
@@ -157,7 +166,7 @@ public class Team {
 	 * @see #addPlayer(String)
 	 */
 	public boolean addPlayer(Player player) {
-		return addPlayer(player.getName());
+		return addPlayer(player.getEntityId());
 	}
 
 	/**
@@ -167,7 +176,7 @@ public class Team {
 	 *            {@link Player}
 	 */
 	public void removePlayer(Player player) {
-		removePlayer(player.getName());
+		removePlayer(player.getEntityId());
 	}
 
 	/**
@@ -177,7 +186,7 @@ public class Team {
 	 *            Player's name
 	 * @return if the team contains the specified player
 	 */
-	public boolean containsPlayer(String player) {
+	public boolean containsPlayer(int player) {
 		return players.contains(player);
 	}
 
@@ -190,7 +199,7 @@ public class Team {
 	 * @see #containsPlayer(String)
 	 */
 	public boolean containsPlayer(Player player) {
-		return containsPlayer(player.getName());
+		return containsPlayer(player.getEntityId());
 	}
 
 	/**
@@ -256,8 +265,8 @@ public class Team {
 	 * 
 	 * @return a list of with each player on the team by score
 	 */
-	public List<String> getByScore() {
-		List<String> byScore = new ArrayList<String>();
+	public TIntList getByScore() {
+		TIntList byScore = new TIntArrayList();
 		int playersOnTeam = players.size();
 		Integer[] scores = new Integer[playersOnTeam];
 		for (int i = 0; i < playersOnTeam; i++) {
@@ -268,7 +277,7 @@ public class Team {
 			}
 		}
 		for (int i = 0; i < playersOnTeam; i++) {
-			for (String name : PlayerData.getScores().keySet()) {
+			for (int name : PlayerData.getScores().keySet().toArray()) {
 				if (!players.contains(name)) {
 					continue;
 				}
@@ -277,7 +286,7 @@ public class Team {
 				}
 				if (scores[i] == PlayerData.getScore(name)) {
 					if (!byScore.contains(name)) {
-						byScore.add(i, name);
+						byScore.insert(i, name);
 					}
 				}
 			}
@@ -330,5 +339,14 @@ public class Team {
 
 	public String getTexture() {
 		return texture;
+	}
+
+	@Override
+	public String toString() {
+		return name;
+	}
+
+	public int getMaxSpawnsLeft() {
+		return maxSpawnsLeft;
 	}
 }

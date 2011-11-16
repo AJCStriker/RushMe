@@ -1,7 +1,12 @@
 package com.tips48.rushMe.util;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import com.tips48.rushMe.Arena;
 import com.tips48.rushMe.RushMe;
+import com.tips48.rushMe.teams.Team;
+
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
@@ -118,7 +123,20 @@ public class RMChat {
 		sender.sendMessage(ChatColor.AQUA + "Time left: "
 				+ RMUtils.parseIntForMinute(a.getTimeLeft()));
 		sender.sendMessage(ChatColor.AQUA + "Players: "
-				+ RMUtils.readableSet(a.getPlayers()));
+				+ RMUtils.readableSet(RMUtils.toSet(a.getPlayers())));
+		Set<String> teamInfo = new HashSet<String>();
+		for (Team t : a.getTeams()) {
+			String info;
+			if (t.getInfiniteLives()) {
+				info = t.getName() + " (Infinite)";
+			} else {
+				info = t.getName() + " (" + t.getSpawnsLeft() + "/"
+						+ t.getMaxSpawnsLeft() + ")";
+			}
+			teamInfo.add(info);
+		}
+		sender.sendMessage(ChatColor.AQUA + "Teams: "
+				+ RMUtils.readableSet(teamInfo));
 	}
 
 }

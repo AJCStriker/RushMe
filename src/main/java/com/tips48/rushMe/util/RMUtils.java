@@ -17,8 +17,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 import org.getspout.spoutapi.SpoutManager;
+import org.getspout.spoutapi.inventory.SpoutItemStack;
 import org.getspout.spoutapi.material.CustomItem;
 import org.getspout.spoutapi.player.SpoutPlayer;
+
+import gnu.trove.set.TIntSet;
 
 import java.util.HashSet;
 import java.util.List;
@@ -58,6 +61,15 @@ public class RMUtils {
 				.replace("]", "");
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public static Set<?> toSet(TIntSet ts) {
+		Set result = new HashSet();
+		for (Integer i : ts.toArray()) {
+			result.add(i);
+		}
+		return result;
+	}
+
 	public static String parseIntForMinute(Integer i) {
 		int i2 = i;
 		int minutes = 0;
@@ -86,11 +98,11 @@ public class RMUtils {
 	}
 
 	public static boolean holdingGun(Player player) {
-		SpoutPlayer p = SpoutManager.getPlayer(player);
-		ItemStack inHand = p.getItemInHand();
-		if (SpoutManager.getMaterialManager().getCustomItem(inHand) != null) {
-			CustomItem i = SpoutManager.getMaterialManager().getCustomItem(
-					inHand);
+		ItemStack raw = player.getItemInHand();
+		SpoutItemStack inHand = new SpoutItemStack(raw.getTypeId(),
+				raw.getAmount(), raw.getDurability());
+		if (inHand.isCustomItem()) {
+			CustomItem i = (CustomItem) inHand.getMaterial();
 			if (GunManager.getGun(i) != null) {
 				return true;
 			}
@@ -108,8 +120,9 @@ public class RMUtils {
 		if (item == null) {
 			return false;
 		}
-		CustomItem i = SpoutManager.getMaterialManager().getCustomItem(item);
-		if (i != null) {
+		SpoutItemStack sis = new SpoutItemStack(item);
+		if (sis.isCustomItem()) {
+			CustomItem i = (CustomItem) sis.getMaterial();
 			Gun g = GunManager.getGun(i);
 			if (g != null) {
 				return true;
@@ -123,10 +136,8 @@ public class RMUtils {
 		ItemStack[] armor = player.getInventory().getArmorContents();
 		player.getInventory().clear();
 		for (ItemStack item : inventory) {
-			if (item != null) {
-				if (!isGun(item)) {
-					player.getInventory().addItem(item);
-				}
+			if (!isGun(item)) {
+				player.getInventory().addItem(item);
 			}
 		}
 		player.getInventory().setArmorContents(armor);
@@ -134,9 +145,12 @@ public class RMUtils {
 
 	public static Gun getGun(Player player) {
 		SpoutPlayer p = SpoutManager.getPlayer(player);
-		ItemStack inHand = p.getItemInHand();
-		CustomItem i = SpoutManager.getMaterialManager().getCustomItem(inHand);
-		return GunManager.getGun(i);
+		SpoutItemStack inHand = (SpoutItemStack) p.getItemInHand();
+		if (inHand.isCustomItem()) {
+			CustomItem i = (CustomItem) inHand.getMaterial();
+			return GunManager.getGun(i);
+		}
+		return null;
 	}
 
 	public static List<Entity> getNearbyEntities(Location loc, double radiusX,

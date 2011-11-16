@@ -87,14 +87,15 @@ public class WeaponsHUD extends GenericGradient {
 		int y = 40;
 		for (Grenade g : GrenadeManager.getGrenades(player)) {
 			Label gLabel = new GenericLabel();
-			gLabel.setText(g.getName() + " x" + g.getAmount());
+			gLabel.setText(g.getShortName() + " x" + g.getAmount());
 			gLabel.setY(-y);
-			gLabel.setX(-20);
+			gLabel.setX(-50);
 			gLabel.setAnchor(WidgetAnchor.BOTTOM_RIGHT);
 			gLabel.setScale(1.3F);
 			gLabel.setPriority(RenderPriority.Low);
 			player.getMainScreen().attachWidget(RushMe.getInstance(), gLabel);
 			grenadeLabels.add(gLabel);
+			System.out.println("Created " + g.getName());
 			y -= 10;
 		}
 
@@ -155,7 +156,7 @@ public class WeaponsHUD extends GenericGradient {
 		for (Grenade g : GrenadeManager.getGrenades(player)) {
 			for (Label l : grenadeLabels) {
 				if (l.getText().contains(g.getName())) {
-					l.setText(g.getName() + " x" + g.getAmount())
+					l.setText(g.getShortName() + " x" + g.getAmount())
 							.setDirty(true);
 				}
 			}

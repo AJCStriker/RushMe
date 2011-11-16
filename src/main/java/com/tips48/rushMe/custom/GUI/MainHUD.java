@@ -18,6 +18,8 @@ public class MainHUD {
 	private final MapHUD mHud;
 	private final WeaponsHUD wHud;
 	private final Label timeLabel;
+	private final PointQueue pQueue;
+	private final KillFeedQueue kQueue;
 
 	private int schedulerId;
 
@@ -28,6 +30,8 @@ public class MainHUD {
 		hud = this.player.getMainScreen();
 		mHud = new MapHUD(this.player);
 		wHud = new WeaponsHUD(this.player);
+		pQueue = new PointQueue(this.player, 4);
+		kQueue = new KillFeedQueue(this.player, 4);
 		timeLabel = new GenericLabel();
 		timeLabel.setScale(1.3F);
 	}
@@ -105,16 +109,28 @@ public class MainHUD {
 		hud.removeWidget(wHud);
 
 		RushMe.getInstance().getServer().getScheduler().cancelTask(schedulerId);
+		hud.removeWidget(timeLabel);
 		schedulerId = 0;
 
 		active = false;
 	}
 
 	public void updateHUD() {
+		if (!(active)) {
+			return;
+		}
 		wHud.updateAmmo();
 		mHud.updateTeams();
 		wHud.updateHealth();
 		wHud.updateGrenades();
+	}
+
+	public PointQueue getPointQueue() {
+		return pQueue;
+	}
+
+	public KillFeedQueue getKillFeedQueue() {
+		return kQueue;
 	}
 
 	public boolean isActive() {

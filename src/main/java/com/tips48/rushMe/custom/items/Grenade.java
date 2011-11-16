@@ -15,6 +15,8 @@ public class Grenade extends GenericCustomItem {
 	private Integer startAmount;
 	private Integer amount;
 
+	private final String shortName;
+
 	private Integer explosionSize;
 	private Integer timeBeforeExplosion;
 
@@ -22,10 +24,12 @@ public class Grenade extends GenericCustomItem {
 
 	private Integer stunTime;
 
-	protected Grenade(String name, String texture, GrenadeType type,
-			Integer startAmount, Integer explosionSize,
+	protected Grenade(String name, String shortName, String texture,
+			GrenadeType type, Integer startAmount, Integer explosionSize,
 			Integer timeBeforeExplosion, Integer damage, Integer stunTime) {
 		super(RushMe.getInstance(), name, texture);
+
+		this.shortName = shortName;
 
 		this.type = type;
 		this.startAmount = startAmount;
@@ -73,6 +77,10 @@ public class Grenade extends GenericCustomItem {
 			return;
 		}
 
+	}
+
+	public String getShortName() {
+		return shortName;
 	}
 
 }

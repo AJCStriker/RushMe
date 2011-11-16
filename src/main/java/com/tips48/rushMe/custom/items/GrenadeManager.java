@@ -1,8 +1,9 @@
 package com.tips48.rushMe.custom.items;
 
-import java.util.HashMap;
+import gnu.trove.map.TIntObjectMap;
+import gnu.trove.map.hash.TIntObjectHashMap;
+
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 import org.bukkit.entity.Player;
@@ -16,13 +17,15 @@ public class GrenadeManager {
 
 	private static final Set<Grenade> grenades = new HashSet<Grenade>();
 
-	private static final Map<String, Set<Grenade>> playerGrenades = new HashMap<String, Set<Grenade>>();
+	private static final TIntObjectMap<Set<Grenade>> playerGrenades = new TIntObjectHashMap<Set<Grenade>>();
 
 	/**
 	 * Creates a gun with the specified specifications
 	 * 
 	 * @param name
-	 *            Name of gun
+	 *            Name of grenade
+	 * @param shortName
+	 *            short name of grenade
 	 * @param texture
 	 *            Online texture URL
 	 * @param type
@@ -32,12 +35,14 @@ public class GrenadeManager {
 	 * @param explosionSize
 	 *            Size of explosion
 	 */
-	public static void createGrenade(String name, String texture,
-			GrenadeType type, Integer startAmount, Integer explosionSize,
-			Integer timeBeforeExplosion, Integer damage, Integer stunTime) {
+	public static void createGrenade(String name, String shortName,
+			String texture, GrenadeType type, Integer startAmount,
+			Integer explosionSize, Integer timeBeforeExplosion, Integer damage,
+			Integer stunTime) {
 
-		Grenade grenade = new Grenade(name, texture, type, startAmount,
-				explosionSize, timeBeforeExplosion, damage, stunTime);
+		Grenade grenade = new Grenade(name, shortName, texture, type,
+				startAmount, explosionSize, timeBeforeExplosion, damage,
+				stunTime);
 
 		grenades.add(grenade);
 	}
@@ -97,19 +102,19 @@ public class GrenadeManager {
 	}
 
 	public static Set<Grenade> getGrenades(Player player) {
-		return getGrenades(player.getName());
+		return getGrenades(player.getEntityId());
 	}
 
-	public static Set<Grenade> getGrenades(String player) {
+	public static Set<Grenade> getGrenades(int player) {
 		return playerGrenades.get(player);
 	}
 
-	public static void createGrenades(String player) {
+	public static void createGrenades(int player) {
 		playerGrenades.put(player, grenades);
 	}
 
 	public static void createGrenades(Player player) {
-		createGrenades(player.getName());
+		createGrenades(player.getEntityId());
 	}
 
 }

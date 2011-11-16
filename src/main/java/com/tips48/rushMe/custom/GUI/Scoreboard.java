@@ -5,17 +5,21 @@ import com.tips48.rushMe.GameManager;
 import com.tips48.rushMe.RushMe;
 import com.tips48.rushMe.data.PlayerData;
 import com.tips48.rushMe.teams.Team;
+
+import org.bukkit.entity.Player;
+import org.getspout.spoutapi.SpoutManager;
 import org.getspout.spoutapi.gui.*;
 import org.getspout.spoutapi.player.SpoutPlayer;
 
-import java.util.HashMap;
+import gnu.trove.map.TIntObjectMap;
+import gnu.trove.map.hash.TIntObjectHashMap;
+
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 public class Scoreboard {
 
-	private static final Map<String, Set<Widget>> widgets = new HashMap<String, Set<Widget>>();
+	private static final TIntObjectMap<Set<Widget>> widgets = new TIntObjectHashMap<Set<Widget>>();
 
 	private Scoreboard() {
 
@@ -206,12 +210,16 @@ public class Scoreboard {
 		}
 
 		int currentY = 130;
-		for (String name : playerTeam.getByScore()) {
+		for (int name : playerTeam.getByScore().toArray()) {
+			Player p = SpoutManager.getPlayerFromId(name);
+			if (p == null) {
+				continue;
+			}
 			Label playerName = new GenericLabel();
 			playerName.setAnchor(WidgetAnchor.CENTER_CENTER);
 			playerName.setX(-395);
 			playerName.setY(-currentY);
-			playerName.setText(name);
+			playerName.setText(p.getName());
 			playerName.setScale(1.3F);
 			widgetsDrawn.add(playerName);
 
@@ -219,7 +227,8 @@ public class Scoreboard {
 			score.setAnchor(WidgetAnchor.CENTER_CENTER);
 			score.setX(-50);
 			score.setY(-currentY);
-			score.setText(Integer.toString(PlayerData.getScore(name)));
+			score.setText(Integer.toString(PlayerData.getScore(player
+					.getEntityId())));
 			score.setScale(1.3F);
 			widgetsDrawn.add(score);
 
@@ -227,7 +236,8 @@ public class Scoreboard {
 			kills.setAnchor(WidgetAnchor.CENTER_CENTER);
 			kills.setX(-105);
 			kills.setY(-currentY);
-			kills.setText(Integer.toString(PlayerData.getKills(name)));
+			kills.setText(Integer.toString(PlayerData.getKills(player
+					.getEntityId())));
 			kills.setScale(1.3F);
 			widgetsDrawn.add(kills);
 
@@ -235,7 +245,8 @@ public class Scoreboard {
 			deaths.setAnchor(WidgetAnchor.CENTER_CENTER);
 			deaths.setX(-75);
 			deaths.setY(-currentY);
-			deaths.setText(Integer.toString(PlayerData.getDeaths(name)));
+			deaths.setText(Integer.toString(PlayerData.getDeaths(player
+					.getEntityId())));
 			deaths.setScale(1.3F);
 			widgetsDrawn.add(deaths);
 
@@ -243,12 +254,16 @@ public class Scoreboard {
 		}
 
 		currentY = 111;
-		for (String name : enemyTeam.getByScore()) {
+		for (int name : enemyTeam.getByScore().toArray()) {
+			Player p = SpoutManager.getPlayerFromId(name);
+			if (p == null) {
+				continue;
+			}
 			Label playerName = new GenericLabel();
 			playerName.setAnchor(WidgetAnchor.CENTER_CENTER);
 			playerName.setX(5);
 			playerName.setY(-currentY);
-			playerName.setText(name);
+			playerName.setText(p.getName());
 			playerName.setScale(1.3F);
 			widgetsDrawn.add(playerName);
 
@@ -256,7 +271,7 @@ public class Scoreboard {
 			score.setAnchor(WidgetAnchor.CENTER_CENTER);
 			score.setX(350);
 			score.setY(-currentY);
-			score.setText(Integer.toString(PlayerData.getScore(name)));
+			score.setText(Integer.toString(PlayerData.getScore(p.getEntityId())));
 			score.setScale(1.3F);
 			widgetsDrawn.add(score);
 
@@ -264,7 +279,7 @@ public class Scoreboard {
 			kills.setAnchor(WidgetAnchor.CENTER_CENTER);
 			kills.setX(295);
 			kills.setY(-currentY);
-			kills.setText(Integer.toString(PlayerData.getKills(name)));
+			kills.setText(Integer.toString(PlayerData.getKills(p.getEntityId())));
 			kills.setScale(1.3F);
 			widgetsDrawn.add(kills);
 
@@ -272,37 +287,35 @@ public class Scoreboard {
 			deaths.setAnchor(WidgetAnchor.CENTER_CENTER);
 			deaths.setX(325);
 			deaths.setY(-currentY);
-			deaths.setText(Integer.toString(PlayerData.getDeaths(name)));
+			deaths.setText(Integer.toString(PlayerData.getDeaths(p
+					.getEntityId())));
 			deaths.setScale(1.3F);
 			widgetsDrawn.add(deaths);
 
 			currentY -= 20;
 		}
 
-		// TODO
-		// Lastly: Add to screen
-
 		for (Widget w : widgetsDrawn) {
 			player.getMainScreen().attachWidget(RushMe.getInstance(), w);
 		}
 
-		widgets.put(player.getName(), widgetsDrawn);
+		widgets.put(player.getEntityId(), widgetsDrawn);
 
 	}
 
 	public static boolean hasScoreboardOpen(SpoutPlayer player) {
-		return widgets.containsKey(player.getName());
+		return widgets.containsKey(player.getEntityId());
 	}
 
 	public static void remove(SpoutPlayer player) {
 		if (!GameManager.inGame(player)) {
 			return;
 		}
-		if (widgets.containsKey(player.getName())) {
-			for (Widget w : widgets.get(player.getName())) {
+		if (widgets.containsKey(player.getEntityId())) {
+			for (Widget w : widgets.get(player.getEntityId())) {
 				player.getMainScreen().removeWidget(w);
 			}
-			widgets.remove(player.getName());
+			widgets.remove(player.getEntityId());
 		}
 	}
 

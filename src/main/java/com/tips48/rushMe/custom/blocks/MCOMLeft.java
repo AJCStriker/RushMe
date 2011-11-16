@@ -10,11 +10,11 @@ import org.bukkit.entity.LivingEntity;
 import org.getspout.spoutapi.material.block.GenericCustomBlock;
 import org.getspout.spoutapi.player.SpoutPlayer;
 
-public class MCOM extends GenericCustomBlock {
+public class MCOMLeft extends GenericCustomBlock {
 
 	private final boolean armed = false;
 
-	public MCOM() {
+	public MCOMLeft() {
 		super(RushMe.getInstance(), "MCOM", true, new MCOMBlockDesign(), 0);
 	}
 

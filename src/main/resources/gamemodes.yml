@@ -19,6 +19,8 @@
 #            preifx: 2/3 Letter prefix of the team
 #            infiniteSpawns: If the team has infinite spawns (Defending teams often have infinite spawns)
 #            spawns: How many spawns the team has till the game ends
+#  
+#  Default army skins by thehutch
 
 GameModes:
   Rush:
@@ -30,12 +32,12 @@ GameModes:
     maxPlayers: 12
     teams:
         Russians:
-            skin: test1
+            skin: http://dl.dropbox.com/u/31280142/ArmySkin1.png
             preifx: RUS
             infiniteSpawns: true
             spawns: 1
         Americans:
-            skin: test2
+            skin: http://dl.dropbox.com/u/31280142/ArmySkin1.png
             prefix: US
             infiniteSpawns: false
             spawns: 75

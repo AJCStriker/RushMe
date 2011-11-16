@@ -1,23 +1,25 @@
 package com.tips48.rushMe.data;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import com.tips48.rushMe.GameManager;
-import com.tips48.rushMe.RushMe;
 import com.tips48.rushMe.custom.GUI.MainHUD;
 import com.tips48.rushMe.custom.GUI.SpoutGUI;
 import com.tips48.rushMe.custom.items.Gun;
+
+import gnu.trove.map.TIntIntMap;
 import gnu.trove.map.TObjectIntMap;
-import gnu.trove.map.hash.TObjectIntHashMap;
+import gnu.trove.map.hash.TIntIntHashMap;
+import gnu.trove.set.TIntSet;
+import gnu.trove.set.hash.TIntHashSet;
+
 import org.bukkit.entity.Player;
+import org.getspout.spoutapi.SpoutManager;
 
 public class PlayerData {
-	private static final TObjectIntMap<String> scores = new TObjectIntHashMap<String>();
-	private static final TObjectIntMap<String> kills = new TObjectIntHashMap<String>();
-	private static final TObjectIntMap<String> deaths = new TObjectIntHashMap<String>();
-	private static final TObjectIntMap<String> health = new TObjectIntHashMap<String>();
-	private static final Set<String> spotted = new HashSet<String>();
+	private static final TIntIntMap scores = new TIntIntHashMap();
+	private static final TIntIntMap kills = new TIntIntHashMap();
+	private static final TIntIntMap deaths = new TIntIntHashMap();
+	private static final TIntIntMap health = new TIntIntHashMap();
+	private static final TIntSet spotted = new TIntHashSet();
 
 	/**
 	 * Utility method
@@ -35,7 +37,7 @@ public class PlayerData {
 	 */
 	public static void registerDamage(Player hurt, Player damager, int damage,
 			Gun gun) {
-		registerDamage(hurt.getName(), damager.getName(), damage, gun);
+		registerDamage(hurt.getEntityId(), damager.getEntityId(), damage, gun);
 	}
 
 	/**
@@ -51,23 +53,23 @@ public class PlayerData {
 	 *            {@link Gun} object
 	 */
 	@SuppressWarnings("deprecation")
-	public static void registerDamage(String hurt, String damager, int damage,
-			Gun gun) {
-		Player hurtP = RushMe.getInstance().getServer().getPlayer(hurt);
-		Player damagerP = RushMe.getInstance().getServer().getPlayer(damager);
+	public static void registerDamage(int hurt, int damager, int damage, Gun gun) {
+		Player hurtP = SpoutManager.getPlayerFromId(hurt);
+		Player damagerP = SpoutManager.getPlayerFromId(damager);
 
-		MainHUD hurtHud = SpoutGUI.getHudOf(hurt);
-		MainHUD damagerHud = SpoutGUI.getHudOf(damager);
+		if (hurtP == null || damagerP == null) {
+			setHealth(hurt, damage);
+			return;
+		}
 
-		if (!(GameManager.inGame(hurt))) {
+		MainHUD hurtHud = SpoutGUI.getHudOf(hurtP);
+		MainHUD damagerHud = SpoutGUI.getHudOf(damagerP);
+
+		if (!(GameManager.inGame(hurtP))) {
 			return;
 		}
 
 		setHealth(hurt, damage);
-
-		if (hurtP == null || damagerP == null) {
-			return;
-		}
 
 		if (hurtHud != null && hurtHud.isActive()) {
 			hurtHud.updateHUD();
@@ -78,7 +80,6 @@ public class PlayerData {
 		}
 
 		if (getHealth(hurt) <= 0) {
-			hurtP.setHealth(0);
 			addDeath(damager);
 			SpoutGUI.showKill(damagerP, hurtP, gun.getName());
 		}
@@ -91,10 +92,10 @@ public class PlayerData {
 	 * @param player
 	 *            {@link Player}
 	 * @return score of specified player
-	 * @see #getScore(String)
+	 * @see #getScore(int)
 	 */
 	public static int getScore(Player player) {
-		return getScore(player.getName());
+		return getScore(player.getEntityId());
 	}
 
 	/**
@@ -104,7 +105,7 @@ public class PlayerData {
 	 *            Player's name
 	 * @return score of specified player
 	 */
-	public static int getScore(String player) {
+	public static int getScore(int player) {
 		return scores.get(player);
 	}
 
@@ -113,7 +114,7 @@ public class PlayerData {
 	 * 
 	 * @return a {@link TObjectIntMap} with each players scores
 	 */
-	public static TObjectIntMap<String> getScores() {
+	public static TIntIntMap getScores() {
 		return scores;
 	}
 
@@ -124,10 +125,10 @@ public class PlayerData {
 	 *            {@link Player}
 	 * @param score
 	 *            Players new score
-	 * @see #setScore(String, Integer)
+	 * @see #setScore(int, Integer)
 	 */
 	public static void setScore(Player player, Integer score) {
-		setScore(player.getName(), score);
+		setScore(player.getEntityId(), score);
 	}
 
 	/**
@@ -138,7 +139,7 @@ public class PlayerData {
 	 * @param score
 	 *            Players new score
 	 */
-	public static void setScore(String player, Integer score) {
+	public static void setScore(int player, Integer score) {
 		scores.put(player, score);
 	}
 
@@ -148,10 +149,10 @@ public class PlayerData {
 	 * @param player
 	 *            {@link Player}
 	 * @return specified players score
-	 * @see #getKills(String)
+	 * @see #getKills(int)
 	 */
 	public static int getKills(Player player) {
-		return getKills(player.getName());
+		return getKills(player.getEntityId());
 	}
 
 	/**
@@ -161,7 +162,7 @@ public class PlayerData {
 	 *            Player's name
 	 * @return specified players score
 	 */
-	public static int getKills(String player) {
+	public static int getKills(int player) {
 		return kills.get(player);
 	}
 
@@ -172,10 +173,10 @@ public class PlayerData {
 	 *            {@link Player}
 	 * @param kill
 	 *            New number of kills
-	 * @see #setKills(String, Integer)
+	 * @see #setKills(int, Integer)
 	 */
 	public static void setKills(Player player, Integer kill) {
-		setKills(player.getName(), kill);
+		setKills(player.getEntityId(), kill);
 	}
 
 	/**
@@ -186,7 +187,7 @@ public class PlayerData {
 	 * @param kill
 	 *            New number of kills
 	 */
-	public static void setKills(String player, Integer kill) {
+	public static void setKills(int player, Integer kill) {
 		kills.put(player, kill);
 	}
 
@@ -196,10 +197,10 @@ public class PlayerData {
 	 * @param player
 	 *            {@link Player}
 	 * @return specified players deaths
-	 * @see #getDeaths(String)
+	 * @see #getDeaths(int)
 	 */
 	public static int getDeaths(Player player) {
-		return getDeaths(player.getName());
+		return getDeaths(player.getEntityId());
 	}
 
 	/**
@@ -209,7 +210,7 @@ public class PlayerData {
 	 *            Player's name
 	 * @return specified players deaths
 	 */
-	public static int getDeaths(String player) {
+	public static int getDeaths(int player) {
 		return deaths.get(player);
 	}
 
@@ -220,10 +221,10 @@ public class PlayerData {
 	 *            {@link Player}
 	 * @param death
 	 *            New number of deaths
-	 * @see #setDeaths(String, Integer)
+	 * @see #setDeaths(int, Integer)
 	 */
 	public static void setDeaths(Player player, Integer death) {
-		setDeaths(player.getName(), death);
+		setDeaths(player.getEntityId(), death);
 	}
 
 	/**
@@ -234,7 +235,7 @@ public class PlayerData {
 	 * @param death
 	 *            New number of deaths
 	 */
-	public static void setDeaths(String player, Integer death) {
+	public static void setDeaths(int player, Integer death) {
 		deaths.put(player, death);
 	}
 
@@ -243,10 +244,10 @@ public class PlayerData {
 	 * 
 	 * @param player
 	 *            {@link Player}
-	 * @see #addKill(String)
+	 * @see #addKill(int)
 	 */
 	public static void addKill(Player player) {
-		addKill(player.getName());
+		addKill(player.getEntityId());
 	}
 
 	/**
@@ -255,7 +256,7 @@ public class PlayerData {
 	 * @param player
 	 *            Player's name
 	 */
-	public static void addKill(String player) {
+	public static void addKill(int player) {
 		kills.put(player, kills.get(player) + 1);
 	}
 
@@ -264,10 +265,10 @@ public class PlayerData {
 	 * 
 	 * @param player
 	 *            {@link Player}
-	 * @see #addDeath(String)
+	 * @see #addDeath(int)
 	 */
 	public static void addDeath(Player player) {
-		addDeath(player.getName());
+		addDeath(player.getEntityId());
 	}
 
 	/**
@@ -276,7 +277,7 @@ public class PlayerData {
 	 * @param player
 	 *            Player's name
 	 */
-	public static void addDeath(String player) {
+	public static void addDeath(int player) {
 		deaths.put(player, deaths.get(player) + 1);
 	}
 
@@ -286,10 +287,10 @@ public class PlayerData {
 	 * @param player
 	 *            {@link Player}
 	 * @return specified players health
-	 * @see #getHealth(String)
+	 * @see #getHealth(int)
 	 */
 	public static int getHealth(Player player) {
-		return getHealth(player.getName());
+		return getHealth(player.getEntityId());
 	}
 
 	/**
@@ -299,7 +300,7 @@ public class PlayerData {
 	 *            Player's name
 	 * @return specified players health
 	 */
-	public static int getHealth(String player) {
+	public static int getHealth(int player) {
 		return health.get(player);
 	}
 
@@ -310,10 +311,10 @@ public class PlayerData {
 	 *            {@link Player}
 	 * @param h
 	 *            New players health
-	 * @see #setHealth(String, Integer)
+	 * @see #setHealth(int, Integer)
 	 */
 	public static void setHealth(Player player, Integer h) {
-		setHealth(player.getName(), h);
+		setHealth(player.getEntityId(), h);
 	}
 
 	/**
@@ -324,11 +325,14 @@ public class PlayerData {
 	 * @param h
 	 *            New players health
 	 */
-	public static void setHealth(String player, Integer h) {
+	public static void setHealth(int player, Integer h) {
 		health.put(player, h);
-		MainHUD hud = SpoutGUI.getHudOf(player);
-		if (hud != null) {
-			hud.updateHUD();
+		Player p = SpoutManager.getPlayerFromId(player);
+		if (p != null) {
+			MainHUD hud = SpoutGUI.getHudOf(p);
+			if (hud != null) {
+				hud.updateHUD();
+			}
 		}
 	}
 
@@ -339,10 +343,10 @@ public class PlayerData {
 	 *            {@link Player}
 	 * @param h
 	 *            Amount to damage player
-	 * @see #damage(String, Integer)
+	 * @see #damage(int, Integer)
 	 */
 	public static void damage(Player player, Integer h) {
-		damage(player.getName(), h);
+		damage(player.getEntityId(), h);
 	}
 
 	/**
@@ -353,16 +357,19 @@ public class PlayerData {
 	 * @param h
 	 *            Amount to damage player
 	 */
-	public static void damage(String player, Integer h) {
+	public static void damage(int player, Integer h) {
 		int pHealth = health.get(player);
 		if (pHealth - h >= 0) {
 			health.put(player, pHealth - h);
 		} else {
 			health.put(player, 0);
 		}
-		MainHUD hud = SpoutGUI.getHudOf(player);
-		if (hud != null) {
-			hud.updateHUD();
+		Player p = SpoutManager.getPlayerFromId(player);
+		if (p != null) {
+			MainHUD hud = SpoutGUI.getHudOf(p);
+			if (hud != null) {
+				hud.updateHUD();
+			}
 		}
 	}
 
@@ -373,10 +380,10 @@ public class PlayerData {
 	 *            {@link Player}
 	 * @param h
 	 *            Amount to heal
-	 * @see #heal(String, Integer)
+	 * @see #heal(int, Integer)
 	 */
 	public static void heal(Player player, Integer h) {
-		heal(player.getName(), h);
+		heal(player.getEntityId(), h);
 	}
 
 	/**
@@ -387,16 +394,19 @@ public class PlayerData {
 	 * @param h
 	 *            Amount to heal
 	 */
-	public static void heal(String player, Integer h) {
+	public static void heal(int player, Integer h) {
 		int pHealth = health.get(player);
 		if (pHealth + h <= 100) {
 			health.put(player, pHealth + h);
 		} else {
 			health.put(player, 100);
 		}
-		MainHUD hud = SpoutGUI.getHudOf(player);
-		if (hud != null) {
-			hud.updateHUD();
+		Player p = SpoutManager.getPlayerFromId(player);
+		if (p != null) {
+			MainHUD hud = SpoutGUI.getHudOf(p);
+			if (hud != null) {
+				hud.updateHUD();
+			}
 		}
 	}
 
@@ -405,10 +415,10 @@ public class PlayerData {
 	 * 
 	 * @param player
 	 *            {@link Player}
-	 * @see #setDefaults(String)
+	 * @see #setDefaults(int)
 	 */
 	public static void setDefaults(Player player) {
-		setDefaults(player.getName());
+		setDefaults(player.getEntityId());
 	}
 
 	/**
@@ -417,7 +427,7 @@ public class PlayerData {
 	 * @param player
 	 *            Player's name
 	 */
-	public static void setDefaults(String player) {
+	public static void setDefaults(int player) {
 		setDeaths(player, 0);
 		setHealth(player, 100);
 		setKills(player, 0);
@@ -429,10 +439,10 @@ public class PlayerData {
 	 * 
 	 * @param player
 	 *            {@link Player}
-	 * @see #setSpotted(String, boolean)
+	 * @see #setSpotted(int, boolean)
 	 */
 	public static void setSpotted(Player player, boolean s) {
-		setSpotted(player.getName(), s);
+		setSpotted(player.getEntityId(), s);
 	}
 
 	/**
@@ -443,7 +453,7 @@ public class PlayerData {
 	 * @param s
 	 *            if the player is spotted
 	 */
-	public static void setSpotted(String player, boolean s) {
+	public static void setSpotted(int player, boolean s) {
 		if (s) {
 			spotted.add(player);
 		} else {
@@ -458,10 +468,10 @@ public class PlayerData {
 	 * 
 	 * @param player
 	 *            {@link Player}
-	 * @see #isSpotted(String)
+	 * @see #isSpotted(int)
 	 */
 	public static boolean isSpotted(Player player) {
-		return isSpotted(player.getName());
+		return isSpotted(player.getEntityId());
 	}
 
 	/**
@@ -471,7 +481,7 @@ public class PlayerData {
 	 *            Specified player
 	 * @return is the specified player is spotted
 	 */
-	public static boolean isSpotted(String player) {
+	public static boolean isSpotted(int player) {
 		return spotted.contains(player);
 	}
 

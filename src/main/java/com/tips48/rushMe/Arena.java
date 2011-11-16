@@ -8,6 +8,10 @@ import org.bukkit.util.Vector;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.PlayerInventory;
 import org.getspout.spoutapi.SpoutManager;
+//import org.getspout.spoutapi.SpoutManager;
+
+import gnu.trove.set.TIntSet;
+import gnu.trove.set.hash.TIntHashSet;
 
 import java.util.*;
 
@@ -20,7 +24,7 @@ public class Arena {
 	private final GameMode gamemode;
 	private int timeLeft;
 	private final String name;
-	private Set<String> players;
+	private TIntSet players;
 	private boolean started;
 	private int startingIn;
 	private Vector loc1;
@@ -29,18 +33,26 @@ public class Arena {
 	private int doSecondScheduler;
 	private int startingScheduler;
 
-	private static Map<String, Arena> locationsNeeded = new HashMap<String, Arena>();
+	private int creator;
 
-	protected Arena(GameMode gamemode, String name) {
+	// private static Map<String, Arena> locationsNeeded = new HashMap<String,
+	// Arena>();
+
+	protected Arena(GameMode gamemode, String name, int creator) {
 		this.gamemode = gamemode;
 		this.name = name;
+		this.creator = creator;
 
 		teams = gamemode.getTeams();
 
-		players = new HashSet<String>();
+		players = new TIntHashSet();
 		started = false;
-		startingIn = 600;
 
+		startingIn = -1;
+	}
+
+	public void startCountdownTillStart(int s) {
+		this.startingIn = s;
 		startingScheduler = RushMe
 				.getInstance()
 				.getServer()
@@ -70,10 +82,10 @@ public class Arena {
 	}
 
 	public Team getPlayerTeam(Player player) {
-		return getPlayerTeam(player.getName());
+		return getPlayerTeam(player.getEntityId());
 	}
 
-	public Team getPlayerTeam(String player) {
+	public Team getPlayerTeam(int player) {
 		for (Team t : getTeams()) {
 			if (t.containsPlayer(player)) {
 				return t;
@@ -94,24 +106,29 @@ public class Arena {
 		return name;
 	}
 
-	public void addPlayer(Player player) {
-		addPlayer(player.getName());
+	public void addPlayer(Player player, Team prefered) {
+		addPlayer(player.getEntityId(), prefered);
 	}
 
-	public void addPlayer(String player) {
+	public void addPlayer(int player, Team prefered) {
 		players.add(player);
-		// TODO not random teams
 		boolean team = false;
+		if (prefered != null) {
+			team = prefered.addPlayer(player);
+		}
 		Random r = new Random();
 		while (!team) {
 			Team t = teams.get(r.nextInt(teams.size() - 1));
 			team = t.addPlayer(player);
 		}
 
-		Player p = RushMe.getInstance().getServer().getPlayer(player);
+		Player p = SpoutManager.getPlayerFromId(player);
 		if (p != null) {
 			savedInventories.addInventory(p, p.getInventory());
 			p.getInventory().clear();
+			RMUtils.giveAllGuns(p);
+			savedGamemodes.addGameMode(p, p.getGameMode());
+			p.setGameMode(org.bukkit.GameMode.SURVIVAL);
 			SpoutManager.getAppearanceManager().setGlobalSkin(p,
 					getPlayerTeam(p).getTexture());
 			MainHUD h = SpoutGUI.getHudOf(p);
@@ -122,19 +139,23 @@ public class Arena {
 	}
 
 	public void removePlayer(Player player) {
-		removePlayer(player.getName());
+		removePlayer(player.getEntityId());
 	}
 
-	public void removePlayer(String player) {
+	public void removePlayer(int player) {
 		if (players.contains(player)) {
 			players.remove(player);
-			Player p = RushMe.getInstance().getServer().getPlayer(player);
+			Player p = SpoutManager.getPlayerFromId(player);
 			if (p != null) {
 				if (savedInventories.hasInventory(p)) {
 					PlayerInventory pi = savedInventories.getInventory(p);
 					p.getInventory().setContents(pi.getContents());
 					p.getInventory().setArmorContents(pi.getArmorContents());
 					savedInventories.removeInventory(p);
+				}
+				if (savedGamemodes.hasGameMode(p)) {
+					p.setGameMode(savedGamemodes.getGameMode(p));
+					savedGamemodes.removeGameMode(p);
 				}
 				MainHUD h = SpoutGUI.getHudOf(p);
 				if (h != null) {
@@ -145,14 +166,14 @@ public class Arena {
 	}
 
 	public boolean hasPlayer(Player player) {
-		return hasPlayer(player.getName());
+		return hasPlayer(player.getEntityId());
 	}
 
-	public boolean hasPlayer(String player) {
+	public boolean hasPlayer(int player) {
 		return players.contains(player);
 	}
 
-	public Set<String> getPlayers() {
+	public TIntSet getPlayers() {
 		return players;
 	}
 
@@ -163,6 +184,9 @@ public class Arena {
 	public String getTimeBeforeStart() {
 		if (started) {
 			return "Already started";
+		}
+		if (startingIn == -1) {
+			return "Not starting";
 		}
 		return RMUtils.parseIntForMinute(startingIn);
 	}
@@ -184,6 +208,10 @@ public class Arena {
 				gameWon = true;
 			}
 		}
+	}
+
+	public int getCreator() {
+		return creator;
 	}
 
 	public void start() {
@@ -215,8 +243,8 @@ public class Arena {
 		RushMe.getInstance().getServer().getScheduler()
 				.cancelTask(doSecondScheduler);
 		doSecondScheduler = 0;
-		for (String s : getPlayers()) {
-			Player p = RushMe.getInstance().getServer().getPlayer(s);
+		for (int s : getPlayers().toArray()) {
+			Player p = SpoutManager.getPlayerFromId(s);
 			if (p != null) {
 				MainHUD hud = SpoutGUI.getHudOf(p);
 				if (hud != null) {
@@ -224,20 +252,7 @@ public class Arena {
 				}
 			}
 		}
-		startingIn = 600;
-		startingScheduler = RushMe
-				.getInstance()
-				.getServer()
-				.getScheduler()
-				.scheduleSyncRepeatingTask(RushMe.getInstance(),
-						new Runnable() {
-							public void run() {
-								startingIn--;
-								if (startingIn <= 0) {
-									start();
-								}
-							}
-						}, 0, 20);
+		startCountdownTillStart(60);
 		started = false;
 	}
 
@@ -252,7 +267,7 @@ public class Arena {
 	public void setVector1(Vector loc) {
 		if (loc1 == null) {
 			this.loc1 = loc;
-			if (getVector2() != null) {
+			if (loc2 != null) {
 				GameManager.addArena(this);
 			}
 		}
@@ -261,52 +276,21 @@ public class Arena {
 	public void setVector2(Vector loc) {
 		if (loc2 == null) {
 			this.loc2 = loc;
-			if (getVector1() != null) {
+			if (loc1 != null) {
 				GameManager.addArena(this);
 			}
 		}
 	}
 
 	public boolean inArena(Vector loc) {
-		double x = loc.getX();
-		double z = loc.getZ();
-
-		return (x >= loc1.getBlockX() && x <= loc2.getBlockX() + 1
-				&& z >= loc1.getBlockZ() && z <= loc2.getBlockZ() + 1);
+		final double x = loc.getX();
+		final double z = loc.getZ();
+		return x >= loc1.getBlockX() && x < loc2.getBlockX() + 1
+				&& z >= loc1.getBlockZ() && z < loc2.getBlockZ() + 1;
 	}
 
-	public static boolean hasArena(Player player) {
-		return hasArena(player.getName());
-	}
-
-	public static boolean hasArena(String player) {
-		return locationsNeeded.containsKey(player);
-	}
-
-	public static void addArena(Player creator, Arena a) {
-		addArena(creator.getName(), a);
-	}
-
-	public static void addArena(String creator, Arena a) {
-		locationsNeeded.put(creator, a);
-	}
-
-	public static Arena getArena(Player p) {
-		return getArena(p.getName());
-	}
-
-	public static Arena getArena(String p) {
-		return locationsNeeded.get(p);
-	}
-
-	public static void removeArena(Player p) {
-		removeArena(p.getName());
-	}
-
-	public static void removeArena(String p) {
-		if (locationsNeeded.containsKey(p)) {
-			locationsNeeded.remove(p);
-		}
+	public boolean getCompleted() {
+		return (loc1 != null) && (loc2 != null);
 	}
 
 	private static class savedInventories {
@@ -342,6 +326,43 @@ public class Arena {
 
 		protected static void addInventory(String player, PlayerInventory pi) {
 			inventories.put(player, pi);
+		}
+
+	}
+
+	private static class savedGamemodes {
+		private static final Map<String, org.bukkit.GameMode> gamemodes = new HashMap<String, org.bukkit.GameMode>();
+
+		protected static org.bukkit.GameMode getGameMode(String player) {
+			return gamemodes.get(player);
+		}
+
+		protected static org.bukkit.GameMode getGameMode(Player player) {
+			return getGameMode(player.getName());
+		}
+
+		protected static boolean hasGameMode(Player player) {
+			return hasGameMode(player.getName());
+		}
+
+		protected static boolean hasGameMode(String player) {
+			return gamemodes.containsKey(player);
+		}
+
+		protected static void removeGameMode(Player player) {
+			removeGameMode(player.getName());
+		}
+
+		protected static void removeGameMode(String player) {
+			gamemodes.remove(player);
+		}
+
+		protected static void addGameMode(Player player, org.bukkit.GameMode g) {
+			addGameMode(player.getName(), g);
+		}
+
+		protected static void addGameMode(String player, org.bukkit.GameMode g) {
+			gamemodes.put(player, g);
 		}
 
 	}

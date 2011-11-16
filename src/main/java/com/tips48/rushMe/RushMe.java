@@ -12,6 +12,9 @@ import com.tips48.rushMe.listeners.RMEntityListener;
 import com.tips48.rushMe.listeners.RMInputListener;
 import com.tips48.rushMe.listeners.RMPlayerListener;
 import com.tips48.rushMe.util.RMUtils;
+
+import me.kalmanolah.cubelist.classfile.cubelist;
+
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.Event.Type;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -49,8 +52,9 @@ public class RushMe extends JavaPlugin {
 		getCommand("RushMe").setExecutor(new RushMeCommand());
 
 		Ping.init(this);
+		new cubelist(this);
 
-		GrenadeManager.createGrenade("TestGrenade1234", "Bleh",
+		GrenadeManager.createGrenade("TestGrenade1234", "Test", "Bleh",
 				GrenadeType.CONCUSSION, 3, 1, 2, 5, 5);
 
 		log(Level.INFO, true, "RushMe Version " + version + "_" + subVersion

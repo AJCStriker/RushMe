@@ -77,9 +77,9 @@ public class GameModeConfiguration {
 						+ name + ".teams." + teamName + ".infiniteSpawns");
 				Integer spawns = gamemode.getInt("GameModes." + name
 						+ ".teams." + teamName + ".spawns");
-				Team team = new Team(teamName, prefix, maxPlayers, texture);
+				Team team = new Team(teamName, prefix, maxPlayers, texture,
+						spawns);
 				team.setInfiniteLives(infiniteSpawns);
-				team.setSpawnsLeft(spawns);
 				teams.add(team);
 			}
 			if (gamemode.getBoolean("GameModes." + name + ".default")) {

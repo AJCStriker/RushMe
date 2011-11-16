@@ -19,33 +19,35 @@ public class GameManager {
 	private static Set<GameMode> gameModes = new HashSet<GameMode>();
 	private static GameMode defaultGameMode = null;
 
-	public static void addToGame(Arena arena, Player player) {
-		addToGame(arena, player.getName());
+	private static Set<Arena> notDone = new HashSet<Arena>();
+
+	public static void addToGame(Arena arena, Player player, Team prefered) {
+		addToGame(arena, player.getEntityId(), prefered);
 	}
 
-	public static void addToGame(Arena arena, String player) {
+	public static void addToGame(Arena arena, int player, Team prefered) {
 		GrenadeManager.createGrenades(player);
-		arena.addPlayer(player);
+		arena.addPlayer(player, prefered);
 	}
 
 	public static void removeFromGame(Arena arena, Player player) {
-		removeFromGame(arena, player.getName());
+		removeFromGame(arena, player.getEntityId());
 	}
 
-	public static void removeFromGame(Arena arena, String player) {
+	public static void removeFromGame(Arena arena, int player) {
 		if (arena.hasPlayer(player)) {
 			arena.removePlayer(player);
 		}
 	}
 
 	public static boolean inGame(Player player) {
-		return inGame(player.getName());
+		return inGame(player.getEntityId());
 	}
 
-	public static boolean inGame(String player) {
+	public static boolean inGame(int player) {
 		for (Arena a : games) {
-			for (String s : a.getPlayers()) {
-				if (s.equals(player)) {
+			for (int s : a.getPlayers().toArray()) {
+				if (s == player) {
 					return true;
 				}
 			}
@@ -54,10 +56,10 @@ public class GameManager {
 	}
 
 	public static Arena getPlayerArena(Player player) {
-		return getPlayerArena(player.getName());
+		return getPlayerArena(player.getEntityId());
 	}
 
-	public static Arena getPlayerArena(String player) {
+	public static Arena getPlayerArena(int player) {
 		for (Arena a : games) {
 			if (a.hasPlayer(player)) {
 				return a;
@@ -77,19 +79,54 @@ public class GameManager {
 
 	public static void removeArena(Arena a) {
 		a.stop();
-		for (String player : a.getPlayers()) {
+		for (int player : a.getPlayers().toArray()) {
 			a.removePlayer(player);
 		}
 		games.remove(a);
 	}
 
-	public static Arena createArena(String name, GameMode gamemode) {
-		Arena a = new Arena(gamemode, name);
+	public static Arena createArena(String name, GameMode gamemode, int creator) {
+		for (Arena a : notDone) {
+			if (a.getCreator() == creator) {
+				return null;
+			}
+		}
+		Arena a = new Arena(gamemode, name, creator);
+		notDone.add(a);
 		return a;
+	}
+
+	public static boolean creatingArena(int player) {
+		boolean creating = false;
+		for (Arena a : notDone) {
+			if ((!(creating)) && (!(a.getCompleted()))
+					&& (a.getCreator() == player)) {
+				creating = true;
+			}
+		}
+		return creating;
+	}
+
+	public static boolean creatingArena(Player player) {
+		return creatingArena(player.getEntityId());
+	}
+
+	public static Arena getCreatingArena(Player player) {
+		return getCreatingArena(player.getEntityId());
+	}
+
+	public static Arena getCreatingArena(int player) {
+		for (Arena a : notDone) {
+			if (!a.getCompleted() && a.getCreator() == player) {
+				return a;
+			}
+		}
+		return null;
 	}
 
 	protected static void addArena(Arena a) {
 		games.add(a);
+		notDone.remove(a);
 	}
 
 	public static GameMode createGameMode(String name, GameModeType type,
@@ -151,8 +188,8 @@ public class GameManager {
 	public static void updateNames(Arena arena) {
 		for (int i = 0; i <= arena.getTeams().size(); i++) {
 			Team t = arena.getTeams().get(i);
-			for (String player : t.getPlayers()) {
-				Player p = RushMe.getInstance().getServer().getPlayer(player);
+			for (int player : t.getPlayers().toArray()) {
+				Player p = SpoutManager.getPlayerFromId(player);
 				if (p != null) {
 					for (Player onlinePlayer : RushMe.getInstance().getServer()
 							.getOnlinePlayers()) {
