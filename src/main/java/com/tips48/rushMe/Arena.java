@@ -8,8 +8,6 @@ import org.bukkit.util.Vector;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.PlayerInventory;
 import org.getspout.spoutapi.SpoutManager;
-//import org.getspout.spoutapi.SpoutManager;
-
 import gnu.trove.set.TIntSet;
 import gnu.trove.set.hash.TIntHashSet;
 
