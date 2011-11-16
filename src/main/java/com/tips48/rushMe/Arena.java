@@ -263,15 +263,44 @@ public class Arena {
 		if (loc1 == null) {
 			this.loc1 = loc;
 			if (loc2 != null) {
+				organizeVectors();
 				GameManager.addArena(this);
 			}
 		}
+	}
+
+	private void organizeVectors() {
+		int minX = loc1.getBlockX();
+		int minZ = loc1.getBlockZ();
+		int maxX = minX;
+		int maxZ = minZ;
+
+		int x = loc2.getBlockX();
+		int z = loc2.getBlockZ();
+
+		if (x < minX) {
+			minX = x;
+		}
+		if (z < minZ) {
+			minZ = z;
+		}
+
+		if (x > maxX) {
+			maxX = x;
+		}
+		if (z > maxZ) {
+			maxZ = z;
+		}
+
+		loc1 = new Vector(minX, loc1.getY(), minZ);
+		loc2 = new Vector(maxX, loc2.getY(), maxZ);
 	}
 
 	public void setVector2(Vector loc) {
 		if (loc2 == null) {
 			this.loc2 = loc;
 			if (loc1 != null) {
+				organizeVectors();
 				GameManager.addArena(this);
 			}
 		}
