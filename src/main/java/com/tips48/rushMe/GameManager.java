@@ -1,19 +1,19 @@
 /*
-* This file is part of RushMe.
-*
-* RushMe is free software: you can redistribute it and/or modify
-* it under the terms of the GNU Lesser General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-*
-* RushMe is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-* GNU Lesser General Public License for more details.
-*
-* You should have received a copy of the GNU Lesser General Public License
-* along with this program. If not, see <http://www.gnu.org/licenses/>.
-*/
+ * This file is part of RushMe.
+ *
+ * RushMe is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * RushMe is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
 
 package com.tips48.rushMe;
 
@@ -35,9 +35,9 @@ public class GameManager {
 	private static Set<Arena> games = new HashSet<Arena>();
 	private static Set<GameMode> gameModes = new HashSet<GameMode>();
 	private static GameMode defaultGameMode = null;
-	
+
 	private GameManager() {
-		
+
 	}
 
 	public static void addToGame(Arena arena, Player player, Team prefered) {
