@@ -93,9 +93,6 @@ public class RMPlayerListener extends PlayerListener {
 					a.addObjective(vec);
 					p.sendMessage(ChatColor.AQUA + "Objective selected");
 				} else if (type.equals(GameModeType.CAPTURE)) {
-					if (a.getCapturePoints().size() == a.getTeams().size()) {
-
-					}
 					Team t = a.getTeams().get(0);
 					for (Team team : a.getCapturePoints().keySet()) {
 						if (t == team) {
@@ -108,6 +105,11 @@ public class RMPlayerListener extends PlayerListener {
 					a.addCapturePoint(t, vec);
 					p.sendMessage(ChatColor.AQUA + t.getName()
 							+ "'s capture point was selected");
+					if (a.getCapturePoints().size() == a.getTeams().size()) {
+						p.sendMessage(ChatColor.AQUA
+								+ "Capture point selected for every team; Arena creation done.");
+						RushMeCommand.remove(p);
+					}
 				}
 				event.setCancelled(true);
 				return;
@@ -243,9 +245,9 @@ public class RMPlayerListener extends PlayerListener {
 				ex = l.getX();
 				ey = l.getY();
 				ez = l.getZ();
-				if ((bx - .75 <= ex && ex <= bx + 1.75)
-						&& (bz - .75 <= ez && ez <= bz + 1.75)
-						&& (by - 1 <= ey && ey <= by)) {
+				if ((((bx - .75) <= ex) && (ex <= (bx + 1.75)))
+						&& (((bz - .75) <= ez) && (ez <= (bz + 1.75)))
+						&& (((by - 1) <= ey) && (ey <= by))) {
 					if (target instanceof Player) {
 						// Check teams
 						if (GameManager.inGame((Player) target)) {
@@ -294,9 +296,9 @@ public class RMPlayerListener extends PlayerListener {
 				ex = l.getX();
 				ey = l.getY();
 				ez = l.getZ();
-				if ((bx - .75 <= ex && ex <= bx + 1.75)
-						&& (bz - .75 <= ez && ez <= bz + 1.75)
-						&& (by - 1 <= ey && ey <= by + 2.5)) {
+				if ((((bx - .75) <= ex) && (ex <= (bx + 1.75)))
+						&& (((bz - .75) <= ez) && (ez <= (bz + 1.75)))
+						&& (((by - 1) <= ey) && (ey <= (by + 2.5)))) {
 					if (target instanceof Player) {
 						if (GameManager.inGame((Player) target)) {
 							Arena a = GameManager

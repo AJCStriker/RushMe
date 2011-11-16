@@ -17,22 +17,18 @@
 
 package com.tips48.rushMe.commands;
 
-import gnu.trove.map.TIntObjectMap;
-import gnu.trove.map.hash.TIntObjectHashMap;
-
-import com.tips48.rushMe.Arena;
-import com.tips48.rushMe.GameManager;
-import com.tips48.rushMe.GameMode;
+import com.tips48.rushMe.*;
 import com.tips48.rushMe.custom.GUI.SpoutGUI;
 import com.tips48.rushMe.teams.Team;
 import com.tips48.rushMe.util.RMChat;
 import com.tips48.rushMe.util.RMUtils;
 
 import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
+import org.bukkit.command.*;
 import org.bukkit.entity.Player;
+
+import gnu.trove.map.TIntObjectMap;
+import gnu.trove.map.hash.TIntObjectHashMap;
 
 public class RushMeCommand implements CommandExecutor {
 
@@ -325,6 +321,14 @@ public class RushMeCommand implements CommandExecutor {
 
 	public static Arena getDefining(int player) {
 		return defining.get(player);
+	}
+
+	public static void remove(Player player) {
+		remove(player.getEntityId());
+	}
+
+	public static void remove(int player) {
+		defining.remove(player);
 	}
 
 }
