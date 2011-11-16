@@ -19,3 +19,9 @@ permissions:
     RushMe.stop:
        description: Access to the /RushMe stop command
        default: op
+    RushMe.define:
+       description: Access to the /RushMe define command
+       default: op
+    RushMe.done:
+       description: Access to the /RushMe done command
+       default: op
