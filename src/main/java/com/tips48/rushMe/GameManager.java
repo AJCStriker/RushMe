@@ -1,3 +1,20 @@
+/*
+* This file is part of RushMe.
+*
+* RushMe is free software: you can redistribute it and/or modify
+* it under the terms of the GNU Lesser General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* RushMe is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU Lesser General Public License for more details.
+*
+* You should have received a copy of the GNU Lesser General Public License
+* along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+
 package com.tips48.rushMe;
 
 import com.tips48.rushMe.custom.items.GrenadeManager;
@@ -18,8 +35,6 @@ public class GameManager {
 	private static Set<Arena> games = new HashSet<Arena>();
 	private static Set<GameMode> gameModes = new HashSet<GameMode>();
 	private static GameMode defaultGameMode = null;
-
-	private static Set<Arena> notDone = new HashSet<Arena>();
 	
 	private GameManager() {
 		
@@ -90,47 +105,9 @@ public class GameManager {
 	}
 
 	public static Arena createArena(String name, GameMode gamemode, int creator) {
-		for (Arena a : notDone) {
-			if (a.getCreator() == creator) {
-				return null;
-			}
-		}
 		Arena a = new Arena(gamemode, name, creator);
-		notDone.add(a);
-		return a;
-	}
-
-	public static boolean creatingArena(int player) {
-		boolean creating = false;
-		for (Arena a : notDone) {
-			if ((!(creating)) && (!(a.getCompleted()))
-					&& (a.getCreator() == player)) {
-				creating = true;
-			}
-		}
-		return creating;
-	}
-
-	public static boolean creatingArena(Player player) {
-		return creatingArena(player.getEntityId());
-	}
-
-	public static Arena getCreatingArena(Player player) {
-		return getCreatingArena(player.getEntityId());
-	}
-
-	public static Arena getCreatingArena(int player) {
-		for (Arena a : notDone) {
-			if (!a.getCompleted() && a.getCreator() == player) {
-				return a;
-			}
-		}
-		return null;
-	}
-
-	protected static void addArena(Arena a) {
 		games.add(a);
-		notDone.remove(a);
+		return a;
 	}
 
 	public static GameMode createGameMode(String name, GameModeType type,

@@ -1,6 +1,12 @@
 RushMe
 =====
 
+Copyright © 2011, tips48 amatzko48@gmail.com
+RushMe is licensed under GNU LESSER GENERAL PUBLIC LICENSE Version 3
+
+What is RushMe?
+=====
+
 Making Battlefield 3 come to Minecraft.  Completely customizable, with tons of features!  
 Website links:
 ---------------

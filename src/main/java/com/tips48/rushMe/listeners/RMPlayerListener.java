@@ -1,26 +1,40 @@
+/*
+* This file is part of RushMe.
+*
+* RushMe is free software: you can redistribute it and/or modify
+* it under the terms of the GNU Lesser General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* RushMe is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU Lesser General Public License for more details.
+*
+* You should have received a copy of the GNU Lesser General Public License
+* along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+
 package com.tips48.rushMe.listeners;
 
-import com.tips48.rushMe.Arena;
-import com.tips48.rushMe.GameManager;
-import com.tips48.rushMe.RushMe;
+import com.tips48.rushMe.*;
+import com.tips48.rushMe.commands.RushMeCommand;
 import com.tips48.rushMe.custom.GUI.SpoutGUI;
 import com.tips48.rushMe.custom.items.Gun;
 import com.tips48.rushMe.data.PlayerData;
+import com.tips48.rushMe.teams.Team;
 import com.tips48.rushMe.util.RMUtils;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.*;
 import org.bukkit.util.BlockIterator;
+import org.bukkit.util.Vector;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class RMPlayerListener extends PlayerListener {
 	@Override
@@ -47,22 +61,46 @@ public class RMPlayerListener extends PlayerListener {
 			if (!(event.hasBlock())) {
 				return;
 			}
-			if (GameManager.creatingArena(p)) {
-				Arena a = GameManager.getCreatingArena(p);
+			if (RushMeCommand.isDefining(p)) {
+				Arena a = RushMeCommand.getDefining(p);
+				GameModeType type = a.getGameMode().getType();
+				Vector vec = event.getClickedBlock().getLocation().toVector().add(new Vector(0, 1, 0));
 				if (a.getVector1() == null) {
-					a.setVector1(event.getClickedBlock().getLocation()
-							.toVector());
-					if (a.getVector2() != null) {
-						p.sendMessage(ChatColor.AQUA + "Points selected");
-						a.startCountdownTillStart(60);
+					a.setVector1(vec);
+					p.sendMessage(ChatColor.AQUA + "First point selected");
+				} else if (a.getVector2() == null) {
+					a.setVector2(vec);
+					p.sendMessage(ChatColor.AQUA + "Second point selected");
+					if (type.equals(GameModeType.FLAG)) {
+						p.sendMessage(ChatColor.AQUA + "Right click to select the locations of flags");
+						p.sendMessage(ChatColor.AQUA + "Use the command /RushMe done <arena> when done");
+					} else if (type.equals(GameModeType.OBJECTIVE)) {
+						p.sendMessage(ChatColor.AQUA + "Right click to select the locations of the objectives");
+						p.sendMessage(ChatColor.AQUA + "Use the command /RushMe done <arena> when done");
+					} else if (type.equals(GameModeType.CAPTURE)) {
+						p.sendMessage(ChatColor.AQUA + "Right click to select the location of each of the capture points");
 					}
-				} else {
-					a.setVector2(event.getClickedBlock().getLocation()
-							.toVector());
-					if (a.getVector1() != null) {
-						p.sendMessage(ChatColor.AQUA + "Points selected");
-						a.startCountdownTillStart(60);
+				} else if (type.equals(GameModeType.FLAG)) {
+					a.addFlag(vec);
+					p.sendMessage(ChatColor.AQUA + "Flag selected");
+				} else if (type.equals(GameModeType.OBJECTIVE)) {
+					a.addObjective(vec);
+					p.sendMessage(ChatColor.AQUA + "Objective selected");
+				} else if (type.equals(GameModeType.CAPTURE)) {
+					if (a.getCapturePoints().size() == a.getTeams().size()) {
+						
 					}
+					Team t = a.getTeams().get(0);
+					for (Team team : a.getCapturePoints().keySet()) {
+						if (t == team) {
+							t = null;
+						}
+					}
+					if (t == null) {
+						t = a.getTeams().get(1);
+					}
+					a.addCapturePoint(t, vec);
+					p.sendMessage(ChatColor.AQUA + t.getName() + "'s capture point was selected");
 				}
 				event.setCancelled(true);
 				return;

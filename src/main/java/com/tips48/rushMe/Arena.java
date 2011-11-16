@@ -1,3 +1,20 @@
+/*
+* This file is part of RushMe.
+*
+* RushMe is free software: you can redistribute it and/or modify
+* it under the terms of the GNU Lesser General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* RushMe is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU Lesser General Public License for more details.
+*
+* You should have received a copy of the GNU Lesser General Public License
+* along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+
 package com.tips48.rushMe;
 
 import com.tips48.rushMe.custom.GUI.MainHUD;
@@ -32,6 +49,11 @@ public class Arena {
 	private int startingScheduler;
 
 	private int creator;
+	
+	private List<Vector> flagLocations = new ArrayList<Vector>();
+	private Map<Team, Vector> captureLocations = new HashMap<Team, Vector>();
+	private List<Vector> objectLocations = new ArrayList<Vector>();
+	private List<Vector> activeObjectiveLocations = new ArrayList<Vector>();
 
 	protected Arena(GameMode gamemode, String name, int creator) {
 		this.gamemode = gamemode;
@@ -264,7 +286,6 @@ public class Arena {
 			this.loc1 = loc;
 			if (loc2 != null) {
 				organizeVectors();
-				GameManager.addArena(this);
 			}
 		}
 	}
@@ -301,7 +322,6 @@ public class Arena {
 			this.loc2 = loc;
 			if (loc1 != null) {
 				organizeVectors();
-				GameManager.addArena(this);
 			}
 		}
 	}
@@ -311,6 +331,34 @@ public class Arena {
 		final double z = loc.getZ();
 		return x >= loc1.getBlockX() && x < loc2.getBlockX() + 1
 				&& z >= loc1.getBlockZ() && z < loc2.getBlockZ() + 1;
+	}
+	
+	public List<Vector> getFlags() {
+		return flagLocations;
+	}
+	
+	public void addFlag(Vector flag) {
+		flagLocations.add(flag);
+	}
+	
+	public List<Vector> getObjectives() {
+		return objectLocations;
+	}
+	
+	public List<Vector> getActiveObjectives() {
+		return activeObjectiveLocations;
+	}
+	
+	public void addObjective(Vector objective) {
+		objectLocations.add(objective);
+	}
+	
+	public void addCapturePoint(Team team, Vector capturePoint) {
+		captureLocations.put(team, capturePoint);
+	}
+	
+	public Map<Team, Vector> getCapturePoints() {
+		return captureLocations;
 	}
 
 	public boolean getCompleted() {

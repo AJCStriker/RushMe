@@ -1,4 +1,24 @@
+/*
+* This file is part of RushMe.
+*
+* RushMe is free software: you can redistribute it and/or modify
+* it under the terms of the GNU Lesser General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* RushMe is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU Lesser General Public License for more details.
+*
+* You should have received a copy of the GNU Lesser General Public License
+* along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+
 package com.tips48.rushMe.commands;
+
+import gnu.trove.map.TIntObjectMap;
+import gnu.trove.map.hash.TIntObjectHashMap;
 
 import com.tips48.rushMe.Arena;
 import com.tips48.rushMe.GameManager;
@@ -15,6 +35,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class RushMeCommand implements CommandExecutor {
+
+	private static TIntObjectMap<Arena> defining = new TIntObjectHashMap<Arena>();
 
 	/**
 	 * Called when a command called RushMe is sent
@@ -167,7 +189,50 @@ public class RushMeCommand implements CommandExecutor {
 					sender.sendMessage(ChatColor.RED
 							+ "No arena with the name " + args[1]);
 				}
-			} else {
+			} else if (args[0].equalsIgnoreCase("define")) {
+				if (!(sender instanceof Player)) {
+					RMChat.sendPlayerOnly(sender);
+					return true;
+				}
+				Player player = (Player) sender;
+				if (!(player.hasPermission("RushMe.define"))) {
+					RMChat.sendNoPermission(player);
+					return true;
+				}
+				Arena a = GameManager.getArena(args[1]);
+				if (a != null) {
+					defining.put(player.getEntityId(), a);
+					player.sendMessage(ChatColor.AQUA
+							+ "Right click twice to select the two points.");
+					return true;
+				} else {
+					player.sendMessage(ChatColor.RED
+							+ "No arena with the name " + args[1]);
+					return true;
+				}
+			} else if (args[0].equalsIgnoreCase("done")) {
+				if (!(sender instanceof Player)) {
+					RMChat.sendPlayerOnly(sender);
+					return true;
+				}
+				Player player = (Player) sender;
+				if (!(player.hasPermission("RushMe.done"))) {
+					RMChat.sendNoPermission(player);
+					return true;
+				}
+				Arena a = GameManager.getArena(args[1]);
+				if (a != null) {
+					defining.put(player.getEntityId(), a);
+					player.sendMessage(ChatColor.AQUA
+							+ "Done defining " + a.getName());
+					return true;
+				} else {
+					player.sendMessage(ChatColor.RED
+							+ "No arena with the name " + args[1]);
+					return true;
+				}
+			}
+			else {
 				RMChat.sendWrongArguments(sender);
 			}
 			return true;
@@ -245,6 +310,22 @@ public class RushMeCommand implements CommandExecutor {
 			RMChat.sendTooManyArguments(sender);
 		}
 		return true;
+	}
+
+	public static boolean isDefining(Player player) {
+		return isDefining(player.getEntityId());
+	}
+
+	public static boolean isDefining(int player) {
+		return defining.containsKey(player);
+	}
+
+	public static Arena getDefining(Player player) {
+		return getDefining(player.getEntityId());
+	}
+
+	public static Arena getDefining(int player) {
+		return defining.get(player);
 	}
 
 }
