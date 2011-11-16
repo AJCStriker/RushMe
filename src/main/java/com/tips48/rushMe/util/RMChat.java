@@ -17,15 +17,15 @@
 
 package com.tips48.rushMe.util;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import com.tips48.rushMe.Arena;
 import com.tips48.rushMe.RushMe;
 import com.tips48.rushMe.teams.Team;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  *
@@ -61,6 +61,10 @@ public class RMChat {
 				+ "/RushMe join <Name> - Joins the specified Arena");
 		sender.sendMessage(ChatColor.AQUA
 				+ "/RushMe leave <Name> - Leaves the specified Arena");
+		sender.sendMessage(ChatColor.AQUA
+				+ "/RushMe define <Name> - Starts defining an Arena");
+		sender.sendMessage(ChatColor.AQUA
+				+ "/RushMe done <Name> - Indicates that you are done defining the Arena");
 		sender.sendMessage(ChatColor.AQUA + "/RushMe help - Shows this dialog");
 	}
 

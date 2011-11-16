@@ -19,8 +19,8 @@
 #            preifx: 2/3 Letter prefix of the team
 #            infiniteSpawns: If the team has infinite spawns (Defending teams often have infinite spawns)
 #            spawns: How many spawns the team has till the game ends
-#  
-#  Default army skins by thehutch
+#       
+#   Default army skins by thehutch
 
 GameModes:
   Rush:
