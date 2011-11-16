@@ -11,12 +11,12 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerListener;
 import org.getspout.spoutapi.SpoutManager;
 
-import java.util.HashMap;
-import java.util.Map;
+import gnu.trove.map.TIntObjectMap;
+import gnu.trove.map.hash.TIntObjectHashMap;
 
 public class SpoutGUI {
 
-	private static final Map<String, MainHUD> huds = new HashMap<String, MainHUD>();
+	private static final TIntObjectMap<MainHUD> huds = new TIntObjectHashMap< MainHUD>();
 
 	private SpoutGUI() {
 
@@ -53,10 +53,10 @@ public class SpoutGUI {
 	}
 
 	public static MainHUD getHudOf(Player player) {
-		return getHudOf(player.getName());
+		return getHudOf(player.getEntityId());
 	}
 
-	public static MainHUD getHudOf(String player) {
+	public static MainHUD getHudOf(int player) {
 		if (huds.containsKey(player)) {
 			return huds.get(player);
 		}
@@ -71,7 +71,7 @@ public class SpoutGUI {
 		@Override
 		public void onPlayerJoin(PlayerJoinEvent event) {
 			MainHUD hud = new MainHUD(event.getPlayer());
-			huds.put(event.getPlayer().getName(), hud);
+			huds.put(event.getPlayer().getEntityId(), hud);
 		}
 	}
 }
