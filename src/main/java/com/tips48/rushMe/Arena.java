@@ -33,9 +33,6 @@ public class Arena {
 
 	private int creator;
 
-	// private static Map<String, Arena> locationsNeeded = new HashMap<String,
-	// Arena>();
-
 	protected Arena(GameMode gamemode, String name, int creator) {
 		this.gamemode = gamemode;
 		this.name = name;
