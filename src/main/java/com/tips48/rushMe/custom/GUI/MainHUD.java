@@ -17,15 +17,12 @@
 
 package com.tips48.rushMe.custom.GUI;
 
-import com.tips48.rushMe.Arena;
-import com.tips48.rushMe.GameManager;
-import com.tips48.rushMe.RushMe;
+import com.tips48.rushMe.*;
 import com.tips48.rushMe.util.RMUtils;
+
 import org.bukkit.entity.Player;
 import org.getspout.spoutapi.SpoutManager;
-import org.getspout.spoutapi.gui.GenericLabel;
-import org.getspout.spoutapi.gui.InGameHUD;
-import org.getspout.spoutapi.gui.Label;
+import org.getspout.spoutapi.gui.*;
 import org.getspout.spoutapi.player.SpoutPlayer;
 
 public class MainHUD {
@@ -148,6 +145,10 @@ public class MainHUD {
 
 	public KillFeedQueue getKillFeedQueue() {
 		return kQueue;
+	}
+
+	public void showHit() {
+		// TODO
 	}
 
 	public boolean isActive() {

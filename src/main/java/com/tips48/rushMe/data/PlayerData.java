@@ -22,14 +22,14 @@ import com.tips48.rushMe.custom.GUI.MainHUD;
 import com.tips48.rushMe.custom.GUI.SpoutGUI;
 import com.tips48.rushMe.custom.items.Gun;
 
+import org.bukkit.entity.Player;
+import org.getspout.spoutapi.SpoutManager;
+
 import gnu.trove.map.TIntIntMap;
 import gnu.trove.map.TObjectIntMap;
 import gnu.trove.map.hash.TIntIntHashMap;
 import gnu.trove.set.TIntSet;
 import gnu.trove.set.hash.TIntHashSet;
-
-import org.bukkit.entity.Player;
-import org.getspout.spoutapi.SpoutManager;
 
 public class PlayerData {
 	private static final TIntIntMap scores = new TIntIntHashMap();
@@ -77,7 +77,7 @@ public class PlayerData {
 		Player hurtP = SpoutManager.getPlayerFromId(hurt);
 		Player damagerP = SpoutManager.getPlayerFromId(damager);
 
-		if (hurtP == null || damagerP == null) {
+		if ((hurtP == null) || (damagerP == null)) {
 			setHealth(hurt, damage);
 			return;
 		}
@@ -91,12 +91,13 @@ public class PlayerData {
 
 		setHealth(hurt, damage);
 
-		if (hurtHud != null && hurtHud.isActive()) {
+		if ((hurtHud != null) && hurtHud.isActive()) {
 			hurtHud.updateHUD();
 		}
 
-		if (damagerHud != null && damagerHud.isActive()) {
+		if ((damagerHud != null) && damagerHud.isActive()) {
 			damagerHud.updateHUD();
+			damagerHud.showHit();
 		}
 
 		if (getHealth(hurt) <= 0) {
@@ -381,7 +382,7 @@ public class PlayerData {
 	 */
 	public static void damage(int player, Integer h) {
 		int pHealth = health.get(player);
-		if (pHealth - h >= 0) {
+		if ((pHealth - h) >= 0) {
 			health.put(player, pHealth - h);
 		} else {
 			health.put(player, 0);
@@ -418,7 +419,7 @@ public class PlayerData {
 	 */
 	public static void heal(int player, Integer h) {
 		int pHealth = health.get(player);
-		if (pHealth + h <= 100) {
+		if ((pHealth + h) <= 100) {
 			health.put(player, pHealth + h);
 		} else {
 			health.put(player, 100);
