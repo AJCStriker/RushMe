@@ -135,7 +135,7 @@ public class RushMeCommand implements CommandExecutor {
 						GameManager.getDefaultGameMode(), player.getEntityId());
 				RMChat.sendArenaInfo(player, a);
 				player.sendMessage(ChatColor.AQUA
-						+ "Right click twice to define the arena's boundaries");
+						+ "Type /RushMe define to start defining the Arena");
 			} else if (args[0].equalsIgnoreCase("delete")) {
 				if (!(sender.hasPermission("RushMe.delete"))) {
 					RMChat.sendNoPermission(sender);
@@ -261,7 +261,7 @@ public class RushMeCommand implements CommandExecutor {
 						player.getEntityId());
 				RMChat.sendArenaInfo(player, a);
 				player.sendMessage(ChatColor.AQUA
-						+ "Right click twice to define the arena's boundaries");
+						+ "Type /RushMe define to start defining the Arena");
 			} else if (args[0].equalsIgnoreCase("join")) {
 				if (args[0].equalsIgnoreCase("join")) {
 					if (!(sender instanceof Player)) {

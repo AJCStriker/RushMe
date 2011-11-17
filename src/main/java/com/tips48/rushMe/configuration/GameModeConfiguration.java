@@ -17,9 +17,7 @@
 
 package com.tips48.rushMe.configuration;
 
-import com.tips48.rushMe.GameManager;
-import com.tips48.rushMe.GameModeType;
-import com.tips48.rushMe.RushMe;
+import com.tips48.rushMe.*;
 import com.tips48.rushMe.teams.Team;
 
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -90,16 +88,15 @@ public class GameModeConfiguration {
 			List<Team> teams = new ArrayList<Team>();
 			for (String teamName : gamemode.getConfigurationSection(
 					"GameModes." + name + ".teams").getKeys(false)) {
-				String texture = gamemode.getString("GameModes." + name
-						+ ".teams." + teamName + ".texture");
+				String skin = gamemode.getString("GameModes." + name
+						+ ".teams." + teamName + ".skin");
 				String prefix = gamemode.getString("GameModes." + name
 						+ ".teams." + teamName + ".prefix");
 				Boolean infiniteSpawns = gamemode.getBoolean("GameModes."
 						+ name + ".teams." + teamName + ".infiniteSpawns");
 				Integer spawns = gamemode.getInt("GameModes." + name
 						+ ".teams." + teamName + ".spawns");
-				Team team = new Team(teamName, prefix, maxPlayers, texture,
-						spawns);
+				Team team = new Team(teamName, prefix, maxPlayers, skin, spawns);
 				team.setInfiniteLives(infiniteSpawns);
 				teams.add(team);
 			}

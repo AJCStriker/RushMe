@@ -20,6 +20,7 @@ package com.tips48.rushMe.teams;
 import com.tips48.rushMe.GameManager;
 import com.tips48.rushMe.custom.GUI.SpoutGUI;
 import com.tips48.rushMe.data.PlayerData;
+
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.getspout.spoutapi.SpoutManager;
@@ -41,7 +42,7 @@ public class Team {
 	private boolean infiniteLives;
 
 	private final String prefix;
-	private final String texture;
+	private final String skin;
 	private final Integer maxSpawnsLeft;
 
 	/**
@@ -53,17 +54,17 @@ public class Team {
 	 *            Team's preifx
 	 * @param playerLimit
 	 *            How many players are allowed on the team
-	 * @param texture
-	 *            URL to texture for team
+	 * @param skin
+	 *            URL to skin for team
 	 */
-	public Team(String name, String prefix, int playerLimit, String texture,
+	public Team(String name, String prefix, int playerLimit, String skin,
 			Integer maxSpawnsLeft) {
 		this.name = name;
 		this.playerLimit = playerLimit;
 		this.prefix = prefix;
-		this.texture = texture;
+		this.skin = skin;
 		this.maxSpawnsLeft = maxSpawnsLeft;
-		this.spawnsLeft = maxSpawnsLeft;
+		spawnsLeft = maxSpawnsLeft;
 
 		players = new TIntHashSet();
 	}
@@ -354,8 +355,8 @@ public class Team {
 
 	}
 
-	public String getTexture() {
-		return texture;
+	public String getSkin() {
+		return skin;
 	}
 
 	@Override

@@ -20,15 +20,14 @@ package com.tips48.rushMe;
 import com.tips48.rushMe.custom.items.GrenadeManager;
 import com.tips48.rushMe.data.PlayerData;
 import com.tips48.rushMe.teams.Team;
+
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerListener;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.getspout.spoutapi.SpoutManager;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class GameManager {
 
@@ -161,6 +160,7 @@ public class GameManager {
 	}
 
 	private static class PListener extends PlayerListener {
+		@Override
 		public void onPlayerLogin(PlayerLoginEvent event) {
 			PlayerData.setDefaults(event.getPlayer());
 		}
