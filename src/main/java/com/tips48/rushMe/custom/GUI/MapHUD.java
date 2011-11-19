@@ -18,6 +18,7 @@
 package com.tips48.rushMe.custom.GUI;
 
 import com.tips48.rushMe.RushMe;
+
 import org.bukkit.entity.Player;
 import org.getspout.spoutapi.SpoutManager;
 import org.getspout.spoutapi.gui.*;
@@ -33,13 +34,13 @@ public class MapHUD extends GenericGradient {
 	protected MapHUD(Player player) {
 		this.player = SpoutManager.getPlayer(player);
 
-		this.setBottomColor(new Color(27, 76, 224, 200));
-		this.setTopColor(new Color(27, 76, 224, 200));
-		this.setAnchor(WidgetAnchor.BOTTOM_LEFT);
-		this.setHeight(100);
-		this.setWidth(70);
-		this.setY(-100);
-		this.setPriority(RenderPriority.High);
+		setBottomColor(new Color(27, 76, 224, 200));
+		setTopColor(new Color(27, 76, 224, 200));
+		setAnchor(WidgetAnchor.BOTTOM_LEFT);
+		setHeight(100);
+		setWidth(70);
+		setY(-100);
+		setPriority(RenderPriority.High);
 
 		mcomSeperator = new GenericGradient();
 		mcomSeperator.setBottomColor(new Color(0, 0, 0));
@@ -64,16 +65,21 @@ public class MapHUD extends GenericGradient {
 	}
 
 	public void init() {
-		this.player.getMainScreen().attachWidget(RushMe.getInstance(), team1);
-		this.player.getMainScreen().attachWidget(RushMe.getInstance(), team2);
-		this.player.getMainScreen().attachWidget(RushMe.getInstance(),
-				mcomSeperator);
+
+		InGameHUD hud = player.getMainScreen();
+
+		hud.attachWidget(RushMe.getInstance(), team1);
+		hud.attachWidget(RushMe.getInstance(), team2);
+		hud.attachWidget(RushMe.getInstance(), mcomSeperator);
 	}
 
 	public void shutdown() {
-		player.getMainScreen().removeWidget(team1);
-		player.getMainScreen().removeWidget(team2);
-		player.getMainScreen().removeWidget(mcomSeperator);
+
+		InGameHUD hud = player.getMainScreen();
+
+		hud.removeWidget(team1);
+		hud.removeWidget(team2);
+		hud.removeWidget(mcomSeperator);
 	}
 
 	public void updateTeams() {

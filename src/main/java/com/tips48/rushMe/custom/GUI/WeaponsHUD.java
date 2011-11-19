@@ -17,20 +17,19 @@
 
 package com.tips48.rushMe.custom.GUI;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import com.tips48.rushMe.RushMe;
-import com.tips48.rushMe.custom.items.Grenade;
-import com.tips48.rushMe.custom.items.GrenadeManager;
-import com.tips48.rushMe.custom.items.Gun;
+import com.tips48.rushMe.custom.items.*;
 import com.tips48.rushMe.data.PlayerData;
 import com.tips48.rushMe.util.RMUtils;
+
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.getspout.spoutapi.SpoutManager;
 import org.getspout.spoutapi.gui.*;
 import org.getspout.spoutapi.player.SpoutPlayer;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class WeaponsHUD extends GenericGradient {
 
@@ -45,14 +44,14 @@ public class WeaponsHUD extends GenericGradient {
 	protected WeaponsHUD(Player player) {
 		this.player = SpoutManager.getPlayer(player);
 
-		this.setAnchor(WidgetAnchor.BOTTOM_RIGHT);
-		this.setBottomColor(new Color(27, 76, 224, 200));
-		this.setTopColor(new Color(27, 76, 224, 200));
-		this.setHeight(50);
-		this.setWidth(140);
-		this.setY(-50);
-		this.setX(-140);
-		this.setPriority(RenderPriority.High);
+		setAnchor(WidgetAnchor.BOTTOM_RIGHT);
+		setBottomColor(new Color(27, 76, 224, 200));
+		setTopColor(new Color(27, 76, 224, 200));
+		setHeight(50);
+		setWidth(140);
+		setY(-50);
+		setX(-140);
+		setPriority(RenderPriority.High);
 
 		inClip = new GenericLabel();
 		inClip.setAnchor(WidgetAnchor.BOTTOM_RIGHT);
@@ -101,6 +100,9 @@ public class WeaponsHUD extends GenericGradient {
 	}
 
 	public void init() {
+
+		InGameHUD hud = player.getMainScreen();
+
 		int y = 40;
 		for (Grenade g : GrenadeManager.getGrenades(player)) {
 			Label gLabel = new GenericLabel();
@@ -110,30 +112,32 @@ public class WeaponsHUD extends GenericGradient {
 			gLabel.setAnchor(WidgetAnchor.BOTTOM_RIGHT);
 			gLabel.setScale(1.3F);
 			gLabel.setPriority(RenderPriority.Low);
-			player.getMainScreen().attachWidget(RushMe.getInstance(), gLabel);
+			hud.attachWidget(RushMe.getInstance(), gLabel);
 			grenadeLabels.add(gLabel);
-			System.out.println("Created " + g.getName());
 			y -= 10;
 		}
 
-		player.getMainScreen().attachWidget(RushMe.getInstance(), inClip);
-		player.getMainScreen().attachWidget(RushMe.getInstance(), seperator);
-		player.getMainScreen().attachWidget(RushMe.getInstance(), left);
-		player.getMainScreen().attachWidget(RushMe.getInstance(), health);
-		player.getMainScreen().attachWidget(RushMe.getInstance(), fullHealth);
+		hud.attachWidget(RushMe.getInstance(), inClip);
+		hud.attachWidget(RushMe.getInstance(), seperator);
+		hud.attachWidget(RushMe.getInstance(), left);
+		hud.attachWidget(RushMe.getInstance(), health);
+		hud.attachWidget(RushMe.getInstance(), fullHealth);
 	}
 
 	public void shutdown() {
+
+		InGameHUD hud = player.getMainScreen();
+
 		for (Label l : grenadeLabels) {
-			player.getMainScreen().removeWidget(l);
+			hud.removeWidget(l);
 		}
 		grenadeLabels.clear();
 
-		player.getMainScreen().removeWidget(inClip);
-		player.getMainScreen().removeWidget(seperator);
-		player.getMainScreen().removeWidget(left);
-		player.getMainScreen().removeWidget(health);
-		player.getMainScreen().removeWidget(fullHealth);
+		hud.removeWidget(inClip);
+		hud.removeWidget(seperator);
+		hud.removeWidget(left);
+		hud.removeWidget(health);
+		hud.removeWidget(fullHealth);
 	}
 
 	public void updateAmmo() {
@@ -161,12 +165,11 @@ public class WeaponsHUD extends GenericGradient {
 
 		this.inClip.setText(inClipColor + inClipString).setDirty(true);
 
-		this.left.setText(ammoColor + Integer.toString(extraAmmo)).setDirty(
-				true);
+		left.setText(ammoColor + Integer.toString(extraAmmo)).setDirty(true);
 	}
 
 	public void updateHealth() {
-		this.health.setWidth(PlayerData.getHealth(player)).setDirty(true);
+		health.setWidth(PlayerData.getHealth(player)).setDirty(true);
 	}
 
 	public void updateGrenades() {
