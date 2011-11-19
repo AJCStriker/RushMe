@@ -17,32 +17,29 @@
 
 package com.tips48.rushMe.custom.GUI;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.tips48.rushMe.RushMe;
 
 import org.bukkit.entity.Player;
 import org.getspout.spoutapi.SpoutManager;
-import org.getspout.spoutapi.gui.GenericLabel;
-import org.getspout.spoutapi.gui.Label;
-import org.getspout.spoutapi.gui.Widget;
-import org.getspout.spoutapi.gui.WidgetAnchor;
+import org.getspout.spoutapi.gui.*;
 import org.getspout.spoutapi.player.SpoutPlayer;
 
-import com.tips48.rushMe.RushMe;
+import java.util.ArrayList;
+import java.util.List;
 
 public class KillFeedQueue {
 
 	private final SpoutPlayer player;
 
-	private List<Widget> onScreenQueue;
+	private final List<Widget> onScreenQueue;
 
-	private int maxOnScreen;
+	private final int maxOnScreen;
 
-	public KillFeedQueue(Player player, int maxOnScreen) {
+	protected KillFeedQueue(Player player, int maxOnScreen) {
 		this.player = SpoutManager.getPlayer(player);
 		this.maxOnScreen = maxOnScreen;
 
-		this.onScreenQueue = new ArrayList<Widget>();
+		onScreenQueue = new ArrayList<Widget>();
 	}
 
 	public void addToQueue(String s) {
