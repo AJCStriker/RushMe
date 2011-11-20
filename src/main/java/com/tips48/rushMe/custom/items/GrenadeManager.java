@@ -26,10 +26,6 @@ import gnu.trove.map.hash.TIntObjectHashMap;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * Created by IntelliJ IDEA. User: aidan Date: 11/6/11 Time: 6:27 PM To change
- * this template use File | Settings | File Templates.
- */
 public class GrenadeManager {
 
 	private static final Set<Grenade> grenades = new HashSet<Grenade>();
