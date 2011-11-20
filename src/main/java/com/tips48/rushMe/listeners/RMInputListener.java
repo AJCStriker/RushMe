@@ -17,9 +17,6 @@
 
 package com.tips48.rushMe.listeners;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import com.tips48.rushMe.GameManager;
 import com.tips48.rushMe.RushMe;
 import com.tips48.rushMe.custom.GUI.Scoreboard;
@@ -27,11 +24,15 @@ import com.tips48.rushMe.custom.items.Gun;
 import com.tips48.rushMe.data.PlayerData;
 import com.tips48.rushMe.teams.Team;
 import com.tips48.rushMe.util.RMUtils;
+
 import org.bukkit.entity.Player;
 import org.getspout.spoutapi.SpoutManager;
 import org.getspout.spoutapi.event.input.InputListener;
 import org.getspout.spoutapi.event.input.KeyPressedEvent;
 import org.getspout.spoutapi.keyboard.Keyboard;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class RMInputListener extends InputListener {
 	@Override

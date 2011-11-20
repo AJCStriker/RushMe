@@ -68,7 +68,7 @@ public class GunManager {
 	 *            player's gun should go to the left)
 	 * @return {@link Gun} object with the specified specifications
 	 */
-	public static void createGun(String name, String texture,
+	public static Gun createGun(String name, String texture,
 			Integer reloadTime, Boolean autoReload, Integer maxClipSize,
 			Integer maxAmmo, Double timeBetweenFire, Boolean bulletsExplode,
 			Float explosionSize, Double entityDamageDistance,
@@ -81,6 +81,8 @@ public class GunManager {
 				recoilVertical, recoilHorizontal);
 
 		guns.add(gun);
+
+		return gun;
 	}
 
 	/**

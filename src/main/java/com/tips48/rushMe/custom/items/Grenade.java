@@ -18,14 +18,11 @@
 package com.tips48.rushMe.custom.items;
 
 import com.tips48.rushMe.RushMe;
+
 import org.getspout.spoutapi.material.item.GenericCustomItem;
 
 import javax.xml.stream.Location;
 
-/**
- * Created by IntelliJ IDEA. User: aidan Date: 11/6/11 Time: 6:27 PM To change
- * this template use File | Settings | File Templates.
- */
 public class Grenade extends GenericCustomItem {
 
 	private GrenadeType type;

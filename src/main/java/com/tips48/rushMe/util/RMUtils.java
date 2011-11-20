@@ -28,9 +28,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.entity.CraftEntity;
 import org.bukkit.craftbukkit.entity.CraftLivingEntity;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Minecart;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 import org.getspout.spoutapi.SpoutManager;
@@ -40,10 +38,7 @@ import org.getspout.spoutapi.player.SpoutPlayer;
 
 import gnu.trove.set.TIntSet;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 public class RMUtils {
 
@@ -92,7 +87,7 @@ public class RMUtils {
 		int minutes = 0;
 		boolean stop = false;
 		while (!stop) {
-			if (i2 - 60 >= 0) {
+			if ((i2 - 60) >= 0) {
 				minutes++;
 				i2 -= 60;
 			} else {
@@ -103,12 +98,12 @@ public class RMUtils {
 		String i2Result = Integer.toString(i2);
 		if (minutes == 0) {
 			minuteResult = "00";
-		} else if (!(minutes - 10 >= 0)) {
+		} else if (!((minutes - 10) >= 0)) {
 			minuteResult = "0" + Integer.toString(minutes);
 		}
 		if (i2 == 0) {
 			i2Result = "00";
-		} else if (!(i2 - 10 >= 0)) {
+		} else if (!((i2 - 10) >= 0)) {
 			i2Result = "0" + Integer.toString(i2);
 		}
 		return minuteResult + ":" + i2Result;
@@ -149,6 +144,9 @@ public class RMUtils {
 	}
 
 	public static void clearInventoryOfGuns(Player player) {
+		if (player == null) {
+			return;
+		}
 		ItemStack[] inventory = player.getInventory().getContents();
 		ItemStack[] armor = player.getInventory().getArmorContents();
 		player.getInventory().clear();
@@ -196,22 +194,21 @@ public class RMUtils {
 		for (i = 0; i < b0; ++i) {
 			for (j = 0; j < b0; ++j) {
 				for (k = 0; k < b0; ++k) {
-					if (i == 0 || i == b0 - 1 || j == 0 || j == b0 - 1
-							|| k == 0 || k == b0 - 1) {
-						double d3 = (double) ((float) i / ((float) b0 - 1.0F)
-								* 2.0F - 1.0F);
-						double d4 = (double) ((float) j / ((float) b0 - 1.0F)
-								* 2.0F - 1.0F);
-						double d5 = (double) ((float) k / ((float) b0 - 1.0F)
-								* 2.0F - 1.0F);
-						double d6 = Math.sqrt(d3 * d3 + d4 * d4 + d5 * d5);
+					if ((i == 0) || (i == (b0 - 1)) || (j == 0)
+							|| (j == (b0 - 1)) || (k == 0) || (k == (b0 - 1))) {
+						double d3 = (((i / (b0 - 1.0F)) * 2.0F) - 1.0F);
+						double d4 = (((j / (b0 - 1.0F)) * 2.0F) - 1.0F);
+						double d5 = (((k / (b0 - 1.0F)) * 2.0F) - 1.0F);
+						double d6 = Math
+								.sqrt((d3 * d3) + (d4 * d4) + (d5 * d5));
 
 						d3 /= d6;
 						d4 /= d6;
 						d5 /= d6;
 						// RushMe - this.size -> F
 						// Rushme - this.world.random - new Random()
-						float f1 = f * (0.7F + new Random().nextFloat() * 0.6F);
+						float f1 = f
+								* (0.7F + (new Random().nextFloat() * 0.6F));
 
 						// RushMe - Modify d0, d1, d2 to use Location
 						d0 = loc.getX();
@@ -242,9 +239,9 @@ public class RMUtils {
 								}
 							}
 
-							d0 += d3 * (double) f2;
-							d1 += d4 * (double) f2;
-							d2 += d5 * (double) f2;
+							d0 += d3 * f2;
+							d1 += d4 * f2;
+							d2 += d5 * f2;
 						}
 					}
 				}

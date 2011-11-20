@@ -19,9 +19,9 @@ package com.tips48.rushMe.custom.items;
 
 import com.tips48.rushMe.RushMe;
 import com.tips48.rushMe.custom.GUI.SpoutGUI;
+
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 import org.getspout.spoutapi.inventory.SpoutItemStack;
 import org.getspout.spoutapi.material.item.GenericCustomItem;
 
@@ -246,9 +246,9 @@ public class Gun extends GenericCustomItem {
 	 * 
 	 * @param amount
 	 *            Amount of guns that should be in the ItemStack
-	 * @return {@link ItemStack} with the gun in it
+	 * @return {@link SpoutItemStack} with the gun in it
 	 */
-	public ItemStack toItemStack(int amount) {
+	public SpoutItemStack toItemStack(int amount) {
 		return new SpoutItemStack(this, amount);
 	}
 

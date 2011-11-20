@@ -15,35 +15,30 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.tips48.rushMe.custom.items;
+package com.tips48.rushMe.packets;
 
-import gnu.trove.map.TIntObjectMap;
-import gnu.trove.map.hash.TIntObjectHashMap;
+import com.tips48.rushMe.custom.GUI.MainHUD;
+import com.tips48.rushMe.custom.GUI.SpoutGUI;
 
-public enum GrenadeType {
+import org.getspout.spoutapi.io.*;
+import org.getspout.spoutapi.player.SpoutPlayer;
 
-	FRAG(0), STUN(1), CONCUSSION(2);
+public class PacketUpdateHUD extends AddonPacket {
 
-	private final int code;
-	private static final TIntObjectMap<GrenadeType> types;
-
-	private GrenadeType(int code) {
-		this.code = code;
+	@Override
+	public void read(SpoutInputStream stream) {
 	}
 
-	public int getCode() {
-		return this.code;
+	@Override
+	public void run(SpoutPlayer sp) {
+		MainHUD hud = SpoutGUI.getHudOf(sp);
+		if (hud != null) {
+			hud.updateHUD();
+		}
 	}
 
-	public static GrenadeType getByCode(int code) {
-		return (GrenadeType) types.get(code);
-	}
-
-	static {
-		types = new TIntObjectHashMap<GrenadeType>();
-
-		for (GrenadeType gt : values())
-			types.put(gt.getCode(), gt);
+	@Override
+	public void write(SpoutOutputStream stream) {
 	}
 
 }

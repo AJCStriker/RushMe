@@ -14,36 +14,30 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+package com.tips48.rushMe.custom.GUI;
 
-package com.tips48.rushMe.custom.items;
+import org.bukkit.entity.Player;
+import org.getspout.spoutapi.SpoutManager;
+import org.getspout.spoutapi.player.SpoutPlayer;
 
-import gnu.trove.map.TIntObjectMap;
-import gnu.trove.map.hash.TIntObjectHashMap;
+public class Minimap {
 
-public enum GrenadeType {
+	private final SpoutPlayer player;
 
-	FRAG(0), STUN(1), CONCUSSION(2);
-
-	private final int code;
-	private static final TIntObjectMap<GrenadeType> types;
-
-	private GrenadeType(int code) {
-		this.code = code;
+	protected Minimap(Player player) {
+		this.player = SpoutManager.getPlayer(player);
 	}
 
-	public int getCode() {
-		return this.code;
+	public void init() {
+
 	}
 
-	public static GrenadeType getByCode(int code) {
-		return (GrenadeType) types.get(code);
+	public void shutdown() {
+
 	}
 
-	static {
-		types = new TIntObjectHashMap<GrenadeType>();
+	public void updateMinimap() {
 
-		for (GrenadeType gt : values())
-			types.put(gt.getCode(), gt);
 	}
 
 }

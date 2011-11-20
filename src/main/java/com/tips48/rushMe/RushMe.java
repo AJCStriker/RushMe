@@ -22,12 +22,9 @@ import com.tips48.rushMe.commands.RushMeCommand;
 import com.tips48.rushMe.configuration.GameModeConfiguration;
 import com.tips48.rushMe.configuration.GunConfiguration;
 import com.tips48.rushMe.custom.GUI.SpoutGUI;
-import com.tips48.rushMe.custom.items.GrenadeManager;
-import com.tips48.rushMe.custom.items.GrenadeType;
-import com.tips48.rushMe.custom.items.GunManager;
-import com.tips48.rushMe.listeners.RMEntityListener;
-import com.tips48.rushMe.listeners.RMInputListener;
-import com.tips48.rushMe.listeners.RMPlayerListener;
+import com.tips48.rushMe.custom.items.*;
+import com.tips48.rushMe.listeners.*;
+import com.tips48.rushMe.packets.*;
 import com.tips48.rushMe.util.RMUtils;
 
 import me.kalmanolah.cubelist.classfile.cubelist;
@@ -35,6 +32,7 @@ import me.kalmanolah.cubelist.classfile.cubelist;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.Event.Type;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.getspout.spoutapi.io.AddonPacket;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -52,6 +50,7 @@ public class RushMe extends JavaPlugin {
 
 	private static RushMe instance;
 
+	@Override
 	public void onLoad() {
 		instance = this;
 		inputListener = new RMInputListener();
@@ -65,6 +64,7 @@ public class RushMe extends JavaPlugin {
 		GameModeConfiguration.loadGameModes();
 
 		registerEvents();
+		registerPackets();
 
 		getCommand("RushMe").setExecutor(new RushMeCommand());
 
@@ -133,6 +133,14 @@ public class RushMe extends JavaPlugin {
 				entityListener, Priority.Normal, this);
 		getServer().getPluginManager().registerEvent(Type.ENTITY_REGAIN_HEALTH,
 				entityListener, Priority.Normal, this);
+	}
+
+	private void registerPackets() {
+		AddonPacket.register(PacketGrenadeUpdate.class, "GrenadeUpdate");
+		AddonPacket.register(PacketGunUpdate.class, "GunUpdate");
+		AddonPacket.register(PacketPlayerDataUpdate.class, "PlayerDataUpdate");
+		AddonPacket.register(PacketToggleHUD.class, "ToggleHUD");
+		AddonPacket.register(PacketUpdateHUD.class, "UpdateHUD");
 	}
 
 }

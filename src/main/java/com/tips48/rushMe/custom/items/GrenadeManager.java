@@ -17,14 +17,14 @@
 
 package com.tips48.rushMe.custom.items;
 
+import org.bukkit.entity.Player;
+import org.getspout.spoutapi.material.CustomItem;
+
 import gnu.trove.map.TIntObjectMap;
 import gnu.trove.map.hash.TIntObjectHashMap;
 
 import java.util.HashSet;
 import java.util.Set;
-
-import org.bukkit.entity.Player;
-import org.getspout.spoutapi.material.CustomItem;
 
 /**
  * Created by IntelliJ IDEA. User: aidan Date: 11/6/11 Time: 6:27 PM To change
@@ -56,7 +56,7 @@ public class GrenadeManager {
 	 * @param explosionSize
 	 *            Size of explosion
 	 */
-	public static void createGrenade(String name, String shortName,
+	public static Grenade createGrenade(String name, String shortName,
 			String texture, GrenadeType type, Integer startAmount,
 			Integer explosionSize, Integer timeBeforeExplosion, Integer damage,
 			Integer stunTime) {
@@ -66,6 +66,8 @@ public class GrenadeManager {
 				stunTime);
 
 		grenades.add(grenade);
+
+		return grenade;
 	}
 
 	/**
