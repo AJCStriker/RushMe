@@ -76,10 +76,10 @@ public class GrenadeManager {
 	}
 
 	/**
-	 * Gets a gun with the specified name
+	 * Gets a grenade with the specified name
 	 * 
 	 * @param name
-	 *            Name of gun
+	 *            Name of grenade
 	 * @return {@link Grenade} with the specified name
 	 */
 	public static Grenade getGrenade(String name) {
@@ -108,9 +108,9 @@ public class GrenadeManager {
 	}
 
 	/**
-	 * Gets a set with each gun's name
+	 * Gets a set with each grenade's name
 	 * 
-	 * @return a set with each guns name
+	 * @return a set with each grenade name
 	 */
 	public static Set<String> getGrenadeNames() {
 		Set<String> names = new HashSet<String>();
